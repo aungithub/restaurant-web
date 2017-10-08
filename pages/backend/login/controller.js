@@ -23,7 +23,8 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
                 timeout: 3000,
                 text : 'กรุณากรอกข้อมูลให้ครบถ้วน',
             });
-		} else {
+		} 
+		else {
 			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
                 type : 'alert',
@@ -35,22 +36,34 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
                 	afterShow: function () {
                 		UserLogin.login(username, password).then(function (result) {
 
-							$.noty.clearQueue(); $.noty.closeAll(); // เคลียร์ noty ทั้งหมด
+                			if (result.data.status == 404) {
+                				$.noty.clearQueue(); $.noty.closeAll();
+								noty({
+					                type : 'warning',
+					                layout : 'top',
+					                modal : true,
+					                timeout: 3000,
+					                text : 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+					            });
+                			}
+                			else if (result.data.status == 200) {
+                				$.noty.clearQueue(); $.noty.closeAll(); // เคลียร์ noty ทั้งหมด
 
-							noty({
-				                type : 'success',
-				                layout : 'top',
-				                modal : true,
-				                timeout: 3000,
-				                text : 'เข้าสู่ระบบสำเร็จ...',
-				                callback: {
-				                	afterClose: function () {
-				                		$.noty.clearQueue(); $.noty.closeAll();
+								noty({
+					                type : 'success',
+					                layout : 'top',
+					                modal : true,
+					                timeout: 3000,
+					                text : 'เข้าสู่ระบบสำเร็จ...',
+					                callback: {
+					                	afterClose: function () {
+					                		$.noty.clearQueue(); $.noty.closeAll();
 
-				                		// ควรพา user เข้าไปสู่หน้าที่เขาสามารถทำงานต่อได้หลังจากเข้าสู่ระบบ
-				                	}
-				                }
-				            });
+					                		// ควรพา user เข้าไปสู่หน้าที่เขาสามารถทำงานต่อได้หลังจากเข้าสู่ระบบ
+					                	}
+					                }
+					            });
+                			}
 						});
                 	}
                 }
