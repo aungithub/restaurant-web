@@ -40,7 +40,14 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 				                layout : 'top',
 				                modal : true,
 				                timeout: 3,
-				                text : 'เข้าสู่ระบบสำเร็จ...'
+				                text : 'เข้าสู่ระบบสำเร็จ...',
+				                callback: {
+				                	afterClose: function () {
+				                		$.noty.clearQueue(); $.noty.closeAll();
+
+				                		// ควรพา user เข้าไปสู่หน้าที่เขาสามารถทำงานต่อได้หลังจากเข้าสู่ระบบ
+				                	}
+				                }
 				            });
 						});
                 	}
