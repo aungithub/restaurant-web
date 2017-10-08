@@ -9,5 +9,5 @@ angular.module('RESTAURANT', [
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	$locationProvider.hashPrefix('!');
 
-	$routeProvider.otherwise({redirectTo: '/admin_login'});
+	$routeProvider.otherwise({redirectTo: '/backend/admin_login'});
 }]);
