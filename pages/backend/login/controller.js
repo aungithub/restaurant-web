@@ -15,12 +15,37 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 		var username = $.trim($('#username').val());
 		var password = $.trim($('#password').val());
 		if (username == '' || password == '') {
-			alert('กรอกไม่ครบ')
+			noty({
+                type : 'alert',
+                layout : 'top',
+                modal : true,
+                timeout: 3,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            });
 		} else {
-			//alert('ไป login\n' + 'Username: ' + username + '\n' + 'Password: ' + password)
-			UserLogin.login(username, password).then(function (result) {
-				console.log('result', result);
-			});
+			noty({
+                type : 'alert',
+                layout : 'top',
+                modal : true,
+                text : 'กำลังเข้าสู่ระบบ...',
+                closeWith: [], // บังคับไม่ให้กดปิด
+                callback: {
+                	afterShow: function () {
+                		UserLogin.login(username, password).then(function (result) {
+
+							$.noty.clearQueue(); $.noty.closeAll(); // เคลียร์ noty ทั้งหมด
+
+							noty({
+				                type : 'success',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3,
+				                text : 'เข้าสู่ระบบสำเร็จ...'
+				            });
+						});
+                	}
+                }
+            });
 		}
 	};
 }])
