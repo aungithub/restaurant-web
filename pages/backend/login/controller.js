@@ -15,14 +15,16 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 		var username = $.trim($('#username').val());
 		var password = $.trim($('#password').val());
 		if (username == '' || password == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
-                type : 'alert',
+                type : 'warning',
                 layout : 'top',
                 modal : true,
-                timeout: 3,
-                text : 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน',
             });
 		} else {
+			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
                 type : 'alert',
                 layout : 'top',
@@ -39,7 +41,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 				                type : 'success',
 				                layout : 'top',
 				                modal : true,
-				                timeout: 3,
+				                timeout: 3000,
 				                text : 'เข้าสู่ระบบสำเร็จ...',
 				                callback: {
 				                	afterClose: function () {
