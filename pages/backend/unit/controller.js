@@ -18,7 +18,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 	$scope.selectedUnitObject = null;
 
 	// เช็คสิทธิ์
-	if ($rootScope.accesses.indexOf(route) == -1) {
+	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess.indexOf(route) == -1) {
 		$location.path('/backend/admin_login')
 	}
 

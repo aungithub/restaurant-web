@@ -10,7 +10,12 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 	});
 }])
 
-.controller('LoginController', ['$scope', 'UserLogin', function($scope, UserLogin) {
+.controller('LoginController', ['$rootScope', '$scope', '$window', 'UserLogin', function($rootScope, $scope, $window, UserLogin) {
+	
+	if ($rootScope.isLoggedIn == true) {
+		$window.location.href = $rootScope.adminFirstPage;
+	}
+
 	$scope.loginClicked = function () {
 		var username = $.trim($('#username').val());
 		var password = $.trim($('#password').val());
@@ -49,6 +54,8 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
                 			else if (result.data.status == 200) {
                 				$.noty.clearQueue(); $.noty.closeAll(); // เคลียร์ noty ทั้งหมด
 
+                				$rootScope.isLoggedIn = true;
+
 								noty({
 					                type : 'success',
 					                layout : 'top',
@@ -60,6 +67,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 					                		$.noty.clearQueue(); $.noty.closeAll();
 
 					                		// ควรพา user เข้าไปสู่หน้าที่เขาสามารถทำงานต่อได้หลังจากเข้าสู่ระบบ
+					                		$window.location.href = $rootScope.adminFirstPage;
 					                	}
 					                }
 					            });

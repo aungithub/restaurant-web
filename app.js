@@ -13,5 +13,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$routeProvider.otherwise({redirectTo: '/backend/admin_login'});
 }])
 .run(['$rootScope', function($rootScope) {
-	$rootScope.accesses = ['admin_login', 'admin_unit'];
+	$rootScope.privacyAccess = ['admin_login', 'admin_unit'];
+	$rootScope.isLoggedIn = false;
+	$rootScope.adminFirstPage = '#!/backend/admin_unit';
 }]);
