@@ -11,4 +11,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$locationProvider.hashPrefix('!');
 
 	$routeProvider.otherwise({redirectTo: '/backend/admin_login'});
+}])
+.run(['$rootScope', function($rootScope) {
+	$rootScope.accesses = ['admin_login', 'admin_unit'];
 }]);
