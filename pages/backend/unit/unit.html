@@ -64,42 +64,51 @@
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+
+      <!-- Header -->
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="addModalLabel">เพิ่มรายละเอียดหน่วย</h3>
       </div>
+      <!-- Header -->
+
+      <!-- Body -->
       <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-3">
+            <p>ชื่อหน่วย</p>
+            <p>&nbsp;</p>
+            <p>สถานะ</p>
+          </div>
+          <div class="col-lg-9">
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_unit_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
 
-      <div class="row">
-      <div class="col-lg-3">
-        <p>ชื่อหน่วย</p>
-        <p>&nbsp;</p>
-        <p>สถานะ</p>
-      </div>
-      <div class="col-lg-9">
-      <div class="input-group input-group-sm fullwidth">
-          <input type="text" id="add_unit_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
-      </div>
+            <p>&nbsp;</p>
 
-      <p>&nbsp;</p>
+            <div class="btn-group" role="group">
 
-      <div class="btn-group" role="group">
-
-        <div class="btn-group" role="group">
-          <select class="form-control" id="add_unit_status_id">
-            <option value="999">เลือกสถานะ</option>
-            <option value="1">ใช้งาน</option>
-            <option value="2">ไม่ใช้งาน</option>
-          </select>
+              <div class="btn-group" role="group">
+                <select class="form-control" id="add_unit_status_id">
+                  <option value="999">เลือกสถานะ</option>
+                  <option value="1">ใช้งาน</option>
+                  <option value="2">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-    </div>
-      </div>
+      <!-- Body -->
+
+      <!-- Footer -->
       <div class="modal-footer">
         <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
         <button type="button" class="btn btn-primary" ng-click="addUnit()">เพิ่มหน่วย</button>
       </div>
+      <!-- Footer -->
+
     </div>
   </div>
 </div>
@@ -109,49 +118,63 @@
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+
+      <!-- Header -->
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดหน่วย</h3>
       </div>
+      <!-- Header -->
+
+      <!-- Body -->
       <div class="modal-body">
 
-      <div class="row">
-      <div class="col-lg-3">
-        <p>รหัสหน่วย</p>
-        <p>&nbsp;</p>
-        <p>ชื่อหน่วย</p>
-        <p>&nbsp;</p>
-        <p>สถานะ</p>
-      </div>
-      <div class="col-lg-9">
-          <div class="input-group input-group-sm fullwidth">
-          <input type="text" id="edit_unit_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
-      </div>
+        <div class="row">
 
-      <p>&nbsp;</p>
+          <!-- ฝั่งซ้าย -->
+          <div class="col-lg-3">
+            <p>รหัสหน่วย</p>
+            <p>&nbsp;</p>
+            <p>ชื่อหน่วย</p>
+            <p>&nbsp;</p>
+            <p>สถานะ</p>
+          </div>
+          <!-- ฝั่งซ้าย -->
 
-      <div class="input-group input-group-sm fullwidth">
-          <input type="text" id="edit_unit_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedUnitObject.unit_name}}">
-      </div>
+          <!-- ฝั่งขวา -->
+          <div class="col-lg-9">
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="edit_unit_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+            </div>
 
-      <p>&nbsp;</p>
+            <p>&nbsp;</p>
 
-      <div class="btn-group" role="group">
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="edit_unit_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedUnitObject.unit_name}}">
+            </div>
 
-        <div class="btn-group" role="group">
-          <select class="form-control" id="edit_unit_status_id">
-            <option value="999">เลือกสถานะ</option>
-            <option value="1">ใช้งาน</option>
-            <option value="2">ไม่ใช้งาน</option>
-          </select>
+            <p>&nbsp;</p>
+
+            <div class="btn-group" role="group">
+              <select class="form-control" id="edit_unit_status_id">
+                <option value="999">เลือกสถานะ</option>
+                <option value="1">ใช้งาน</option>
+                <option value="2">ไม่ใช้งาน</option>
+              </select>
+            </div>
+          </div>
+          <!-- ฝั่งขวา -->
+
       </div>
-      </div>
-    </div>
-      </div>
+      <!-- Body -->
+
+      <!-- Footer -->
       <div class="modal-footer">
-        <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-        <button type="button" class="btn btn-primary" ng-click="updateUnit()">แก้ไขหน่วย</button>
+          <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" ng-click="updateUnit()">แก้ไขหน่วย</button>
       </div>
+      <!-- Footer -->
+      
     </div>
   </div>
 </div>

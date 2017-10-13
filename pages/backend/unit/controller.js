@@ -254,6 +254,13 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
                 text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
                 buttons : [
                 {
+                    addClass : 'btn btn-danger',
+                    text : 'ยกเลิก',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();
+                    }
+                },
+                {
                 	id : 'btn_confirm',
                     addClass: 'btn btn-primary',
                     text : 'ยืนยัน',
@@ -309,13 +316,6 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
                                 }
                             }
                         });
-                    }
-                },
-                {
-                    addClass : 'btn btn-danger',
-                    text : 'ยกเลิก',
-                    onClick : function () {
-                        $.noty.clearQueue(); $.noty.closeAll();
                     }
                 }]
             });
