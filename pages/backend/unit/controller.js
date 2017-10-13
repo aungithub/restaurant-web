@@ -83,7 +83,44 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 		                		$("#close_modal_add").click()
 
 		                		// refresh หน้าจอ
-		                		location.reload();
+		                		//location.reload();
+
+
+		                		// refresh list
+		                		noty({
+							        type : 'alert',
+							        layout : 'top',
+							        modal : true,
+							        text : 'กำลังโหลด...',
+							        callback: {
+							        	afterShow: function () {
+											UnitService.getAllUnit().then(function (result) {
+												$.noty.clearQueue(); $.noty.closeAll();
+
+												if (result.data.status == 200) {
+													$scope.listUnitObject = result.data.unit;
+													// refresh list
+													$scope.apply();
+												}
+												else {
+													noty({
+										                type : 'warning',
+										                layout : 'top',
+										                modal : true,
+										                timeout: 3000,
+										                text : result.data.message,
+										                callback: {
+										                	afterClose: function () {
+										                		$.noty.clearQueue(); $.noty.closeAll();
+										                	}
+										                }
+										            });
+												}
+											});
+										}
+									}
+								});
+
 		                	}
 		                }
 		            });
