@@ -125,7 +125,7 @@
       </div>
       <div class="col-lg-9">
           <div class="input-group input-group-sm fullwidth">
-          <input type="text" id="edit_unit_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+          <input type="text" id="edit_unit_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
       </div>
 
       <p>&nbsp;</p>
@@ -141,8 +141,8 @@
         <div class="btn-group" role="group">
           <select class="form-control" id="edit_unit_status_id">
             <option value="999">เลือกสถานะ</option>
-            <option value="1" selected="{{selectedUnitObject.unit_status_id == 1 ? 'selected' : ''}}">ใช้งาน</option>
-            <option value="2" selected="{{selectedUnitObject.unit_status_id == 2 ? 'selected' : ''}}">ไม่ใช้งาน</option>
+            <option value="1">ใช้งาน</option>
+            <option value="2">ไม่ใช้งาน</option>
           </select>
       </div>
       </div>

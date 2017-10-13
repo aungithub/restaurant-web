@@ -143,6 +143,14 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 							$.noty.clearQueue(); $.noty.closeAll();
 
 							$scope.selectedUnitObject = result.data.unit[0];
+
+							if ($scope.selectedUnitObject.unit_status_id == 1) {
+								$("#edit_unit_status_id").val(1);
+							} else if ($scope.selectedUnitObject.unit_status_id == 2) {
+								$("#edit_unit_status_id").val(2);
+							} else {
+								$("#edit_unit_status_id").val(0);	
+							}
 						}
 						else {
 							// ปิด noty
