@@ -1,26 +1,24 @@
 'use strict';
 
-var route = 'admin_kind';
-
 angular.module('RESTAURANT.admin_kind', ['ngRoute'])
-
-.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/backend/' + route, {
-		templateUrl: 'pages/backend/kind/kind.html',
-		controller: 'KindController',
-		cache: false
-	});
-}])
 
 
 .controller('KindController', ['$rootScope', '$scope', '$location', 'KindService', function($rootScope, $scope, $location, KindService) {
+	var route = 'admin_kind';
+	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
+	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
+	$rootScope.loadCookies();
+
 	$scope.listKindObject = null;
 	$scope.selectedId = "";
 	$scope.selectedKindObject = null;
 
+	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
+	$rootScope.$emit('IndexController.hideLoginShowLogout');
+
 	// เช็คสิทธิ์
-	if ($rootScope.accesses.indexOf(route) == -1) {
-		$location.path('/backend/admin_login')
+	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
+		$location.path('/backend/admin_login');
 	}
 
 	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง

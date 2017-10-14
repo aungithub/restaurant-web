@@ -27,10 +27,33 @@
   <script src="library/bootstrap/js/bootstrap.min.js"></script>
   <!-- Bootstrap -->
 
-  <link rel="stylesheet" href="app.css?ts=1234">
+  <link rel="stylesheet" href="app.css?ts=54321">
+
+  <!-- AngularJS -->
+  <script src="library/angular/angular.min.js"></script>
+  <script src="library/angular/angular-route.min.js"></script>
+  <script src="library/angular/angular-cookies.min.js"></script>
+  <!-- AngularJS -->
+
+  <!-- App -->
+  <script src="app.js?ts=54321"></script>
+  <script src="pages/index.js?ts=54321"></script>
+  <script src="pages/backend/login/controller.js?ts=54321"></script>
+  <script src="pages/backend/home/controller.js?ts=54321"></script>
+  <script src="pages/backend/unit/controller.js?ts=54321"></script>
+  <script src="pages/backend/employee/controller.js?ts=54321"></script>
+  <script src="pages/backend/role/controller.js?ts=54321"></script>
+  <script src="pages/backend/food/controller.js?ts=54321"></script>
+  <script src="pages/backend/drink/controller.js?ts=54321"></script>
+  <script src="pages/backend/unitdata/controller.js?ts=54321"></script>
+  <script src="pages/backend/position/controller.js?ts=54321"></script>
+  <script src="pages/backend/table/controller.js?ts=54321"></script>
+  <script src="pages/backend/kind/controller.js?ts=54321"></script>
+  <script src="pages/backend/promotion/controller.js?ts=54321"></script>
+  <!-- App -->
 
   </head>
-  <body>
+  <body data-ng-controller="IndexController">
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,33 +68,13 @@
         </div>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#!/backend/admin_login">เข้าสู่ระบบ</a></li>
+          <li><a href="#!/backend/admin_login" ng-show="isLoggedIn == false">เข้าสู่ระบบ</a></li>
+          <li><a ng-click="logout()" ng-show="isLoggedIn != false">ออกจากระบบ</a></li>
         </ul>
       </div>
     </nav>
 
     <div ng-view></div>
 
-
-    <!-- AngularJS -->
-    <script src="library/angular/angular.js"></script>
-    <script src="library/angular/angular-route.js"></script>
-    <!-- AngularJS -->
-
-    <!-- App -->
-    <script src="app.js?ts=12345"></script>
-    <script src="pages/backend/login/controller.js?ts=1234"></script>
-    <script src="pages/backend/home/controller.js?ts=1234"></script>
-    <script src="pages/backend/unit/controller.js?version=1234"></script>
-      <script src="pages/backend/employee/controller.js?version=1234"></script>
-      <script src="pages/backend/role/controller.js?version=1234"></script>
-       <script src="pages/backend/food/controller.js?version=1234"></script>
-        <script src="pages/backend/drink/controller.js?version=1234"></script>
-         <script src="pages/backend/unitdata/controller.js?version=1234"></script>
-           <script src="pages/backend/position/controller.js?version=1234"></script>
-            <script src="pages/backend/table/controller.js?version=1234"></script>
-             <script src="pages/backend/kind/controller.js?version=1234"></script>
-              <script src="pages/backend/promotion/controller.js?version=1234"></script>
-    <!-- App -->
   </body>
 </html>

@@ -2,17 +2,18 @@
 
 angular.module('RESTAURANT.admin_login', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/backend/admin_login', {
-		templateUrl: 'pages/backend/login/login.html',
-		controller: 'LoginController',
-		cache: false
-	});
-}])
-
-.controller('LoginController', ['$rootScope', '$scope', '$window', 'UserLogin', function($rootScope, $scope, $window, UserLogin) {
+.controller('LoginController', ['$rootScope', '$scope', '$window', '$cookies', 'UserLogin', function($rootScope, $scope, $window, $cookies, UserLogin) {
 	
-	if ($rootScope.isLoggedIn == true) {
+	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
+	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
+	$rootScope.loadCookies();
+
+	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
+	$rootScope.$emit('IndexController.hideLoginShowLogout');
+
+	// ถ้า login อยู่แล้ว
+	if ($rootScope.isLoggedIn != false) {
+		// ไปหน้าแรก
 		$window.location.href = $rootScope.adminFirstPage;
 	}
 
@@ -54,7 +55,14 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
                 			else if (result.data.status == 200) {
                 				$.noty.clearQueue(); $.noty.closeAll(); // เคลียร์ noty ทั้งหมด
 
+                				// ทำให้รู้ว่า login แล้ว
                 				$rootScope.isLoggedIn = true;
+
+                				// เก็บสิทธิ์ไว้ที่ตัวแปรเพื่อเอาไปใช้ในทุกๆหน้า
+                				$rootScope.privacyAccess = result.data.roles;
+
+                				$cookies.put('isLoggedIn', true);
+                				$cookies.put('privacyAccess', $rootScope.privacyAccess);
 
 								noty({
 					                type : 'success',

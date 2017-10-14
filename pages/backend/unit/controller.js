@@ -1,25 +1,23 @@
 'use strict';
 
-var route = 'admin_unit';
-
 angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/backend/' + route, {
-		templateUrl: 'pages/backend/unit/unit.html',
-		controller: 'UnitController',
-		cache: false
-	});
-}])
-
 .controller('UnitController', ['$rootScope', '$scope', '$location', 'UnitService', function($rootScope, $scope, $location, UnitService) {
+	var route = 'admin_unit';
+	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
+	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
+	$rootScope.loadCookies();
+
 	$scope.listUnitObject = null;
 	$scope.selectedId = "";
 	$scope.selectedUnitObject = null;
 
+	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
+	$rootScope.$emit('IndexController.hideLoginShowLogout');
+
 	// เช็คสิทธิ์
-	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess.indexOf(route) == -1) {
-		$location.path('/backend/admin_login')
+	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
+		$location.path('/backend/admin_login');
 	}
 
 	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
@@ -100,7 +98,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 												if (result.data.status == 200) {
 													$scope.listUnitObject = result.data.unit;
 													// refresh list
-													$scope.apply();
+													$scope.$apply();
 												}
 												else {
 													noty({
@@ -239,7 +237,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 		                		$("#close_modal_edit").click()
 
 		                		// refresh หน้าจอ
-		                		location.reload();
+		                		$scope.$apply();
 		                	}
 		                }
 		            });
@@ -329,7 +327,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 								                		$.noty.clearQueue(); $.noty.closeAll();
 
 								                		// refresh หน้าจอ
-								                		location.reload();
+								                		$scope.$apply();
 								                	}
 								                }
 								            });

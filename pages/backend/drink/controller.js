@@ -1,26 +1,23 @@
 'use strict';
 
-var route = 'admin_drink';
-
 angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/backend/' + route, {
-		templateUrl: 'pages/backend/drink/drink.html',
-		controller: 'DrinkController',
-		cache: false
-	});
-}])
-
-
 .controller('DrinkController', ['$rootScope', '$scope', '$location', 'DrinkService', function($rootScope, $scope, $location, DrinkService) {
+	var route = 'admin_drink';
+	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
+	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
+	$rootScope.loadCookies();
+
 	$scope.listDrinkObject = null;
 	$scope.selectedId = "";
 	$scope.selectedDrinkObject = null;
 
+	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
+	$rootScope.$emit('IndexController.hideLoginShowLogout');
+
 	// เช็คสิทธิ์
-	if ($rootScope.accesses.indexOf(route) == -1) {
-		$location.path('/backend/admin_login')
+	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
+		$location.path('/backend/admin_login');
 	}
 
 	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
