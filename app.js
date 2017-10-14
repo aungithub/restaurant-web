@@ -5,7 +5,16 @@ angular.module('RESTAURANT', [
 	'ngRoute',
 	'RESTAURANT.admin_login',
 	'RESTAURANT.admin_home',
-	'RESTAURANT.admin_unit'
+	'RESTAURANT.admin_unit',
+	'RESTAURANT.admin_employee',
+	'RESTAURANT.admin_role',
+	'RESTAURANT.admin_food',
+	'RESTAURANT.admin_drink',
+	'RESTAURANT.admin_unitdata',
+	'RESTAURANT.admin_position',
+	'RESTAURANT.admin_table',
+	'RESTAURANT.admin_kind',
+	'RESTAURANT.admin_promotion'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	$locationProvider.hashPrefix('!');
