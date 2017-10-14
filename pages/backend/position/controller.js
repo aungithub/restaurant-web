@@ -1,0 +1,429 @@
+'use strict';
+
+var route = 'admin_position';
+
+angular.module('RESTAURANT.admin_position', ['ngRoute'])
+
+.config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when('/backend/' + route, {
+		templateUrl: 'pages/backend/position/position.html',
+		controller: 'PositionController',
+		cache: false
+	});
+}])
+
+
+.controller('PositionController', ['$rootScope', '$scope', '$location', 'PositionService', function($rootScope, $scope, $location, PositionService) {
+	$scope.listPositionObject = null;
+	$scope.selectedId = "";
+	$scope.selectedPositionObject = null;
+
+	// เช็คสิทธิ์
+	if ($rootScope.accesses.indexOf(route) == -1) {
+		$location.path('/backend/admin_login')
+	}
+
+	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
+	noty({
+        type : 'alert', // alert, success, warning, error, confirm
+        layout : 'top',
+        modal : true,
+        text : 'กำลังโหลด...',
+        callback: {
+        	afterShow: function () {
+				PositionService.getAllPosition().then(function (result) {
+					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+
+					if (result.data.status == 200) {
+						$scope.listPositionObject = result.data.positions;
+					}
+					else {
+						noty({
+			                type : 'warning',
+			                layout : 'top',
+			                modal : true,
+			                timeout: 3000, // 3 seconds
+			                text : result.data.message,
+			                callback: {
+			                	afterClose: function () {
+			                		$.noty.clearQueue(); $.noty.closeAll();
+			                	}
+			                }
+			            });
+					}
+				});
+			}
+		}
+	});
+
+	// clear textbox value
+	$scope.loadAddPositionForm = function() {
+		$("#add_pos_name").val('');
+	};
+
+	$scope.refreshList = function() {
+		noty({
+	        type : 'alert', // alert, success, warning, error, confirm
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					PositionService.getAllPosition().then(function (result) {
+						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+
+						if (result.data.status == 200) {
+							$scope.listPositionObject = result.data.positions;
+							$scope.apply(function(){});
+						}
+						else {
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000, // 3 seconds
+				                text : result.data.message,
+				                callback: {
+				                	afterClose: function () {
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
+	}
+
+	// Add Unit
+	$scope.addPosition = function() {
+		var pos_name = $.trim($("#add_pos_name").val()), // ตตัดspacebarทั้งหมด
+			pos_role_id = 1, //$("#add_position_role_id").val()
+			pos_status_id = $("#add_pos_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
+
+		if (pos_name != ''&& pos_role_id != '' && pos_status_id != 999 ) {
+			PositionService.addPosition($("#add_pos_name").val(), pos_role_id, pos_status_id).then(function (result) {
+				if (result.data.status == 200) {
+					noty({
+		                type : 'success',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : result.data.message,
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+
+		                		// ปิด modal
+		                		$("#close_modal_add").click()
+
+		                		// refresh หน้าจอ
+		                		//location.reload();
+		                		$scope.refreshList();
+
+		                	}
+		                }
+		            });
+				}
+				else {
+					noty({
+		                type : 'warning',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : result.data.message,
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+
+		                		// do something
+		                	}
+		                }
+		            });
+				}
+			});
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+                callback: {
+                	afterClose: function () {
+                		// ปิด noty
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
+	// END Add Unit
+
+	// Edit Unit
+	$scope.editPosition = function(id) {
+		$scope.selectedId = id;
+		$scope.selectedPositionObject = null;
+
+		noty({
+            type : 'alert',
+            layout : 'top',
+            modal : true,
+            text : 'กำลังดึงข้อมูลหน่วย...',
+            callback: {
+            	afterShow: function () {
+            		PositionService.getByID($scope.selectedId).then(function (result) {
+						if (result.data.status == 200 && result.data.positions.length > 0) {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							$scope.selectedPositionObject = result.data.positions[0];
+
+							if ($scope.selectedPositionObject.pos_status_id == 1) {
+								$("#edit_pos_status_id").val(1);
+							} else if ($scope.selectedPositionObject.pos_status_id == 2) {
+								$("#edit_pos_status_id").val(2);
+							} else {
+								$("#edit_pos_status_id").val(0);	
+							}
+						}
+						else {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'ไม่พบข้อมูลหน่วย...',
+				                callback: {
+				                	afterClose: function () {
+				                		// ปิด noty
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+            	}
+            }
+        });
+	};
+	// END Edit Unit
+
+	// Update Unit
+	$scope.updatePosition = function(id) {
+		var pos_id = $.trim($("#edit_pos_id").val()),
+			pos_name = $.trim($("#edit_pos_name").val()),
+			pos_role_id = $("#edit_pos_role_id").val(),
+			pos_status_id = $("#edit_pos_status_id").val();
+
+		if (pos_id != '' && pos_name != '' && pos_status_id != 999) {
+			PositionService.updatePosition(pos_id, pos_name, pos_role_id, pos_status_id).then(function (result) {
+				if (result.data.status == 200) {
+					noty({
+		                type : 'success',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : 'อัพเดทข้อมูลสำเร็จ...',
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+
+		                		// ปิด modal
+		                		$("#close_modal_edit").click()
+
+		                		// refresh หน้าจอ
+		                		//location.reload();
+		                		$scope.refreshList();
+		                	}
+		                }
+		            });
+				}
+				else {
+					// กรณีไม่ใช่200
+					noty({
+		                type : 'error',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : 'อัพเดทข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+		                	}
+		                }
+		            });
+				}
+			});
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+                callback: {
+                	afterClose: function () {
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
+	// END Update Unit
+
+	// Delete Unit
+	$scope.deletePosition = function(id) {
+		var pos_id = id,
+			pos_status_id = 2;
+
+		if (pos_id != '') {
+			noty({
+                type : 'confirm',
+                layout : 'top',
+                modal : true,
+                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
+                buttons : [
+                {
+                    addClass : 'btn btn-danger',//คลาสของbootstrap
+                    text : 'ยกเลิก',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
+                    }
+                },
+                {
+                	id : 'btn_confirm',
+                    addClass: 'btn btn-primary',
+                    text : 'ยืนยัน',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();
+            
+                        noty({
+                            type : 'alert',
+                            layout : 'top',
+                            modal : true,
+                            closeWith : [],
+                            text : 'กำลังลบข้อมูลหน่วย...',
+                            callback : {
+                                afterShow : function () {
+
+                                    PositionService.deletePosition(pos_id, pos_status_id).then(function (result) {
+                                    	$.noty.clearQueue(); $.noty.closeAll();
+
+										if (result.data.status == 200) {
+											noty({
+								                type : 'success',
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+
+								                		// refresh หน้าจอ
+								                		//location.reload();
+								                		$scope.refreshList();
+								                	}
+								                }
+								            });
+										}
+										else {
+											noty({
+								                type : 'error',
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : 'ลบข้อมูลหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+								                	}
+								                }
+								            });
+										}
+									});
+                                }
+                            }
+                        });
+                    }
+                }]
+            });
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+                callback: {
+                	afterClose: function () {
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
+	// END Delete Unit
+}])
+.service('PositionService', ['$http', '$q',function ($http, $q) {
+
+	this.getAllPosition = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_position.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.addPosition = function (pos_name, pos_role_id, pos_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_add_position.php', {
+            'name' : pos_name,
+            'role' : pos_role_id,
+            'status' : pos_status_id,
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getByID = function (id) {
+		var conditions = "?pos_id=" + id;
+
+		return $http.get('http://localhost/restaurant-api/api_get_position.php' + conditions, {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.updatePosition = function (pos_id, pos_name, pos_role_id, pos_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_position.php', {
+            'pos_id' : pos_id,
+            'pos_name' : pos_name,
+            'pos_role_id' : pos_role_id,
+            'pos_status_id' : pos_status_id,
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.deletePosition = function (pos_id, pos_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_position.php', {
+            'pos_id' : pos_id,
+            'pos_status_id' : pos_status_id,
+        }, function(data, status) {
+            return data;
+        });
+	};
+}]);
