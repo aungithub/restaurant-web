@@ -221,7 +221,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 			unit_status_id = $("#edit_unit_status_id").val(),
 			unit_number = 1234;
 
-		if (unit_id != '' && unit_name != '' && unit_status_id != 999) {
+		if (unit_id != '' && unit_name != '' && unit_number != '' && unit_status_id != 999) {
 			UnitService.updateUnit(unit_id, unit_name, unit_number, unit_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
