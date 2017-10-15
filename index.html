@@ -67,10 +67,37 @@
           <a class="navbar-brand" href="#!/backend/admin_login">หน้าแรก</a>
         </div>
 
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#!/backend/admin_login" ng-show="isLoggedIn == false">เข้าสู่ระบบ</a></li>
-          <li><a ng-click="logout()" ng-show="isLoggedIn != false">ออกจากระบบ</a></li>
-        </ul>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav navbar-left">
+          
+            <li><a href="#!/backend/admin_employee" ng-show="privacyAccess.indexOf('admin_employee') != -1">พนักงาน</a></li>
+
+            <li><a href="#!/backend/admin_position" ng-show="privacyAccess.indexOf('admin_position') != -1">ตำแหน่งงาน</a></li>
+
+            <li><a href="#!/backend/admin_role" ng-show="privacyAccess.indexOf('admin_role') != -1">สิทธิ์การใช้งาน</a></li>
+
+            <li><a href="#!/backend/admin_food" ng-show="privacyAccess.indexOf('admin_food') != -1">อาหาร</a></li>
+
+            <li><a href="#!/backend/admin_drink" ng-show="privacyAccess.indexOf('admin_drink') != -1">เครื่องดื่ม</a></li>
+
+            <li><a href="#!/backend/admin_kind" ng-show="privacyAccess.indexOf('admin_kind') != -1">ประเภท</a></li>
+
+            <li><a href="#!/backend/admin_unit" ng-show="privacyAccess.indexOf('admin_unit') != -1">หน่วยหลัก</a></li>
+
+            <li><a href="#!/backend/admin_unitdetail" ng-show="privacyAccess.indexOf('admin_unitdetail') != -1">การแปลงหน่วย</a></li>
+
+            <li><a href="#!/backend/admin_promotion" ng-show="privacyAccess.indexOf('admin_promotion') != -1">โปรโมชั่น</a></li>
+
+            <li><a href="#!/backend/admin_table" ng-show="privacyAccess.indexOf('admin_table') != -1">โต๊ะ</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#!/backend/admin_login" ng-show="isLoggedIn == false">เข้าสู่ระบบ</a></li>
+            <li><a ng-click="logout()" ng-show="isLoggedIn != false">ออกจากระบบ</a></li>
+          </ul>
+
+        </div>
       </div>
     </nav>
 

@@ -9,7 +9,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 	$rootScope.loadCookies();
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
-	$rootScope.$emit('IndexController.hideLoginShowLogout');
+	$rootScope.$emit('IndexController.hideLoginShowMenu');
 
 	// ถ้า login อยู่แล้ว
 	if ($rootScope.isLoggedIn != false) {
@@ -60,7 +60,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 
                 				// เก็บสิทธิ์ไว้ที่ตัวแปรเพื่อเอาไปใช้ในทุกๆหน้า
                 				$rootScope.privacyAccess = result.data.roles;
-
+                				
                 				$cookies.put('isLoggedIn', true);
                 				$cookies.put('privacyAccess', $rootScope.privacyAccess);
 
