@@ -33,6 +33,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 					if (result.data.status == 200) {
 						$scope.listDrinkObject = result.data.drink;
+						console.log($scope.listDrinkObject);
 					}
 					else {
 						noty({
@@ -95,14 +96,14 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	// Add Unit
 	$scope.addDrink = function() {
-		var drink_name = $.trim($("#add_position_name").val()), // ตตัดspacebarทั้งหมด
+		var drink_name = $.trim($("#add_drink_name").val()), // ตตัดspacebarทั้งหมด
 			drink_number = 1, //$("#add_position_role_id").val()
 			drink_price = $("#add_drink_price").val();//ดึงค่าจากselectมาไว้ในตัแปล
 			drink_status_id = 1, //$("#add_position_role_id").val()
 			drink_unit_id = $("#add_drink_unit_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
-		if (pos_name != ''&& pos_role_id != '' && pos_status_id != 999 ) {
-			PositionService.addPosition($("#add_position_name").val(), pos_role_id, pos_status_id).then(function (result) {
+		if (drink_name != '' && drink_number != '' && drink_price != '' && drink_status_id != '' && drink_unit_id != 999 ) {
+			DrinkService.addDrink($("#add_drink_name").val(), drink_number, drink_price, drink_status_id, drink_unit_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -164,30 +165,30 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	// END Add Unit
 
 	// Edit Unit
-	$scope.editPosition = function(id) {
+	$scope.editDrink = function(id) {
 		$scope.selectedId = id;
-		$scope.selectedPositionObject = null;
+		$scope.selectedDrinkObject = null;
 
 		noty({
             type : 'alert',
             layout : 'top',
             modal : true,
-            text : 'กำลังดึงข้อมูลหน่วย...',
+            text : 'กำลังดึงข้อมูล...',
             callback: {
             	afterShow: function () {
-            		PositionService.getByID($scope.selectedId).then(function (result) {
-						if (result.data.status == 200 && result.data.positions.length > 0) {
+            		DrinkService.getByID($scope.selectedId).then(function (result) {
+						if (result.data.status == 200 && result.data.drink.length > 0) {
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
 
-							$scope.selectedPositionObject = result.data.positions[0];
+							$scope.selectedDrinkObject = result.data.drink[0];
 
-							if ($scope.selectedPositionObject.pos_status_id == 1) {
-								$("#edit_position_status_id").val(1);
-							} else if ($scope.selectedPositionObject.pos_status_id == 2) {
-								$("#edit_position_status_id").val(2);
+							if ($scope.selectedDrinkObject.drink_status_id == 1) {
+								$("#edit_drink_status_id").val(1);
+							} else if ($scope.selectedDrinkObject.drink_status_id == 2) {
+								$("#edit_drink_status_id").val(2);
 							} else {
-								$("#edit_position_status_id").val(0);	
+								$("#edit_drink_status_id").val(0);	
 							}
 						}
 						else {
@@ -199,7 +200,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 				                layout : 'top',
 				                modal : true,
 				                timeout: 3000,
-				                text : 'ไม่พบข้อมูลหน่วย...',
+				                text : 'ไม่พบข้อมูล...',
 				                callback: {
 				                	afterClose: function () {
 				                		// ปิด noty
@@ -216,14 +217,16 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	// END Edit Unit
 
 	// Update Unit
-	$scope.updatePosition = function(id) {
-		var pos_id = $.trim($("#edit_position_id").val()),
-			pos_name = $.trim($("#edit_position_name").val()),
-			pos_role_id = $("#edit_position_status_id").val(),
-			pos_status_id = $("#edit_position_status_id").val();
+	$scope.updateDrink = function(id) {
+		var drink_id = $.trim($("#edit_drink_id").val()),
+			drink_name = $.trim($("#edit_drink_name").val()),
+			drink_number = $("#edit_drink_number").val(),
+			drink_price = $("#edit_drink_price").val();
+			drink_status_id = $("#edit_drink_status_id").val(),
+			drink_unit_id = $("#edit_drink_unit_id").val();
 
-		if (pos_id != '' && pos_name != '' && pos_status_id != 999) {
-			PositionService.updatePosition(pos_id, pos_name, pos_role_id, pos_status_id).then(function (result) {
+		if (drink_id != '' && drink_name != '' && drink_number != '' && drink_price != '' && drink_status_id != '' && drink_unit_id != 999) {
+			DrinkService.updateDrink(drink_id, drink_name, drink_number, drink_price, drink_status_id, drink_unit_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -282,11 +285,11 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	// END Update Unit
 
 	// Delete Unit
-	$scope.deletePosition = function(id) {
-		var pos_id = id,
-			pos_status_id = 2;
+	$scope.deleteDrink = function(id) {
+		var drink_id = id,
+			drink_status_id = 2;
 
-		if (pos_id != '') {
+		if (drink_id != '') {
 			noty({
                 type : 'confirm',
                 layout : 'top',
@@ -312,11 +315,11 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลหน่วย...',
+                            text : 'กำลังลบข้อมูล...',
                             callback : {
                                 afterShow : function () {
 
-                                    PositionService.deletePosition(pos_id, pos_status_id).then(function (result) {
+                                    DrinkService.deleteDrink(drink_id, drink_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -325,7 +328,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
+								                text : 'ลบข้อมูลสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -344,7 +347,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -378,49 +381,54 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	};
 	// END Delete Unit
 }])
-.service('PositionService', ['$http', '$q',function ($http, $q) {
+.service('DrinkService', ['$http', '$q',function ($http, $q) {
 
-	this.getAllPosition = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_position.php', {
+	this.getAllDrink = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_drink.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.addPosition = function (pos_name, pos_role_id, pos_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_position.php', {
-            'name' : pos_name,
-            'role' : pos_role_id,
-            'status' : pos_status_id,
+	this.addDrink = function (drink_name, drink_number, drink_price, drink_status_id, drink_unit_id) {
+		return $http.post('http://localhost/restaurant-api/api_add_drink.php', {
+            'name' : drink_name,
+            'number' : drink_number,
+            'price' : drink_price,
+             'status' : drink_status_id,
+            'unit' : drink_unit_id,
+            
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getByID = function (id) {
-		var conditions = "?pos_id=" + id;
+		var conditions = "?drink_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_position.php' + conditions, {
+		return $http.get('http://localhost/restaurant-api/api_get_drink.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.updatePosition = function (pos_id, pos_name, pos_role_id, pos_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_position.php', {
-            'pos_id' : pos_id,
-            'pos_name' : pos_name,
-            'pos_role_id' : pos_role_id,
-            'pos_status_id' : pos_status_id,
+	this.updateDrink = function (drink_id, drink_name, drink_number, drink_price, drink_status_id, drink_unit_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
+             'drink_id' : drink_id,
+             'drink_name' : drink_name,
+            'drink_number' : drink_number,
+            'drink_price' : drink_price,
+             'drink_status_id' : drink_status_id,
+            'drink_unit_id' : drink_unit_id,
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deletePosition = function (pos_id, pos_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_position.php', {
-            'pos_id' : pos_id,
-            'pos_status_id' : pos_status_id,
+	this.deleteDrink = function (drink_id, drink_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
+            'drink_id' : drink_id,
+            'drink_status_id' : drink_status_id,
         }, function(data, status) {
             return data;
         });

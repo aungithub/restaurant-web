@@ -3,7 +3,7 @@
 angular.module('RESTAURANT.admin_table', ['ngRoute'])
 
 .controller('TableController', ['$rootScope', '$scope', '$location', 'TableService', function($rootScope, $scope, $location, TableService) {
-	var route = 'admin_kind';
+	var route = 'admin_table';
 	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
 	$rootScope.loadCookies();
@@ -56,6 +56,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 	// clear textbox value
 	$scope.loadAddTableForm = function() {
 		$("#add_table_number").val('');
+
 	};
 
 	$scope.refreshList = function() {
@@ -70,7 +71,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
 						if (result.data.status == 200) {
-							$scope.listTableObject = result.data.table;
+							$scope.listTableObject = result.data.tables;
 							$scope.apply(function(){});
 						}
 						else {
@@ -169,7 +170,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
             type : 'alert',
             layout : 'top',
             modal : true,
-            text : 'กำลังดึงข้อมูลหน่วย...',
+            text : 'กำลังดึงข้อมูล...',
             callback: {
             	afterShow: function () {
             		TableService.getByID($scope.selectedId).then(function (result) {
@@ -196,7 +197,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 				                layout : 'top',
 				                modal : true,
 				                timeout: 3000,
-				                text : 'ไม่พบข้อมูลหน่วย...',
+				                text : 'ไม่พบข้อมูล...',
 				                callback: {
 				                	afterClose: function () {
 				                		// ปิด noty
@@ -213,7 +214,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 	// END Edit Unit
 
 	// Update Unit
-	console.log($scope.updateTable);
+
 	$scope.updateTable = function(id) {
 		var table_id = $.trim($("#edit_table_id").val()),
 			table_number = $.trim($("#edit_table_number").val()),
@@ -288,7 +289,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',//คลาสของbootstrap
@@ -309,7 +310,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลหน่วย...',
+                            text : 'กำลังลบข้อมูล...',
                             callback : {
                                 afterShow : function () {
 
@@ -322,7 +323,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
+								                text : 'ลบข้อมูลสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -341,7 +342,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty

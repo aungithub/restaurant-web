@@ -15,7 +15,8 @@
     <thead>
     <tr>
         <th style="width: 14%;">รหัสตำแหน่ง</th>
-        <th style="width: 50%;">ชื่อตำแหน่ง</th>
+        <th style="width: 30%;">ชื่อตำแหน่ง</th>
+        <th style="width: 20%;">สิทธิการใช้งาน</th>
         <th style="width: 20%;">สถานะ</th>
         <th style="width: 8%;">แก้ไข</th>
         <th style="width: 8%;">ลบ</th>
@@ -25,7 +26,7 @@
     <tr ng-repeat="obj in listPositionObject">
         <th >{{obj.pos_id}}</th>
         <td>{{obj.pos_name}}</td>
-        <td>{{obj.pos_role_id}}</td>
+        <td>{{obj.role_name}}</td>
         <td>{{(obj.pos_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editPosition(obj.pos_id)">Edit</button></td>
         <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deletePosition(obj.pos_id)">Delete</button></td>
@@ -46,7 +47,7 @@
       <!-- Header -->
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="addModalLabel">เพิ่มรายละเอียดหน่วย</h3>
+        <h3 class="modal-title" id="addModalLabel">เพิ่มรายละเอียดตำแหน่ง</h3>
       </div>
       <!-- Header -->
 
@@ -56,11 +57,25 @@
           <div class="col-lg-3">
             <p>ชื่อตำแหน่ง</p>
             <p>&nbsp;</p>
+            <p>ชื่อสิทธิการใช้งาน</p>
+            <p>&nbsp;</p>
             <p>สถานะ</p>
           </div>
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
                 <input type="text" id="add_pos_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
+
+            <p>&nbsp;</p>
+
+            <div class="btn-group" role="group">
+
+              <div class="btn-group" role="group">
+                <select class="form-control" id="add_pos_role_id">
+                  <option value="999">เลือกสิทธิการใช้งาน</option>
+
+                </select>
+              </div>
             </div>
 
             <p>&nbsp;</p>
@@ -83,7 +98,7 @@
       <!-- Footer -->
       <div class="modal-footer">
         <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-        <button type="button" class="btn btn-primary" ng-click="addPosition()">เพิ่มหน่วย</button>
+        <button type="button" class="btn btn-primary" ng-click="addPosition()">เพิ่มตำแหน่ง</button>
       </div>
       <!-- Footer -->
 
@@ -100,7 +115,7 @@
       <!-- Header -->
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดหน่วย</h3>
+        <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดตำแหน่ง</h3>
       </div>
       <!-- Header -->
 
@@ -136,11 +151,19 @@
             <p>&nbsp;</p>
 
             <div class="btn-group" role="group">
+              <select class="form-control" id="edit_pos_role_id">
+                <option value="999">เลือกสิทธิการใช้งาน</option>
+              </select>
+
+               <p>&nbsp;</p>
+
+            <div class="btn-group" role="group">
               <select class="form-control" id="edit_pos_status_id">
                 <option value="999">เลือกสถานะ</option>
                 <option value="1">ใช้งาน</option>
                 <option value="2">ไม่ใช้งาน</option>
               </select>
+            </div>
             </div>
           </div>
           <!-- ฝั่งขวา -->

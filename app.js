@@ -12,7 +12,7 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.admin_role',
 	'RESTAURANT.admin_food',
 	'RESTAURANT.admin_drink',
-	'RESTAURANT.admin_unitdata',
+	'RESTAURANT.admin_unitdetail',
 	'RESTAURANT.admin_position',
 	'RESTAURANT.admin_table',
 	'RESTAURANT.admin_kind',
@@ -87,9 +87,9 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		cache: false
 	});
 
-	$routeProvider.when('/backend/admin_unitdata', {
-		templateUrl: 'pages/backend/unitdata/unitdata.html',
-		controller: 'UnitdataController',
+	$routeProvider.when('/backend/admin_unitdetail', {
+		templateUrl: 'pages/backend/unitdetail/unitdetail.html',
+		controller: 'UnitdetailController',
 		cache: false
 	});
 

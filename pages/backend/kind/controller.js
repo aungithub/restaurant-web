@@ -170,7 +170,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
             type : 'alert',
             layout : 'top',
             modal : true,
-            text : 'กำลังดึงข้อมูลหน่วย...',
+            text : 'กำลังดึงข้อมูล...',
             callback: {
             	afterShow: function () {
             		KindService.getByID($scope.selectedId).then(function (result) {
@@ -197,7 +197,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 				                layout : 'top',
 				                modal : true,
 				                timeout: 3000,
-				                text : 'ไม่พบข้อมูลหน่วย...',
+				                text : 'ไม่พบข้อมูล...',
 				                callback: {
 				                	afterClose: function () {
 				                		// ปิด noty
@@ -289,7 +289,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',//คลาสของbootstrap
@@ -310,7 +310,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลหน่วย...',
+                            text : 'กำลังลบข้อมูล...',
                             callback : {
                                 afterShow : function () {
 
@@ -323,7 +323,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
+								                text : 'ลบข้อมูลสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -342,7 +342,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty

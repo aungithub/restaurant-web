@@ -2,7 +2,7 @@
 
 angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 
-.controller('UnitController', ['$rootScope', '$scope', '$location', 'UnitService', function($rootScope, $scope, $location, UnitService) {
+.controller('UnitController', ['$rootScope', '$scope', '$location', '$cookies', 'UnitService', function($rootScope, $scope, $location, $cookies, UnitService) {
 	var route = 'admin_unit';
 	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
@@ -15,8 +15,11 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowLogout');
 
-	// เช็คสิทธิ์
+	// เช็คสิทธิ์สำหรับหน้าแรก
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
+		$cookies.remove('isLoggedIn');
+		$cookies.remove('privacyAccess');
+		$rootScope.resetAll();
 		$location.path('/backend/admin_login');
 	}
 

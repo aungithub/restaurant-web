@@ -1,46 +1,44 @@
 'use strict';
 
-angular.module('RESTAURANT.admin_role', ['ngRoute'])
+angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 
-.controller('RoleController', ['$rootScope', '$scope', '$location', 'RoleService', function($rootScope, $scope, $location, RoleService) {
-	var route = 'admin_role';
+.controller('UnitdetailController', ['$rootScope', '$scope', '$location', '$cookies', 'UnitdetailService', function($rootScope, $scope, $location, $cookies, UnitdetailService) {
+	var route = 'admin_unitdetail';
 	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
 	$rootScope.loadCookies();
 
-	$scope.listRoleObject = null;
+	$scope.listUnitdetailObject = null;
 	$scope.selectedId = "";
-	$scope.selectedroleObject = null;
+	$scope.selectedUnitdetailObject = null;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowLogout');
 
-	// เช็คสิทธิ์
+	// เช็คสิทธิ์สำหรับหน้าแรก
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
 		$location.path('/backend/admin_login');
 	}
-
 	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
 	noty({
-        type : 'alert', // alert, success, warning, error, confirm
+        type : 'alert',
         layout : 'top',
         modal : true,
         text : 'กำลังโหลด...',
         callback: {
         	afterShow: function () {
-				RoleService.getAllrole().then(function (result) {
-					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+				UnitdetailService.getAllUnitdetail().then(function (result) {
+					$.noty.clearQueue(); $.noty.closeAll();
 
 					if (result.data.status == 200) {
-						$scope.listRoleObject = result.data.roles;
-						console.log($scope.listRoleObject)
+						$scope.listUnitdetailObject = result.data.unitdetail;
 					}
 					else {
 						noty({
 			                type : 'warning',
 			                layout : 'top',
 			                modal : true,
-			                timeout: 3000, // 3 seconds
+			                timeout: 3000,
 			                text : result.data.message,
 			                callback: {
 			                	afterClose: function () {
@@ -54,55 +52,18 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 		}
 	});
 
-	// clear textbox value
-	$scope.loadAddroleForm = function() {
-		$("#add_role_name").val('');
+	$scope.loadAddUnitdetailForm = function() {
+		$("#add_unitdetail_number").val('');
 	};
 
-	$scope.refreshList = function() {
-		noty({
-	        type : 'alert', // alert, success, warning, error, confirm
-	        layout : 'top',
-	        modal : true,
-	        text : 'กำลังโหลด...',
-	        callback: {
-	        	afterShow: function () {
-					RoleService.getAllrole().then(function (result) {
-						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
-
-						if (result.data.status == 200) {
-							$scope.listRoleObject = result.data.roles;
-							$scope.apply(function(){});
-						}
-						else {
-							noty({
-				                type : 'warning',
-				                layout : 'top',
-				                modal : true,
-				                timeout: 3000, // 3 seconds
-				                text : result.data.message,
-				                callback: {
-				                	afterClose: function () {
-				                		$.noty.clearQueue(); $.noty.closeAll();
-				                	}
-				                }
-				            });
-						}
-					});
-				}
-			}
-		});
-	}
-
 	// Add Unit
-	$scope.addrole = function() {
-		var role_name = $.trim($("#add_role_name").val()), // ตตัดspacebarทั้งหมด
-			role_front = $("#add_role_id").val(),
-			role_back = $("#add_role_back").val(),
-			role_status_id = $("#add_role_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
+	$scope.addUnitdetail = function() {
+		var unitdetail_number = 1234,//$.trim($("#add_unitdetail_number").val()),
+			unitdetail_unit_id = $("#add_unitdetail_unit_id").val(),
+			unitdetail_status_id = $("#add_unitdetail_status_id").val();
 
-		if (role_name != '' && role_front != '' && role_back != '' && role_status_id != 999 ) {
-			roleService.addrole($("#add_role_name").val(), role_front, role_back, role_status_id).then(function (result) {
+		if (unitdetail_number != '' && unitdetail_unit_id != '' && unitdetail_status_id != 999 ) {
+			UnitdetailService.addUnitdetail(unitdetail_number, unitdetail_unit_id, unitdetail_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -120,7 +81,42 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 
 		                		// refresh หน้าจอ
 		                		//location.reload();
-		                		$scope.refreshList();
+
+
+		                		// refresh list
+		                		noty({
+							        type : 'alert',
+							        layout : 'top',
+							        modal : true,
+							        text : 'กำลังโหลด...',
+							        callback: {
+							        	afterShow: function () {
+											UnitdetailService.getAllUnitdetail().then(function (result) {
+												$.noty.clearQueue(); $.noty.closeAll();
+
+												if (result.data.status == 200) {
+													$scope.listUnitdetailObject = result.data.unitdetail;
+													// refresh list
+													$scope.$apply();
+												}
+												else {
+													noty({
+										                type : 'warning',
+										                layout : 'top',
+										                modal : true,
+										                timeout: 3000,
+										                text : result.data.message,
+										                callback: {
+										                	afterClose: function () {
+										                		$.noty.clearQueue(); $.noty.closeAll();
+										                	}
+										                }
+										            });
+												}
+											});
+										}
+									}
+								});
 
 		                	}
 		                }
@@ -164,9 +160,9 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	// END Add Unit
 
 	// Edit Unit
-	$scope.editrole = function(id) {
+	$scope.editUnitdetail = function(id) {
 		$scope.selectedId = id;
-		$scope.selectedroleObject = null;
+		$scope.selectedUnitdetailObject = null;
 
 		noty({
             type : 'alert',
@@ -175,19 +171,19 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
             text : 'กำลังดึงข้อมูลหน่วย...',
             callback: {
             	afterShow: function () {
-            		roleService.getByID($scope.selectedId).then(function (result) {
-						if (result.data.status == 200 && result.data.roles.length > 0) {
+            		UnitdetailService.getByID($scope.selectedId).then(function (result) {
+						if (result.data.status == 200 && result.data.unitdetail.length > 0) {
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
 
-							$scope.selectedroleObject = result.data.roles[0];
+							$scope.selectedUnitdetailObject = result.data.unitdetail[0];
 
-							if ($scope.selectedroleObject.role_status_id == 1) {
-								$("#edit_role_status_id").val(1);
-							} else if ($scope.selectedroleObject.role_status_id == 2) {
-								$("#edit_role_status_id").val(2);
+							if ($scope.selectedUnitdetailObject.unitdetail_status_id == 1) {
+								$("#edit_unitdetail_status_id").val(1);
+							} else if ($scope.selectedUnitdetailObject.unitdetail_status_id == 2) {
+								$("#edit_unitdetail_status_id").val(2);
 							} else {
-								$("#edit_role_status_id").val(0);	
+								$("#edit_unitdetail_status_id").val(0);	
 							}
 						}
 						else {
@@ -216,15 +212,14 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	// END Edit Unit
 
 	// Update Unit
-	$scope.updaterole = function(id) {
-		var role_id = $.trim($("#edit_role_id").val()),
-			role_name = $.trim($("#edit_role_name").val()),
-			role_front = $("#edit_role_front").val(),
-			role_back = $("#edit_role_back").val(),
-			role_status_id = $("#edit_role_status_id").val();
+	$scope.updateUnitdetail = function(id) {
+		var unitdetail_id = $.trim($("#edit_unitdetail_id").val()),
+			unitdetail_number = $.trim($("#edit_unitdetail_number").val()),
+			unitdetail_unit_id = $("#edit_unitdetail_unit_id").val(),
+			unitdetail_status_id = $("#edit_unit_status_id").val();
 
-		if (role_id != '' && role_name != '' && role_status_id != 999) {
-			roleService.updaterole(role_id, role_name, role_front, role_back, role_status_id).then(function (result) {
+		if (unitdetail_id != '' && unitdetail_number != '' && unitdetail_unit_id != '' && unitdetail_status_id != 999) {
+			UnitdetailService.updateUnitdetail(unitdetail_id, unitdetail_number, unitdetail_unit_id, unitdetail_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -241,14 +236,12 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 		                		$("#close_modal_edit").click()
 
 		                		// refresh หน้าจอ
-		                		//location.reload();
-		                		$scope.refreshList();
+		                		$scope.$apply();
 		                	}
 		                }
 		            });
 				}
 				else {
-					// กรณีไม่ใช่200
 					noty({
 		                type : 'error',
 		                layout : 'top',
@@ -283,22 +276,22 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	// END Update Unit
 
 	// Delete Unit
-	$scope.deleterole = function(id) {
-		var role_id = id,
-			role_status_id = 2;
+	$scope.deleteUnitdetail = function(id) {
+		var unitdetail_id = id,
+			unitdetail_status_id = 2;
 
-		if (role_id != '') {
+		if (unitdetail_id != '') {
 			noty({
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
                 buttons : [
                 {
-                    addClass : 'btn btn-danger',//คลาสของbootstrap
+                    addClass : 'btn btn-danger',
                     text : 'ยกเลิก',
                     onClick : function () {
-                        $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
+                        $.noty.clearQueue(); $.noty.closeAll();
                     }
                 },
                 {
@@ -313,11 +306,11 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูล...',
+                            text : 'กำลังลบข้อมูลหน่วย...',
                             callback : {
                                 afterShow : function () {
 
-                                    RoleService.deleterole(role_id, role_status_id).then(function (result) {
+                                    UnitdetailService.deleteUnitdetail(unitdetail_id, unitdetail_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -326,15 +319,14 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลสำเร็จ...',
+								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
 								                		$.noty.clearQueue(); $.noty.closeAll();
 
 								                		// refresh หน้าจอ
-								                		//location.reload();
-								                		$scope.refreshList();
+								                		$scope.$apply();
 								                	}
 								                }
 								            });
@@ -345,7 +337,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -379,51 +371,49 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	};
 	// END Delete Unit
 }])
-.service('RoleService', ['$http', '$q',function ($http, $q) {
+.service('UnitdetailService', ['$http', '$q',function ($http, $q) {
 
-	this.getAllrole = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_role.php', {
+	this.getAllUnitdetail = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_unitdetail.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.addrole = function (role_name, role_front, role_back, role_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_role.php', {
-            'name' : role_name,
-            'role_front' : role_front,
-            'role_back' : role_back,
-            'status' : role_status_id,
+	this.addUnitdetail = function (unitdetail_number, unitdetail_unit_id, unitdetail_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_add_unitdetail.php', {
+            'number' : unitdetail_number,
+            'unit_id' : unitdetail_unit_id,
+            'status' : unitdetail_status_id,
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getByID = function (id) {
-		var conditions = "?role_id=" + id;
+		var conditions = "?unitdetail_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_role.php' + conditions, {
+		return $http.get('http://localhost/restaurant-api/api_get_unitdetail.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.updaterole = function (role_id, role_name, role_front, role_back, role_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_role.php', {
-            'role_id' : role_id,
-            'role_name' : role_name,
-            'role_front' : role_front,
-            'role_back' : role_back,
-            'role_status_id' : role_status_id,
+	this.updateUnitdetail = function (unitdetail_id, unitdetail_number, unitdetail_unit_id, unitdetail_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_unitdetail.php', {
+            'unitdetail_id' : unitdetail_id,
+            'unitdetail_number' : unitdetail_number,
+            'unitdetail_unit_id' : unitdetail_unit_id,
+            'unitdetail_status_id' : unitdetail_status_id,
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deleterole = function (role_id, role_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_role.php', {
-            'role_id' : role_id,
-            'role_status_id' : role_status_id,
+	this.deleteUnitdetail = function (unitdetail_id, unitdetail_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_unitdetail.php', {
+            'unitdetail_id' : unitdetail_id,
+            'unitdetail_status_id' : unitdetail_status_id,
         }, function(data, status) {
             return data;
         });

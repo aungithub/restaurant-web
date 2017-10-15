@@ -20,17 +20,15 @@
 
 <div class="panel panel-default" align="center">
   <!-- Default panel contents -->
-  <div class="panel-heading " >หน้าจอการแปลงหน่วย</div>
+  <div class="panel-heading " >หน่วย</div>
 
   <!-- Table -->
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
           <th style="width: 8%;">รหัสหน่วย</th>
-          <th style="width: 20%;">จำนวนหน่วยหลัก</th>
           <th style="width: 20%;">ชื่อหน่วยหลัก</th>
-          <th style="width: 20%;">จำนวนหน่วยรอง</th>
-          <th style="width: 20%;">ชื่อหน่วยรอง</th>
+          <th style="width: 20%;">สถานะ</th>
           <th style="width: 6%;">แก้ไข</th>
           <th style="width: 6%;">ลบ</th>
       </tr>
@@ -40,10 +38,8 @@
       <!-- แสดงข้อมูล unit ทั้งหมด -->
       <tr ng-repeat="obj in listUnitObject">
           <th>{{obj.unit_id}}</th>
-          <td>{{obj.unit_id}}</td>
           <td>{{obj.unit_name}}</td>
-          <td>{{obj.unit_id}}</td>
-          <td>{{obj.unit_id}}</td>
+          <td>{{(obj.unit_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
           <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editUnit(obj.unit_id)">Edit</button></td>
           <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteUnit(obj.unit_id)">Delete</button></td>
       </tr>
