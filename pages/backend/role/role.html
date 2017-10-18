@@ -51,22 +51,69 @@
 
       <!-- Body -->
       <div class="modal-body">
-        <div class="row">
-          <div class="col-lg-3">
-            <p>ชื่อสิทธิการใช้งาน</p>
-            <p>&nbsp;</p>
-            <p>สถานะ</p>
-          </div>
-          <div class="col-lg-9">
-            <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_role_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+
+        <form class="form-horizontal">
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อสิทธิ์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_role_name" class="form-control" placeholder="" aria-describedby="sizing-addon3">
+              </div>
             </div>
+          </div>
 
-            <p>&nbsp;</p>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Back Office</label>
+            <div class="col-sm-9">
+              <div class="input-group roles_back">
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" disabled="disabled" checked="checked" value="admin_employee">พนักงาน</label>
+                </div>
 
-            <div class="btn-group" role="group">
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_position">ตำแหน่งงาน</label>
+                </div>
 
-              <div class="btn-group" role="group">
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_role">สิทธิ์การใช้งาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_food">อาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_kind">ประเภทอาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_drink">เครื่องดื่ม</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_promotion">โปรโมชั่น</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_unit">หน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_unitdetail">การแปลงหน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_table">ข้อมูลโต๊ะ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
                 <select class="form-control" id="add_role_status_id">
                   <option value="999">เลือกสถานะ</option>
                   <option value="1">ใช้งาน</option>
@@ -75,7 +122,8 @@
               </div>
             </div>
           </div>
-        </div>
+
+        </form>
       </div>
       <!-- Body -->
 
@@ -106,41 +154,87 @@
       <!-- Body -->
       <div class="modal-body">
 
-        <div class="row">
+        <form class="form-horizontal">
 
-          <!-- ฝั่งซ้าย -->
-          <div class="col-lg-3">
-            <p>รหัสสิทธิการใช้งาน</p>
-            <p>&nbsp;</p>
-            <p>ชื่อสิทธิการใช้งาน</p>
-             <p>&nbsp;</p>
-            <p>สถานะ</p>
-          </div>
-          <!-- ฝั่งซ้าย -->
-
-          <!-- ฝั่งขวา -->
-          <div class="col-lg-9">
-            <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_role_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
-            </div>
-
-            <p>&nbsp;</p>
-
-            <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_role_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedRoleObject.role_name}}">
-            </div>
-
-            <p>&nbsp;</p>
-
-            <div class="btn-group" role="group">
-              <select class="form-control" id="edit_role_status_id">
-                <option value="999">เลือกสถานะ</option>
-                <option value="1">ใช้งาน</option>
-                <option value="2">ไม่ใช้งาน</option>
-              </select>
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสสิทธิ์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_role_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{selectedroleObject.role_id}}">
+              </div>
             </div>
           </div>
-          <!-- ฝั่งขวา -->
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อสิทธิ์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_role_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedroleObject.role_name}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Back Office</label>
+            <div class="col-sm-9">
+              <div class="input-group edit_roles_back">
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_employee" name="edit_role_back_pages[]" disabled="disabled" checked="checked" value="admin_employee">พนักงาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_position" name="edit_role_back_pages[]" value="admin_position">ตำแหน่งงาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_role" name="edit_role_back_pages[]" value="admin_role">สิทธิ์การใช้งาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_food" name="edit_role_back_pages[]" value="admin_food">อาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_kind" name="edit_role_back_pages[]" value="admin_kind">ประเภทอาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_drink" name="edit_role_back_pages[]" value="admin_drink">เครื่องดื่ม</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_promotion" name="edit_role_back_pages[]" value="admin_promotion">โปรโมชั่น</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_unit" name="edit_role_back_pages[]" value="admin_unit">หน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_unitdetail" name="edit_role_back_pages[]" value="admin_unitdetail">การแปลงหน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_table" name="edit_role_back_pages[]" value="admin_table">ข้อมูลโต๊ะ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="edit_role_status_id">
+                  <option value="999">เลือกสถานะ</option>
+                  <option value="1">ใช้งาน</option>
+                  <option value="2">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </form>
 
       </div>
       <!-- Body -->

@@ -72,7 +72,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.listRoleObject = result.data.roles;
-							$scope.apply(function(){});
+							$scope.$apply();
 						}
 						else {
 							noty({
@@ -95,14 +95,22 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	}
 
 	// Add Unit
-	$scope.addrole = function() {
+	$scope.addRole = function() {
+		var roles_pages = [],
+			role_back_pages_string = "";
+		$('.roles_back input[type="checkbox"]:checked').each(function() {
+			if (role_back_pages_string != '') {
+				role_back_pages_string += ',';
+			}
+	    	roles_pages.push($(this).val());
+	      	role_back_pages_string += $(this).val();
+	    });
+
 		var role_name = $.trim($("#add_role_name").val()), // ตตัดspacebarทั้งหมด
-			role_front = $("#add_role_id").val(),
-			role_back = $("#add_role_back").val(),
 			role_status_id = $("#add_role_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
-		if (role_name != '' && role_front != '' && role_back != '' && role_status_id != 999 ) {
-			roleService.addrole($("#add_role_name").val(), role_front, role_back, role_status_id).then(function (result) {
+		if (role_name != '' && role_back_pages_string != '' && role_status_id != 999 ) {
+			RoleService.addrole($("#add_role_name").val(), role_back_pages_string, role_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -164,9 +172,10 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	// END Add Unit
 
 	// Edit Unit
-	$scope.editrole = function(id) {
+	$scope.editRole = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedroleObject = null;
+		$('.role_checkbox').prop('checked', false);
 
 		noty({
             type : 'alert',
@@ -175,7 +184,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
             text : 'กำลังดึงข้อมูลหน่วย...',
             callback: {
             	afterShow: function () {
-            		roleService.getByID($scope.selectedId).then(function (result) {
+            		RoleService.getByID($scope.selectedId).then(function (result) {
 						if (result.data.status == 200 && result.data.roles.length > 0) {
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
@@ -188,6 +197,15 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 								$("#edit_role_status_id").val(2);
 							} else {
 								$("#edit_role_status_id").val(0);	
+							}
+
+							// for backend pages
+							if ($scope.selectedroleObject.role_back != null && $scope.selectedroleObject.role_back.length > 0) {
+								var roles = $scope.selectedroleObject.role_back.split(',');
+
+								for (var i = 0; i < roles.length; i++) {
+									$(".role_" + roles[i]).prop('checked', true);
+								}
 							}
 						}
 						else {
@@ -216,15 +234,24 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	// END Edit Unit
 
 	// Update Unit
-	$scope.updaterole = function(id) {
+	$scope.updateRole = function(id) {
+		var roles_pages = [],
+			role_back_pages_string = "";
+		$('.edit_roles_back input[type="checkbox"]:checked').each(function() {
+			if (role_back_pages_string != '') {
+				role_back_pages_string += ',';
+			}
+	    	roles_pages.push($(this).val());
+	      	role_back_pages_string += $(this).val();
+	    });
+
 		var role_id = $.trim($("#edit_role_id").val()),
 			role_name = $.trim($("#edit_role_name").val()),
-			role_front = $("#edit_role_front").val(),
-			role_back = $("#edit_role_back").val(),
+			//role_front = $("#edit_role_front").val(),
 			role_status_id = $("#edit_role_status_id").val();
 
 		if (role_id != '' && role_name != '' && role_status_id != 999) {
-			roleService.updaterole(role_id, role_name, role_front, role_back, role_status_id).then(function (result) {
+			RoleService.updateRole(role_id, role_name, role_back_pages_string, role_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -283,7 +310,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	// END Update Unit
 
 	// Delete Unit
-	$scope.deleterole = function(id) {
+	$scope.deleteRole = function(id) {
 		var role_id = id,
 			role_status_id = 2;
 
@@ -317,7 +344,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    RoleService.deleterole(role_id, role_status_id).then(function (result) {
+                                    RoleService.deleteRole(role_id, role_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -388,11 +415,10 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
         });
 	};
 
-	this.addrole = function (role_name, role_front, role_back, role_status_id) {
+	this.addrole = function (role_name, role_back_pages_string, role_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_role.php', {
             'name' : role_name,
-            'role_front' : role_front,
-            'role_back' : role_back,
+            'role_back_pages_string' : role_back_pages_string,
             'status' : role_status_id,
         }, function(data, status) {
             return data;
@@ -408,19 +434,19 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
         });
 	};
 
-	this.updaterole = function (role_id, role_name, role_front, role_back, role_status_id) {
+	this.updateRole = function (role_id, role_name, role_back_pages_string, role_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_role.php', {
             'role_id' : role_id,
             'role_name' : role_name,
-            'role_front' : role_front,
-            'role_back' : role_back,
+            //'role_front' : role_front,
+            'role_back_pages_string' : role_back_pages_string,
             'role_status_id' : role_status_id,
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deleterole = function (role_id, role_status_id) {
+	this.deleteRole = function (role_id, role_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_role.php', {
             'role_id' : role_id,
             'role_status_id' : role_status_id,

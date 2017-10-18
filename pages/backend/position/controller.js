@@ -11,6 +11,8 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	$scope.listPositionObject = null;
 	$scope.selectedId = "";
 	$scope.selectedPositionObject = null;
+	$scope.listRolesObject = null;
+	$scope.selectedRolesObject = null;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
@@ -56,6 +58,44 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	// clear textbox value
 	$scope.loadAddPositionForm = function() {
 		$("#add_pos_name").val('');
+		$("#add_pos_id").val(999);
+
+		noty({
+	        type : 'alert',
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					PositionService.getAllRoles().then(function (result) {
+						if (result.data.status == 200 && result.data.roles.length > 0) {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							$scope.listRolesObject = result.data.roles;
+						}
+						else {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'ไม่พบข้อมูลหน่วย...',
+				                callback: {
+				                	afterClose: function () {
+				                		// ปิด noty
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
 	};
 
 	$scope.refreshList = function() {
@@ -96,7 +136,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	// Add Unit
 	$scope.addPosition = function() {
 		var pos_name = $.trim($("#add_pos_name").val()), // ตตัดspacebarทั้งหมด
-			pos_role_id = 1, //$("#add_position_role_id").val()
+			pos_role_id = $("#add_pos_role_id").val(), //$("#add_position_role_id").val()
 			pos_status_id = $("#add_pos_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
 		if (pos_name != ''&& pos_role_id != '' && pos_status_id != 999 ) {
@@ -165,6 +205,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	$scope.editPosition = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedPositionObject = null;
+		$scope.selectedRolesObject = null;
 
 		noty({
             type : 'alert',
@@ -179,6 +220,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 							$.noty.clearQueue(); $.noty.closeAll();
 
 							$scope.selectedPositionObject = result.data.positions[0];
+							$scope.selectedRolesObject = result.data.roles;
 
 							if ($scope.selectedPositionObject.pos_status_id == 1) {
 								$("#edit_pos_status_id").val(1);
@@ -187,6 +229,10 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 							} else {
 								$("#edit_pos_status_id").val(0);	
 							}
+
+							setTimeout(function() {
+								$("#edit_pos_role_id").val($scope.selectedPositionObject.pos_role_id);
+							}, 100);
 						}
 						else {
 							// ปิด noty
@@ -377,6 +423,13 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	// END Delete Unit
 }])
 .service('PositionService', ['$http', '$q',function ($http, $q) {
+
+	this.getAllRoles = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_role.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
 
 	this.getAllPosition = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_position.php', {

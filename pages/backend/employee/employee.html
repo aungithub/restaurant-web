@@ -30,7 +30,7 @@
         <td>{{obj.emp_firstname}}</td>
         <td>{{obj.emp_lastname}}</td>
         <td>{{obj.emp_user}}</td>
-        <td>{{obj.emp_pos_id}}</td>
+        <td>{{obj.emp_pos_name}}</td>
         <td>{{(obj.emp_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>  
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editEmployee(obj.emp_id)">Edit</button></td>
         <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteEmployee(obj.emp_id)">Delete</button></td>
@@ -62,14 +62,23 @@
           <div class="col-lg-3">
             <p>ชื่อ</p>
             <p>&nbsp;</p>
-             <p>นามสกุล</p>
+            <p>นามสกุล</p>
             <p>&nbsp;</p>
-             <p>รหัสบัตรประชาชน</p>
-             <p>&nbsp;</p>
-               <p> เบอร์โทรศัพท์</p>
+            <p>รหัสบัตรประชาชน</p>
+            <p>&nbsp;</p>
+            <p> เบอร์โทรศัพท์</p>
+            <p>&nbsp;</p>
+            <p> Username</p>
+            <p>&nbsp;</p>
+            <p> Password</p>
+            <p>&nbsp;</p>
+            <p> Confirm password</p>
+            <p>&nbsp;</p>
+            <p>ตำแหน่งงาน</p>
             <p>&nbsp;</p>
             <p>สถานะ</p>
           </div>
+
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
                 <input type="text" id="add_emp_firstname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
@@ -77,41 +86,61 @@
 
             <p>&nbsp;</p>
 
-             <div class="col-lg-9">
-          <div class="input-group input-group-sm fullwidth">
-              <input type="text" id="add_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
-          </div>
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
 
-             <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
 
-              <div class="col-lg-9">
-          <div class="input-group input-group-sm fullwidth">
-              <input type="text" id="add_emp_user" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
-          </div>
-          
-             <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
+
+            <p>&nbsp;</p>
+            
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
+
+            <p>&nbsp;</p>
+
+            
+            <div class="input-group input-group-sm fullwidth">
+                <input type="password" id="add_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
+
+            <p>&nbsp;</p>
+
+            
+            <div class="input-group input-group-sm fullwidth">
+                <input type="password" id="add_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
+        
+           <p>&nbsp;</p>
+
 
             <div class="btn-group" role="group">
-
-              <div class="btn-group" role="group">
-                <select class="form-control" id="add_emp_status_id">
-                  <option value="999">เลือกสถานะ</option>
-                  <option value="1">ใช้งาน</option>
-                  <option value="2">ไม่ใช้งาน</option>
-                </select>
-              </div>
-
-               <p>&nbsp;</p>
-
-               <div class="btn-group" role="group">
-                <select class="form-control" id="add_emp_status_id">
-                  <option value="999">เลือกสถานะ</option>
-                  <option value="1">ใช้งาน</option>
-                  <option value="2">ไม่ใช้งาน</option>
-                </select>
-              </div>
+              <select class="form-control" id="add_emp_position_id">
+                <option ng-repeat="obj in listPositionsObject" value="{{obj.pos_id}}">{{obj.pos_name}}</option>
+              </select>
             </div>
-          </div>
+
+             <p>&nbsp;</p>
+
+             <div class="btn-group" role="group">
+              <select class="form-control" id="add_emp_status_id">
+                <option value="999">เลือกสถานะ</option>
+                <option value="1">ใช้งาน</option>
+                <option value="2">ไม่ใช้งาน</option>
+              </select>
+            </div>
+            
         </div>
       </div>
       </div>
@@ -161,7 +190,7 @@
             <p>&nbsp;</p>
             <p>Password</p>
              <p>&nbsp;</p>
-            <p>Confirmpassword</p>
+            <p>Confirm password</p>
             <p>&nbsp;</p>
             <p>ตำแหน่งงาน</p>
             <p>&nbsp;</p>
@@ -189,32 +218,30 @@
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_emp_user" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_user}}">
+                <input type="text" id="edit_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_idcard}}">
             </div>
             <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_emp_pass" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_pass}}">
+                <input type="text" id="edit_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_user}}">
             </div>
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_emp_idcard" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_idcard}}">
+                <input type="text" id="edit_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
 
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_emp_idcard" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_idcard}}">
+                <input type="text" id="edit_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
 
             <p>&nbsp;</p>
 
             <div class="btn-group" role="group">
-              <select class="form-control" id="edit_emp_pos_id">
-                <option value="999">เลือกสถานะ</option>
-                <option value="1">ใช้งาน</option>
-                <option value="2">ไม่ใช้งาน</option>
+              <select class="form-control" id="edit_emp_position_id">
+                <option ng-repeat="obj in selectedPositionObject" value="{{obj.pos_id}}">{{obj.pos_name}}</option>
               </select>
             </div>
 

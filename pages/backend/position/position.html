@@ -72,8 +72,7 @@
 
               <div class="btn-group" role="group">
                 <select class="form-control" id="add_pos_role_id">
-                  <option value="999">เลือกสิทธิการใช้งาน</option>
-
+                  <option ng-repeat="obj in listRolesObject" value="{{obj.role_id}}">{{obj.role_name}}</option>
                 </select>
               </div>
             </div>
@@ -152,7 +151,7 @@
 
             <div class="btn-group" role="group">
               <select class="form-control" id="edit_pos_role_id">
-                <option value="999">เลือกสิทธิการใช้งาน</option>
+                <option ng-repeat="obj in selectedRolesObject" value="{{obj.role_id}}">{{obj.role_name}}</option>
               </select>
 
                <p>&nbsp;</p>

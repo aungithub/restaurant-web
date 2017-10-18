@@ -11,6 +11,8 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	$scope.listEmployeeObject = null;
 	$scope.selectedId = "swdcww";
 	$scope.selectedEmployeeObject = null;
+	$scope.selectedPositionObject = null;
+	$scope.listPositionsObject = null;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowLogout');
@@ -56,6 +58,49 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	// clear textbox value
 	$scope.loadAddEmployeeForm = function() {
 		$("#add_emp_firstname").val('');
+		$("#add_emp_lastname").val('');
+		$("#add_emp_card_id").val('');
+		$("#add_emp_username").val('');
+		$("#add_emp_password").val('');
+		$("#add_emp_confirm_password").val('');
+		$("#add_emp_position_id").val(999);
+
+		noty({
+	        type : 'alert',
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					EmployeeService.getAllPositions().then(function (result) {
+						if (result.data.status == 200 && result.data.positions.length > 0) {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							$scope.listPositionsObject = result.data.positions;
+						}
+						else {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'ไม่พบข้อมูลหน่วย...',
+				                callback: {
+				                	afterClose: function () {
+				                		// ปิด noty
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
 	};
 
 	$scope.refreshList = function() {
@@ -97,14 +142,34 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	$scope.addEmployee = function() {
 		var emp_firstname = $.trim($("#add_emp_firstname").val()), // ตตัดspacebarทั้งหมด
 			emp_lastname = $.trim($("#add_emp_lastname").val()), // ตตัดspacebarทั้งหมด
-			emp_user = $.trim($("#add_emp_user").val()), // ตตัดspacebarทั้งหมด
-			emp_pass = $.trim($("#add_emp_pass").val()), // ตตัดspacebarทั้งหมด
-			emp_idcard = $.trim($("#add_emp_idcard").val()), // ตตัดspacebarทั้งหมด
-			emp_emp_id = 1, //$("#add_position_role_id").val()
+			emp_username = $.trim($("#add_emp_username").val()), // ตตัดspacebarทั้งหมด
+			emp_password = $.trim($("#add_emp_password").val()), // ตตัดspacebarทั้งหมด
+			emp_confirm_password = $.trim($("#add_emp_confirm_password").val()), // ตตัดspacebarทั้งหมด
+			emp_card_id = $.trim($("#add_emp_card_id").val()), // ตตัดspacebarทั้งหมด
+			emp_position_id = $("#add_emp_position_id").val(), 
 			emp_status_id = $("#add_emp_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
-		if (emp_firstname != ''&& emp_lastname != '' && emp_user != '' && emp_pass != '' && emp_idcard != '' && emp_emp_id != '' && emp_status_id != 999 ) {
-			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(), $("#add_emp_user").val(), $("#add_emp_pass").val(),  $("#add_emp_idcard").val(), emp_status_id).then(function (result) {
+		if (emp_firstname != ''&& emp_lastname != '' && emp_username != '' && emp_password != '' && emp_card_id != '' && emp_position_id != '' && emp_status_id != 999 ) {
+			if (emp_password != emp_confirm_password) {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'รหัสผ่านและยืนยันรหัสผ่านไม่เหมือนกัน กรุณาตรวจสอบ',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+			}
+
+			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(), $("#add_emp_username").val(), $("#add_emp_password").val(),  $("#add_emp_card_id").val(), $("#add_emp_position_id").val(), emp_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -169,6 +234,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	$scope.editEmployee = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedEmployeeObject = null;
+		$scope.selectedPositionObject = null;
 
 		noty({
             type : 'alert',
@@ -183,6 +249,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 							$.noty.clearQueue(); $.noty.closeAll();
 
 							$scope.selectedEmployeeObject = result.data.employees[0];
+							$scope.selectedPositionObject = result.data.position;
 
 							if ($scope.selectedEmployeeObject.emp_status_id == 1) {
 								$("#edit_emp_status_id").val(1);
@@ -191,6 +258,10 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 							} else {
 								$("#edit_emp_status_id").val(0);	
 							}
+
+							setTimeout(function() {
+								$("#edit_emp_position_id").val($scope.selectedEmployeeObject.emp_pos_id);
+							}, 100);
 						}
 						else {
 							// ปิด noty
@@ -222,14 +293,35 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		var emp_id = $.trim($("#edit_emp_id").val()),
 			emp_firstname = $.trim($("#edit_emp_firstname").val()),
 			emp_lastname = $.trim($("#edit_emp_lastname").val()),
-			emp_user = $.trim($("#edit_emp_user").val()),
-			emp_pass = $.trim($("#edit_emp_pass").val()),
-			emp_idcard = $.trim($("#edit_emp_idcard").val()),
-			emp_emp_id = $("#edit_emp_pos_id").val(),
+			emp_username = $.trim($("#edit_emp_username").val()),
+			emp_password = $.trim($("#edit_emp_password").val()),
+			emp_confirm_password = $.trim($("#edit_emp_confirm_password").val()),
+			emp_card_id = $.trim($("#edit_emp_card_id").val()),
+			emp_position_id = $("#edit_emp_position_id").val(),
 			emp_status_id = $("#edit_emp_status_id").val();
 
-		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_user != '' && emp_pass != '' && emp_idcard != '' && emp_pos_id != '' && emp_status_id != 999) {
-			EmployeeService.updateEmployee(emp_id, emp_firstname, emp_lastname, emp_user, emp_pass, emp_idcard, emp_pos_id, emp_status_id).then(function (result) {
+		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_username != '' && emp_card_id != '' && emp_position_id != '' && emp_status_id != 999 && emp_position_id != null && emp_status_id != null) {
+			
+			if (emp_password != "" && $("#edit_emp_password").val() != $("#edit_emp_confirm_password").val()) {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'รหัสผ่านและยืนยันรหัสผ่านไม่เหมือนกัน กรุณาตรวจสอบ',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+			}
+
+			EmployeeService.updateEmployee(emp_id, $("#edit_emp_firstname").val(), $("#edit_emp_lastname").val(), $("#edit_emp_username").val(), $("#edit_emp_password").val(), $("#edit_emp_card_id").val(), emp_position_id, emp_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -386,6 +478,13 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 }])
 .service('EmployeeService', ['$http', '$q',function ($http, $q) {
 
+	this.getAllPositions = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_position.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
 	this.getAllEmployee = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_employee.php', {
         }, function(data, status) {
@@ -393,13 +492,13 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
-	this.addEmployee = function (emp_firstname, emp_lastname, emp_user, emp_pass, emp_idcard, emp_pos_id, emp_status_id) {
+	this.addEmployee = function (emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_pos_id, emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_employee.php', {
             'firstname' : emp_firstname,
             'lastname' : emp_lastname,
-            'user' : emp_user,
-            'pass' : emp_pass,
-            'idc' : emp_idcard,
+            'username' : emp_username,
+            'password' : emp_password,
+            'idc' : emp_card_id,
             'position' : emp_pos_id,
             'status' : emp_status_id,
         }, function(data, status) {
@@ -416,15 +515,15 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
-	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_user, emp_pass, emp_idcard, emp_pos_id, emp_status_id) {
+	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_position_id, emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
             'emp_id' : emp_id,
             'emp_firstname' : emp_firstname,
-            'pos_role_id' : emp_lastname,
-            'emp_status_id' : emp_user,
-            'emp_id' : emp_pass,
-            'emp_firstname' : emp_idcard,
-            'pos_role_id' : emp_pos_id,
+            'emp_lastname' : emp_lastname,
+            'emp_username' : emp_username,
+            'emp_password' : emp_password,
+            'emp_card_id' : emp_card_id,
+            'emp_position_id' : emp_position_id,
             'emp_status_id' : emp_status_id,
         }, function(data, status) {
             return data;
