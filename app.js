@@ -16,7 +16,8 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.admin_position',
 	'RESTAURANT.admin_table',
 	'RESTAURANT.admin_kind',
-	'RESTAURANT.admin_promotion'
+	'RESTAURANT.admin_promotion',
+	'RESTAURANT.admin_vendor'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	$locationProvider.hashPrefix('!');
@@ -93,6 +94,12 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		cache: false
 	});
 
+	$routeProvider.when('/backend/admin_vendor', {
+		templateUrl: 'pages/backend/vendor/vendor.html',
+		controller: 'VendorController',
+		cache: false
+	});
+
 	//$routeProvider.otherwise({redirectTo: '/backend/admin_login'});
 }])
 .run(['$rootScope', '$location', '$cookies', function($rootScope, $location, $cookies) {
@@ -118,5 +125,5 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	};
 
 	$rootScope.property = true;
-	$rootScope.adminFirstPage = '#!/backend/admin_unit'; // หน้าแรกหลังจาก Login
+	$rootScope.adminFirstPage = '#!/backend/admin_employee'; // หน้าแรกหลังจาก Login
 }]);

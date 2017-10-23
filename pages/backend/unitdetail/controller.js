@@ -13,7 +13,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 	$scope.selectedUnitdetailObject = null;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
-	$rootScope.$emit('IndexController.hideLoginShowLogout');
+	$rootScope.$emit('IndexController.hideLoginShowMenu');
 
 	// เช็คสิทธิ์สำหรับหน้าแรก
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
