@@ -15,9 +15,10 @@
     <thead>
     <tr>
         <th style="width: 8%;">รหัสเครื่องดื่ม</th>
-        <th style="width: 26%;">ชื่อเครื่องดื่ม</th>
-        <th style="width: 15%;">จำนวน</th>
-        <th style="width: 15%;">หน่วย</th>
+        <th style="width: 15%;">ชื่อเครื่องดื่ม</th>
+        <th style="width: 15%;">บริษัท</th>
+        <th style="width: 13%;">จำนวน</th>
+        <th style="width: 13%;">หน่วย</th>
         <th style="width: 10%;">ราคาต่อหน่วย</th>
         <th style="width: 10%;">สถานะ</th>
         <th style="width: 8%;">แก้ไข</th>
@@ -28,10 +29,11 @@
    <tr ng-repeat="obj in listDrinkObject">
           <th>{{obj.drink_id}}</th>
           <td>{{obj.drink_name}}</td>
+          <td>{{obj.vendor_name}}</td>
           <td>{{obj.drink_number}}</td> 
           <td>{{obj.unit_name}}</td>
           <td>{{obj.drink_price}}</td>
-          <td>{{obj.drink_status_id}}</td>
+          <td>{{(obj.drink_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>  
           
           <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editDrink(obj.drink_id)">Edit</button></td>
           <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteDrink(obj.drink_id)">Delete</button></td>
@@ -61,15 +63,19 @@
       </div>
       <!-- Header -->
 
-      <!-- Body -->
+      <!-- Body ช่องๆที่ให้กรอก-->
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-3">
             <p>ชื่อเครื่องดื่ม</p>
             <p>&nbsp;</p>
+            <p>บริษัท</p>
+             <p>&nbsp;</p>
             <p>จำนวน</p>
             <p>&nbsp;</p>
             <p>หน่วย</p> 
+            <p>&nbsp;</p>
+            <p>ราคาหน่วย</p> 
             <p>&nbsp;</p>
             <p>สถานะ</p>
           </div>
@@ -79,27 +85,41 @@
             </div> 
              </div>
 
+              <p>&nbsp;</p>
+
+            <div class="btn-group" role="group">
+              <select class="form-control" id="add_drink_vendor_id">
+                <option ng-repeat="obj in listVendorObject" value="{{obj.vendor_id}}">{{obj.vendor_name}}</option>
+              </select>
+            </div>
+
             <p>&nbsp;</p>
 
             <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_drink_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="text" id="add_drink_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
+         </div>
 
          
+           <p>&nbsp;</p>
+            <div class="btn-group" role="group">
+              <select class="form-control" id="add_drink_unit_id">
+                <option ng-repeat="obj in listUnitObject" value="{{obj.unit_id}}">{{obj.unit_name}}</option>
 
+              </select>
+            </div>
              <p>&nbsp;</p>
 
-            <div class="btn-group" role="group">
-
-              <div class="btn-group" role="group">
-                <select class="form-control" id="add_drink_status_id">
-                  <option value="999">เลือกสถานะ</option>
-                  <option value="1">ใช้งาน</option>
-                  <option value="2">ไม่ใช้งาน</option>
-                </select>
-              </div>
+         <div class="col-lg-9">
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_drink_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
+
+         </div>
+
+
+           
 
 
              <p>&nbsp;</p>
@@ -154,6 +174,8 @@
             <p>&nbsp;</p>
             <p>ชื่อเครื่องดื่ม</p>
             <p>&nbsp;</p>
+            <p>บริษัท</p>
+             <p>&nbsp;</p>
             <p>จำนวน</p>
             <p>&nbsp;</p>
             <p>หน่วย</p>
@@ -176,17 +198,23 @@
 
              <p>&nbsp;</p>
 
-            <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_drink_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedDrinkObject.drink_name}}">
+            <div class="btn-group" role="group">
+              <select class="form-control" id="edit_drink_vendor_id">
+                <option ng-repeat="obj in selectedVendorObject" value="{{obj.vendor_id}}">{{obj.vendor_name}}</option>
+              </select>
             </div>
 
-            <p>&nbsp;</p>
+             <p>&nbsp;</p>
+
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="edit_drink_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedDrinkObject.drink_number}}">
+            </div>
+
+             <p>&nbsp;</p>
 
             <div class="btn-group" role="group">
-              <select class="form-control" id="edit_drink_status_id">
-                <option value="999">เลือกสถานะ</option>
-                <option value="1">ใช้งาน</option>
-                <option value="2">ไม่ใช้งาน</option>
+              <select class="form-control" id="edit_drink_unit_id">
+                <option ng-repeat="obj in selectedUnitObject" value="{{obj.unit_id}}">{{obj.unit_name}}</option>
               </select>
             </div>
 

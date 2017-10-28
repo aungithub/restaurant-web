@@ -134,6 +134,41 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 		});
 	};
 
+	$scope.refreshList = function() {
+		noty({
+	        type : 'alert', // alert, success, warning, error, confirm
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					UnitdetailService.getAllUnitdetail().then(function (result) {
+						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+
+						if (result.data.status == 200) {
+							$scope.listUnitdetailObject = result.data.unitdetail;
+							$scope.$apply();
+						}
+						else {
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000, // 3 seconds
+				                text : result.data.message,
+				                callback: {
+				                	afterClose: function () {
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
+	}
+
 	// Add Unit
 	$scope.addUnitdetail = function() {
 		var primary_unit_id = $.trim($("#add_primary_unit_id").val()),
@@ -162,8 +197,8 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 		                		// refresh หน้าจอ
 		                		//location.reload();
 
-
-		                		$scope.getAllUnitdetails();
+		                		$scope.refreshList();
+		                		//$scope.getAllUnitdetails();
 
 		                	}
 		                }
@@ -291,7 +326,8 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 		                		$("#close_modal_edit").click()
 
 		                		// refresh หน้าจอ
-		                		$scope.getAllUnitdetails();
+		                		//$scope.getAllUnitdetails();
+		                		$scope.refreshList();
 		                	}
 		                }
 		            });
@@ -332,9 +368,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteUnitdetail = function(id) {
-		var unitdetail_id = id,
-			unitdetail_status_id = 2;
-
+		var unitdetail_id = id;
 		if (unitdetail_id != '') {
 			noty({
                 type : 'confirm',
@@ -365,7 +399,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    UnitdetailService.deleteUnitdetail(unitdetail_id, unitdetail_status_id).then(function (result) {
+                                    UnitdetailService.deleteUnitdetail(unitdetail_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -381,7 +415,8 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 								                		$.noty.clearQueue(); $.noty.closeAll();
 
 								                		// refresh หน้าจอ
-								                		$scope.getAllUnitdetails();
+								                		//location.reload();
+								                		$scope.refreshList();
 								                	}
 								                }
 								            });
@@ -476,10 +511,10 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
         });
 	};
 
-	this.deleteUnitdetail = function (unitdetail_id, unitdetail_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_unitdetail.php', {
+	this.deleteUnitdetail = function (unitdetail_id) {
+		return $http.post('http://localhost/restaurant-api/api_delete_unitdetail.php', {
             'unitdetail_id' : unitdetail_id,
-            'unitdetail_status_id' : unitdetail_status_id,
+           
         }, function(data, status) {
             return data;
         });

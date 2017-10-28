@@ -33,7 +33,7 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
 
 					if (result.data.status == 200) {
 						$scope.listVendorObject = result.data.vendors;
-						console.log($scope.listVendorObject)
+	
 					}
 					else {
 						noty({
@@ -289,9 +289,7 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteVendor = function(id) {
-		var vendor_id = id,
-			vendor_status_id = 2;
-
+		var vendor_id = id;
 		if (vendor_id != '') {
 			noty({
                 type : 'confirm',
@@ -322,7 +320,7 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    VendorService.deleteVendor(vendor_id, vendor_status_id).then(function (result) {
+                                    VendorService.deleteVendor(vendor_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -425,10 +423,10 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
         });
 	};
 
-	this.deleteVendor = function (vendor_id, vendor_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_vendor.php', {
+	this.deleteVendor = function (vendor_id) {
+		return $http.post('http://localhost/restaurant-api/api_delete_vendor.php', {
             'id' : vendor_id,
-            'status' : vendor_status_id,
+           
         }, function(data, status) {
             return data;
         });

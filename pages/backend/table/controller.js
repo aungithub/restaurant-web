@@ -72,7 +72,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.listTableObject = result.data.tables;
-							$scope.apply(function(){});
+								$scope.$apply();
 						}
 						else {
 							noty({
@@ -96,11 +96,11 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 
 	// Add Unit
 	$scope.addTable = function() {
-		var table_number = $.trim($("#edit_table_number").val()), // ตตัดspacebarทั้งหมด
-			table_status_id = $("#edit_table_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
+		var table_number = $.trim($("#add_table_number").val()), // ตตัดspacebarทั้งหมด
+			table_status_id = $("#add_table_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
 		if (table_number != '' && table_status_id != 999 ) {
-			TableService.addTable($("#edit_table_number").val(), table_status_id).then(function (result) {
+			TableService.addTable($("#add_table_number").val(), table_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -281,8 +281,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteTable = function(id) {
-		var table_id = id,
-			table_status_id = 2;
+		var table_id = id;
 
 		if (table_id != '') {
 			noty({
@@ -314,7 +313,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    TableService.deleteTable(table_id, table_status_id).then(function (result) {
+                                    TableService.deleteTable(table_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -385,7 +384,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
         });
 	};
 
-	this.addTable = function (Table_name, table_status_id) {
+	this.addTable = function (table_number, table_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_table.php', {
             'number' : table_number,
             'status' : table_status_id,
@@ -403,7 +402,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
         });
 	};
 
-	this.updateTable = function (Table_id, Table_name, table_status_id) {
+	this.updateTable = function (table_id, table_number, table_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_table.php', {
             'table_id' : table_id,
             'table_number' : table_number,
@@ -413,10 +412,10 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
         });
 	};
 
-	this.deleteTable = function (Table_id, table_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_table.php', {
+	this.deleteTable = function (table_id) {
+		return $http.post('http://localhost/restaurant-api/api_delete_table.php', {
             'table_id' : table_id,
-            'table_status_id' : table_status_id,
+           
         }, function(data, status) {
             return data;
         });

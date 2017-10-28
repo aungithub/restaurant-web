@@ -11,6 +11,10 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	$scope.listDrinkObject = null;
 	$scope.selectedId = "";
 	$scope.selectedDrinkObject = null;
+	$scope.selectedUnitObject = null;
+	$scope.listUnitObject = null;
+	$scope.selectedVendorObject = null;
+	$scope.listVendorObject = null;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
@@ -33,7 +37,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 					if (result.data.status == 200) {
 						$scope.listDrinkObject = result.data.drink;
-						console.log($scope.listDrinkObject);
+						//console.log(listDrinkObject);
 					}
 					else {
 						noty({
@@ -57,6 +61,80 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	// clear textbox value
 	$scope.loadAddDrinkForm = function() {
 		$("#add_drink_name").val('');
+		$("#add_drink_vendor_id").val('');
+		$("#add_drink_number").val('');
+		$("#add_drink_unit_id").val('');
+		$("#add_drink_price").val('');
+		$("#add_drink_status_id").val(999);
+		
+		
+
+		noty({
+	        type : 'alert',
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					DrinkService.getAllUnit().then(function (result) {
+						if (result.data.status == 200 && result.data.unit.length > 0 ) {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							$scope.listUnitObject = result.data.unit;
+							
+						}
+						else {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'ไม่พบข้อมูลหน่วย...',
+				                callback: {
+				                	afterClose: function () {
+				                		// ปิด noty
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+
+					DrinkService.getAllVendor().then(function (result) {
+						if (result.data.status == 200  ) {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+						
+							$scope.listVendorObject = result.data.vendors;
+							
+						}
+						else {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'ไม่พบข้อมูลบริษัท...',
+				                callback: {
+				                	afterClose: function () {
+				                		// ปิด noty
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
 	};
 
 	$scope.refreshList = function() {
@@ -69,10 +147,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	        	afterShow: function () {
 					DrinkService.getAllDrink().then(function (result) {
 						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
-
 						if (result.data.status == 200) {
 							$scope.listDrinkObject = result.data.drink;
-							$scope.apply(function(){});
+							//$scope.apply();
 						}
 						else {
 							noty({
@@ -97,13 +174,15 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	// Add Unit
 	$scope.addDrink = function() {
 		var drink_name = $.trim($("#add_drink_name").val()), // ตตัดspacebarทั้งหมด
-			drink_number = 1, //$("#add_position_role_id").val()
-			drink_price = $("#add_drink_price").val();//ดึงค่าจากselectมาไว้ในตัแปล
-			drink_status_id = 1, //$("#add_position_role_id").val()
-			drink_unit_id = $("#add_drink_unit_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
+			drink_vendor_id = $("#add_drink_vendor_id").val(),
+			drink_number = $("#add_drink_number").val(),
+			drink_unit_id = $("#add_drink_unit_id").val(),//ดึงค่าจากselectมาไว้ในตัแปล
+			drink_price = $("#add_drink_price").val(),//ดึงค่าจากselectมาไว้ในตัแปล
+			drink_status_id = $("#add_drink_status_id").val();
+			
 
-		if (drink_name != '' && drink_number != '' && drink_price != '' && drink_status_id != '' && drink_unit_id != 999 ) {
-			DrinkService.addDrink($("#add_drink_name").val(), drink_number, drink_price, drink_status_id, drink_unit_id).then(function (result) {
+		if (drink_name != '' && drink_vendor_id != '' && drink_number != '' && drink_unit_id != '' && drink_price != '' && drink_status_id != 999 ) {
+			DrinkService.addDrink($("#add_drink_name").val(), drink_vendor_id, drink_number, drink_unit_id, drink_price, drink_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -168,6 +247,8 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	$scope.editDrink = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedDrinkObject = null;
+		$scope.selectedUnitObject = null;
+		$scope.selectedVendorObject = null;
 
 		noty({
             type : 'alert',
@@ -182,6 +263,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 							$.noty.clearQueue(); $.noty.closeAll();
 
 							$scope.selectedDrinkObject = result.data.drink[0];
+							$scope.selectedUnitObject = result.data.unit;
+							$scope.selectedVendorObject = result.data.vendor;
+
 
 							if ($scope.selectedDrinkObject.drink_status_id == 1) {
 								$("#edit_drink_status_id").val(1);
@@ -190,6 +274,10 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 							} else {
 								$("#edit_drink_status_id").val(0);	
 							}
+							setTimeout(function() {
+								$("#edit_drink_unit_id").val($scope.selectedDrinkObject.drink_unit_id);
+								$("#edit_drink_vendor_id").val($scope.selectedDrinkObject.drink_vendor_id);
+							}, 100);
 						}
 						else {
 							// ปิด noty
@@ -220,13 +308,15 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	$scope.updateDrink = function(id) {
 		var drink_id = $.trim($("#edit_drink_id").val()),
 			drink_name = $.trim($("#edit_drink_name").val()),
+			drink_vendor_id = $("#edit_drink_vendor_id").val(),
 			drink_number = $("#edit_drink_number").val(),
-			drink_price = $("#edit_drink_price").val();
-			drink_status_id = $("#edit_drink_status_id").val(),
-			drink_unit_id = $("#edit_drink_unit_id").val();
+			drink_unit_id = $("#edit_drink_unit_id").val(),
+			drink_price = $("#edit_drink_price").val(),
+			drink_status_id = $("#edit_drink_status_id").val();
+			
 
-		if (drink_id != '' && drink_name != '' && drink_number != '' && drink_price != '' && drink_status_id != '' && drink_unit_id != 999) {
-			DrinkService.updateDrink(drink_id, drink_name, drink_number, drink_price, drink_status_id, drink_unit_id).then(function (result) {
+		if (drink_id != '' && drink_name != '' && drink_vendor_id != '' && drink_number != ''  && drink_unit_id != '' && drink_price != '' && drink_status_id != 999) {
+			DrinkService.updateDrink(drink_id, drink_name,drink_vendor_id, drink_number, drink_unit_id, drink_price, drink_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -286,8 +376,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteDrink = function(id) {
-		var drink_id = id,
-			drink_status_id = 2;
+		var drink_id = id;
 
 		if (drink_id != '') {
 			noty({
@@ -319,7 +408,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    DrinkService.deleteDrink(drink_id, drink_status_id).then(function (result) {
+                                    DrinkService.deleteDrink(drink_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -383,6 +472,21 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 }])
 .service('DrinkService', ['$http', '$q',function ($http, $q) {
 
+	this.getAllUnit = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_unit.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+
+	this.getAllVendor = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_vendor.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
 	this.getAllDrink = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_drink.php', {
         }, function(data, status) {
@@ -390,13 +494,15 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-	this.addDrink = function (drink_name, drink_number, drink_price, drink_status_id, drink_unit_id) {
+	this.addDrink = function (drink_name, drink_vendor_id, drink_number, drink_unit_id, drink_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_drink.php', {
-            'name' : drink_name,
-            'number' : drink_number,
-            'price' : drink_price,
-             'status' : drink_status_id,
-            'unit' : drink_unit_id,
+            'drink_name' : drink_name,
+            'drink_vendor_id' : drink_vendor_id,
+             'drink_number' : drink_number,
+             'drink_unit_id' : drink_unit_id,
+            'drink_price' : drink_price,
+             'drink_status_id' : drink_status_id,
+           
             
         }, function(data, status) {
             return data;
@@ -412,23 +518,25 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-	this.updateDrink = function (drink_id, drink_name, drink_number, drink_price, drink_status_id, drink_unit_id) {
+	this.updateDrink = function (drink_id, drink_name, drink_vendor_id, drink_number, drink_unit_id, drink_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
-             'drink_id' : drink_id,
-             'drink_name' : drink_name,
-            'drink_number' : drink_number,
-            'drink_price' : drink_price,
-             'drink_status_id' : drink_status_id,
+            'drink_id' : drink_id,
+            'drink_name' : drink_name,
+            'drink_vendor_id' : drink_vendor_id,
+            'drink_number' : drink_number, 
             'drink_unit_id' : drink_unit_id,
+            'drink_price' : drink_price,
+            'drink_status_id' : drink_status_id,
+           
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deleteDrink = function (drink_id, drink_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
+	this.deleteDrink = function (drink_id) {
+		return $http.post('http://localhost/restaurant-api/api_delete_drink.php', {
             'drink_id' : drink_id,
-            'drink_status_id' : drink_status_id,
+          
         }, function(data, status) {
             return data;
         });

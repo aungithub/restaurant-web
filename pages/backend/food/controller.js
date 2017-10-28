@@ -11,6 +11,8 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 	$scope.listFoodObject = null;
 	$scope.selectedId = "";
 	$scope.selectedFoodObject = null;
+	$scope.selectedKindObject = null;
+	$scope.listKindObject = null;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
@@ -56,6 +58,47 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 	// clear textbox value
 	$scope.loadAddFoodForm = function() {
 		$("#add_food_name").val('');
+		$("#add_food_kind_id").val('');
+		$("#add_food_price").val('');
+		$("#add_food_status_id").val(999);
+	
+		
+	noty({
+	        type : 'alert',
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					FoodService.getAllKind().then(function (result) {
+						if (result.data.status == 200 && result.data.kind.length > 0) {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							$scope.listKindObject = result.data.kind;
+						}
+						else {
+							// ปิด noty
+							$.noty.clearQueue(); $.noty.closeAll();
+
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'ไม่พบข้อมูลหน่วย...',
+				                callback: {
+				                	afterClose: function () {
+				                		// ปิด noty
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
 	};
 
 	$scope.refreshList = function() {
@@ -71,8 +114,8 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.listFoodObject = result.data.food;
-							$scope.apply(function(){});
-						}
+							$scope.apply();
+									}
 						else {
 							noty({
 				                type : 'warning',
@@ -96,12 +139,12 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 	// Add Unit
 	$scope.addFood = function() {
 		var food_name = $.trim($("#add_food_name").val()), // ตตัดspacebarทั้งหมด
-			food_price = $("#add_food_price").val(),
 			food_kind_id = $("#add_food_kind_id").val(),
+			food_price = $("#add_food_price").val(),
 			food_status_id = $("#add_food_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
-		if (food_name != '' && food_price != '' && food_kind_id != '' && food_status_id != 999 ) {
-			FoodService.addFood($("#add_food_name").val(), food_price , food_kind_id, food_status_id).then(function (result) {
+		if (food_name != '' && food_kind_id != '' && food_price != ''  && food_status_id != 999 ) {
+			FoodService.addFood($("#add_food_name").val(), food_kind_id, food_price , food_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -166,6 +209,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 	$scope.editFood = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedFoodObject = null;
+		$scope.selectedKindObject = null;
 
 		noty({
             type : 'alert',
@@ -180,7 +224,8 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 							$.noty.clearQueue(); $.noty.closeAll();
 
 							$scope.selectedFoodObject = result.data.food[0];
-
+							$scope.selectedKindObject = result.data.kind;
+					
 							if ($scope.selectedFoodObject.food_status_id == 1) {
 								$("#edit_food_status_id").val(1);
 							} else if ($scope.selectedFoodObject.food_status_id == 2) {
@@ -188,6 +233,9 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 							} else {
 								$("#edit_food_status_id").val(0);	
 							}
+						setTimeout(function() {
+								$("#edit_food_kind_id").val($scope.selectedFoodObject.food_kind_id);
+							}, 100);
 						}
 						else {
 							// ปิด noty
@@ -218,12 +266,12 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 	$scope.updateFood = function(id) {
 		var food_id = $.trim($("#edit_food_id").val()),
 			food_name = $.trim($("#edit_food_name").val()),
+			food_kind_id = $("#edit_food_kind_id").val(),
 			food_price = $("#edit_food_price").val(),
-			food_kind_id = $("#edit_food_kind_id").val();
 			food_status_id = $("#edit_food_status_id").val();
 
-		if (food_id != '' && food_name != '' && food_price != '' && food_kind_id != '' && food_status_id != 999) {
-			FoodService.updateFood(food_id, food_name, food_price, food_kind_id, food_status_id ).then(function (result) {
+		if (food_id != '' && food_name != '' && food_kind_id != '' && food_price != ''  && food_status_id != 999) {
+			FoodService.updateFood(food_id, food_name, food_kind_id, food_price, food_status_id ).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -283,8 +331,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteFood = function(id) {
-		var food_id = id,
-			food_status_id = 2;
+		var food_id = id;
 
 		if (food_id != '') {
 			noty({
@@ -316,7 +363,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    FoodService.deleteFood(food_id, food_status_id).then(function (result) {
+                                    FoodService.deleteFood(food_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -380,6 +427,13 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 }])
 .service('FoodService', ['$http', '$q',function ($http, $q) {
 
+	this.getAllKind = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_kind.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
 	this.getAllFood = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_food.php', {
         }, function(data, status) {
@@ -387,12 +441,13 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
         });
 	};
 
-	this.addFood = function (food_name, food_price, food_kind_id, food_status_id) {
+	this.addFood = function (food_name, food_kind_id, food_price, food_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_food.php', {
-            'name' : food_name,
-            'price' : food_price,
-            'kind' : food_kind_id,
-            'status' : food_status_id,
+            'food_name' : food_name, 
+            'food_kind_id' : food_kind_id,
+            'food_price' : food_price,
+   
+            'food_status_id' : food_status_id,
         }, function(data, status) {
             return data;
         });
@@ -407,22 +462,22 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
         });
 	};
 
-	this.updateFood = function (food_id, food_name, food_price, food_kind_id, food_status_id) {
+	this.updateFood = function (food_id, food_name, food_kind_id, food_price, food_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_food.php', {
             'food_id' : food_id,
-            'food_name' : food_name,
-            'food_price' : food_price,
+            'food_name' : food_name, 
             'food_kind_id' : food_kind_id,
+            'food_price' : food_price,
+           
             'food_status_id' : food_status_id,
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deleteFood = function (food_id, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_food.php', {
+	this.deleteFood = function (food_id) {
+		return $http.post('http://localhost/restaurant-api/api_delete_food.php', {
             'food_id' : food_id,
-            'food_status_id' : food_status_id,
         }, function(data, status) {
             return data;
         });

@@ -381,8 +381,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteEmployee = function(id) {
-		var emp_id = id,
-			emp_status_id = 2;
+		var emp_id = id;
 
 		if (emp_id != '') {
 			noty({
@@ -414,7 +413,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    EmployeeService.deleteEmployee(emp_id, emp_status_id).then(function (result) {
+                                    EmployeeService.deleteEmployee(emp_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -530,16 +529,10 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
-	this.deleteEmployee = function (emp_id, emp_firstname, emp_lastname, emp_user, emp_pass, emp_idcard, emp_pos_id, emp_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
+	this.deleteEmployee = function (emp_id) {
+		return $http.post('http://localhost/restaurant-api/api_delete_employee.php', {
             'emp_id' : emp_id,
-            'emp_firstname' : emp_firstname,
-            'pos_role_id' : emp_lastname,
-            'emp_status_id' : emp_user,
-            'emp_id' : emp_pass,
-            'emp_firstname' : emp_idcard,
-            'pos_role_id' : emp_pos_id,
-            'emp_status_id' : emp_status_id,
+           
         }, function(data, status) {
             return data;
         });

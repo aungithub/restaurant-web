@@ -214,7 +214,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 	// END Edit Unit
 
 	// Update Unit
-	console.log($scope.updateKind);
+	
 	$scope.updateKind = function(id) {
 		var kind_id = $.trim($("#edit_kind_id").val()),
 			kind_name = $.trim($("#edit_kind_name").val()),
@@ -281,8 +281,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteKind = function(id) {
-		var kind_id = id,
-			kind_status = 2;
+		var kind_id = id;
 
 		if (kind_id != '') {
 			noty({
@@ -314,7 +313,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    KindService.deleteKind(kind_id, kind_status).then(function (result) {
+                                    KindService.deleteKind(kind_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -414,9 +413,9 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 	};
 
 	this.deleteKind = function (kind_id, kind_status) {
-		return $http.post('http://localhost/restaurant-api/api_update_kind.php', {
+		return $http.post('http://localhost/restaurant-api/api_delete_kind.php', {
             'kind_id' : kind_id,
-            'kind_status' : kind_status,
+           
         }, function(data, status) {
             return data;
         });

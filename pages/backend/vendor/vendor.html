@@ -15,7 +15,10 @@
     <thead>
     <tr>
         <th style="width: 15%;">รหัสบริษัทคู่ค้า</th>
-        <th style="width: 40%;">ชื่อบริษัทคู่ค้า</th>
+        <th style="width: 20%;">ชื่อบริษัทคู่ค้า</th>
+         <th style="width: 15%;">เบอร์ติดต่อ</th>
+        <th style="width: 24%;">ที่อยู่</th>
+        <th style="width: 10%;">สถานะ</th>
         <th style="width: 8%;">แก้ไข</th>
         <th style="width: 8%;">ลบ</th>
     </tr>
@@ -24,6 +27,9 @@
     <tr ng-repeat="obj in listVendorObject">
         <th >{{obj.vendor_id}}</th>
         <td>{{obj.vendor_name}}</td>
+         <th >{{obj.vendor_tel}}</th>
+        <td>{{obj.vendor_address}}</td>
+         <td>{{(obj.vendor_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editVendor(obj.vendor_id)">Edit</button></td>
         <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteVendor(obj.vendor_id)">Delete</button></td>
     </tr>
