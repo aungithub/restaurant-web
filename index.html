@@ -4,6 +4,7 @@
 <!--[if IE 8]>         <html lang="en" ng-app="RESTAURANT" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en" ng-app="RESTAURANT" class="no-js"> <!--<![endif]-->
 <head>
+<base href="/">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv='cache-control' content='no-cache'>
@@ -14,43 +15,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- jquery -->
-  <script src="library/jquery/jquery-3.2.1.js"></script>
+  <script src="restaurant-web/library/jquery/jquery-3.2.1.js"></script>
   <!-- jquery -->
 
-  <script src="library/noty/jquery.noty.js"></script>
-  <script src="library/noty/layouts/top.js"></script>
-  <script src="library/noty/layouts/topCenter.js"></script>
-  <script src="library/noty/themes/default.js"></script>
+  <script src="restaurant-web/library/noty/jquery.noty.js"></script>
+  <script src="restaurant-web/library/noty/layouts/top.js"></script>
+  <script src="restaurant-web/library/noty/layouts/topCenter.js"></script>
+  <script src="restaurant-web/library/noty/themes/default.js"></script>
+  <script src="restaurant-web/library/bootstrap/js/bootstrap.min.js"></script>
+  <script src="restaurant-web/library/moment/min/moment.min.js"></script>
+  <script src="restaurant-web/library/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="library/bootstrap/css/bootstrap.min.css">
-  <script src="library/bootstrap/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="restaurant-web/library/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="restaurant-web/library/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
   <!-- Bootstrap -->
 
-  <link rel="stylesheet" href="app.css?ts=2555555">
+  <link rel="stylesheet" href="restaurant-web/app.css?ts=2555555">
 
   <!-- AngularJS -->
-  <script src="library/angular/angular.min.js"></script>
-  <script src="library/angular/angular-route.min.js"></script>
-  <script src="library/angular/angular-cookies.min.js"></script>
+  <script src="restaurant-web/library/angular/angular.min.js"></script>
+  <script src="restaurant-web/library/angular/angular-route.min.js"></script>
+  <script src="restaurant-web/library/angular/angular-cookies.min.js"></script>
   <!-- AngularJS -->
 
   <!-- App -->
-  <script src="app.js?ts=2555555"></script>
-  <script src="pages/index.js?ts=2555555"></script>
-  <script src="pages/backend/login/controller.js?ts=2555555"></script>
-  <script src="pages/backend/home/controller.js?ts=2555555"></script>
-  <script src="pages/backend/unit/controller.js?ts=2555555"></script>
-  <script src="pages/backend/employee/controller.js?ts=2555555"></script>
-  <script src="pages/backend/role/controller.js?ts=2555555"></script>
-  <script src="pages/backend/food/controller.js?ts=2555555"></script>
-  <script src="pages/backend/drink/controller.js?ts=2555555"></script>
-  <script src="pages/backend/unitdetail/controller.js?ts=2555555"></script>
-  <script src="pages/backend/position/controller.js?ts=2555555"></script>
-  <script src="pages/backend/table/controller.js?ts=2555555"></script>
-  <script src="pages/backend/kind/controller.js?ts=2555555"></script>
-  <script src="pages/backend/promotion/controller.js?ts=2555555"></script>
-  <script src="pages/backend/vendor/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/app.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/index.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/login/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/home/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/unit/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/employee/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/role/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/food/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/drink/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/unitdetail/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/position/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/table/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/kind/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/promotion/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/vendor/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/drink_po/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/drink_po_print/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/backend/drink_po_receipt/controller.js?ts=2555555"></script>
   <!-- App -->
 
   </head>
@@ -65,38 +72,42 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#!/backend/admin_login">หน้าแรก</a>
+          <a class="navbar-brand" href="restaurant-web/#/backend/admin_login">หน้าแรก</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
           <ul class="nav navbar-nav navbar-left">
           
-            <li><a href="#!/backend/admin_employee" ng-show="privacyAccess.indexOf('admin_employee') != -1">พนักงาน</a></li>
+            <li><a href="restaurant-web/#/backend/admin_employee" ng-show="privacyAccess.indexOf('admin_employee') != -1">พนักงาน</a></li>
 
-            <li><a href="#!/backend/admin_position" ng-show="privacyAccess.indexOf('admin_position') != -1">ตำแหน่งงาน</a></li>
+            <li><a href="restaurant-web/#/backend/admin_position" ng-show="privacyAccess.indexOf('admin_position') != -1">ตำแหน่งงาน</a></li>
 
-            <li><a href="#!/backend/admin_role" ng-show="privacyAccess.indexOf('admin_role') != -1">สิทธิ์การใช้งาน</a></li>
+            <li><a href="restaurant-web/#/backend/admin_role" ng-show="privacyAccess.indexOf('admin_role') != -1">สิทธิ์การใช้งาน</a></li>
 
-            <li><a href="#!/backend/admin_food" ng-show="privacyAccess.indexOf('admin_food') != -1">อาหาร</a></li>
+            <li><a href="restaurant-web/#/backend/admin_food" ng-show="privacyAccess.indexOf('admin_food') != -1">อาหาร</a></li>
 
-            <li><a href="#!/backend/admin_drink" ng-show="privacyAccess.indexOf('admin_drink') != -1">เครื่องดื่ม</a></li>
+            <li><a href="restaurant-web/#/backend/admin_drink" ng-show="privacyAccess.indexOf('admin_drink') != -1">เครื่องดื่ม <label ng-show="drinkNoti > 0" style="color: red;">(แจ้งเตือน)</label></a></li>
 
-            <li><a href="#!/backend/admin_kind" ng-show="privacyAccess.indexOf('admin_kind') != -1">ประเภท</a></li>
+            <li><a href="restaurant-web/#/backend/admin_kind" ng-show="privacyAccess.indexOf('admin_kind') != -1">ประเภท</a></li>
 
-            <li><a href="#!/backend/admin_unit" ng-show="privacyAccess.indexOf('admin_unit') != -1">หน่วยหลัก</a></li>
+            <li><a href="restaurant-web/#/backend/admin_unit" ng-show="privacyAccess.indexOf('admin_unit') != -1">หน่วยหลัก</a></li>
 
-            <li><a href="#!/backend/admin_unitdetail" ng-show="privacyAccess.indexOf('admin_unitdetail') != -1">การแปลงหน่วย</a></li>
+            <li><a href="restaurant-web/#/backend/admin_unitdetail" ng-show="privacyAccess.indexOf('admin_unitdetail') != -1">การแปลงหน่วย</a></li>
 
-            <li><a href="#!/backend/admin_promotion" ng-show="privacyAccess.indexOf('admin_promotion') != -1">โปรโมชั่น</a></li>
+            <li><a href="restaurant-web/#/backend/admin_promotion" ng-show="privacyAccess.indexOf('admin_promotion') != -1">โปรโมชั่น</a></li>
 
-            <li><a href="#!/backend/admin_table" ng-show="privacyAccess.indexOf('admin_table') != -1">โต๊ะ</a></li>
+            <li><a href="restaurant-web/#/backend/admin_table" ng-show="privacyAccess.indexOf('admin_table') != -1">โต๊ะ</a></li>
 
-            <li><a href="#!/backend/admin_vendor" ng-show="privacyAccess.indexOf('admin_vendor') != -1">บริษัทคู่ค้า</a></li>
+            <li><a href="restaurant-web/#/backend/admin_vendor" ng-show="privacyAccess.indexOf('admin_vendor') != -1">บริษัทคู่ค้า</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_drink_po" ng-show="privacyAccess.indexOf('admin_drink_po') != -1">รายการสั่งซื้อ <label ng-show="newDrinkPO > 0" style="color: red;">({{newDrinkPO}})</label></a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_drink_po_receipt" ng-show="privacyAccess.indexOf('admin_drink_po_receipt') != -1">รายการรับ <label ng-show="newDrinkPOReceipt > 0" id="noti_receipt" style="color: red;">({{newDrinkPOReceipt}})</label></a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#!/backend/admin_login" ng-show="isLoggedIn == false">เข้าสู่ระบบ</a></li>
+            <li><a href="restaurant-web/#/backend/admin_login" ng-show="isLoggedIn == false">เข้าสู่ระบบ</a></li>
             <li><a ng-click="logout()" ng-show="isLoggedIn != false">ออกจากระบบ</a></li>
           </ul>
 

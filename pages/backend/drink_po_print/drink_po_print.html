@@ -1,0 +1,84 @@
+<center>
+  <div class="panel panel-default" style="width: 90%">
+    <div class="panel-heading">
+      <h1 class="panel-title" style="text-align: center;">ร้านครัวคุณหมู</h1>
+    </div>
+    <div class="panel-body">
+      <center>
+        <br/>
+        <p>19/120 ต.ตลาดขวัญ อ.เมือง จ.นนทบุรี 10580</p>
+        <p>โทร 02-456-8870 email: khunmoo@gmail.com</p>
+        <br/>
+        <h4 style="text-decoration: underline;">ใบสั่งซื้อ</h4>
+      </center>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-md-6" style="text-align: left;">
+          <p>ผู้ขาย : {{listDrinkPOObject[0].vendor_name}}</p>
+          <p>ที่อยู่ : {{listDrinkPOObject[0].vendor_address}}</p>
+          <p>เบอร์โทรศัพท์: {{listDrinkPOObject[0].vendor_tel}}</p>
+        </div>
+        <div class="col-md-6" style="text-align: left;">
+          <p>วันที่ : {{listDrinkPOObject[0].dp_date}}</p>
+          <p>เลขที่ : {{listDrinkPOObject[0].dp_id}}</p>
+          <p>การชำระเงิน : ชำระเงินภายใน 30 วัน</p>
+          <p>กำหนดส่งของ : </p>
+        </div>
+      </div>
+
+      <table class="table table-bordered " >
+        <thead>
+          <tr>
+              <th style="width: 15%;">ลำดับ</th>
+              <th style="width: 40%;">รายการ</th>
+              <th style="width: 8%;">จำนวน</th>
+              <th style="width: 8%;">หน่วย</th>
+              <th style="width: 8%;">ราคา/หน่วย</th>
+              <th style="width: 8%;">ราคารวม</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="obj in listDrinkPOObject">
+              <th>{{$index+1}}</th>
+              <td>{{obj.drink_name}}</td>
+              <td>{{obj.dpd_number}}</td>
+              <td>{{obj.unit_name}}</td>
+              <td>{{obj.dpd_unit_price}}</td>
+              <td>{{obj.dpd_number * obj.dpd_unit_price}}</td>
+          </tr>
+          <tr>
+              <td colspan="2"></td>
+              <td colspan="2">ราคารวมทั้งหมด</td>
+              <td colspan="2" style="text-align: center;">{{total_price}}</td>
+          </tr>
+          <tr>
+              <td colspan="2"></td>
+              <td colspan="2">ภาษีมูลค่าเพิ่ม 7%</td>
+              <td colspan="2" style="text-align: center;">{{total_price * 0.07 | number : 2}}</td>
+          </tr>
+          <tr>
+              <td colspan="2"></td>
+              <td colspan="2">รวมสุทธิ</td>
+              <td colspan="2" style="text-align: center;">{{total_price + (total_price * 0.07) | number : 2}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-md-6" style="text-align: left;">
+          <p>ผู้สั่งซื้อ ___________________________</p>
+          <p style="margin-left: 42px;">________/_________/_________</p>
+        </div>
+        <div class="col-md-6" style="text-align: right;">
+          <p>ผู้สั่งอนุมัติ ___________________________</p>
+          <p style="margin-left: 60px;">________/_________/_________</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</center>

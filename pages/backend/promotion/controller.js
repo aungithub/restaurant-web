@@ -8,12 +8,15 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
 	$rootScope.loadCookies();
 
+	$('.datepicker').datetimepicker();
+
 	$scope.listPromotionObject = null;
 	$scope.selectedId = "";
 	$scope.selectedPromotionObject = null;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
+	$rootScope.getAllNotification();
 
 	// เช็คสิทธิ์
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {

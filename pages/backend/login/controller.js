@@ -63,6 +63,8 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
                 				
                 				$cookies.put('isLoggedIn', true);
                 				$cookies.put('privacyAccess', $rootScope.privacyAccess);
+                				$cookies.put('empID', result.data.emp_id);
+                				$cookies.put('empPosID', result.data.emp_pos_id);
 
 								noty({
 					                type : 'success',

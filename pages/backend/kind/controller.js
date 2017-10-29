@@ -15,6 +15,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
+	$rootScope.getAllNotification();
 
 	// เช็คสิทธิ์
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {

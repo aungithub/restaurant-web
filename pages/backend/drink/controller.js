@@ -18,8 +18,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
+	$rootScope.getAllNotification();
 
-	// เช็คสิทธิ์
+	// เช็คสิทธิ์สำหรับหน้าแรก
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
 		$location.path('/backend/admin_login');
 	}
@@ -537,6 +538,13 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		return $http.post('http://localhost/restaurant-api/api_delete_drink.php', {
             'drink_id' : drink_id,
           
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getDrinkNoti = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_drink_noti.php', {
         }, function(data, status) {
             return data;
         });

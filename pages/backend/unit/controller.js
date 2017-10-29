@@ -14,11 +14,13 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
+	$rootScope.getAllNotification();
 
 	// เช็คสิทธิ์สำหรับหน้าแรก
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
 		$cookies.remove('isLoggedIn');
 		$cookies.remove('privacyAccess');
+		$cookies.remove('empID');
 		$rootScope.resetAll();
 		$location.path('/backend/admin_login');
 	}
