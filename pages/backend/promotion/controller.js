@@ -8,7 +8,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
 	$rootScope.loadCookies();
 
-	$('.datepicker').datetimepicker();
+	$('.datepicker').datetimepicker({ format: 'YYYY-MM-DD HH:mm:ss' });
 
 	$scope.listPromotionObject = null;
 	$scope.selectedId = "";
@@ -78,7 +78,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.listPromotionObject = result.data.promotion;
-							$scope.apply(function(){});
+							//$scope.apply(function(){});
 						}
 						else {
 							noty({
@@ -101,15 +101,15 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	}
 
 	// Add Unit
-	$scope.addpromotion = function() {
+	$scope.addPromotion = function() {
 		var pro_name = $.trim($("#add_pro_name").val()), // ตตัดspacebarทั้งหมด
 			pro_discount = $("#add_pro_discount").val(),
-			pro_start = $("#edit_pro_start").val(),
-			pro_end = $("#edit_pro_end").val(),
+			pro_start = $("#add_pro_start").val(),
+			pro_end = $("#add_pro_end").val(),
 			pro_status_id = $("#add_pro_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
 		if (pro_name != '' && pro_discount != '' && pro_start != '' && pro_end != '' && pro_status_id != 999 ) {
-			PromotionService.addpromotion($("#add_pro_name").val(), pro_discount, pro_start, pro_end, pro_status_id).then(function (result) {
+			PromotionService.addPromotion($("#add_pro_name").val(), pro_discount, pro_start, pro_end, pro_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -171,7 +171,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	// END Add Unit
 
 	// Edit Unit
-	$scope.editpromotion = function(id) {
+	$scope.editPromotion = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedPromotionObject = null;
 
@@ -189,9 +189,12 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 
 							$scope.selectedPromotionObject = result.data.promotion[0];
 
-							if ($scope.selectedpromotionObject.pro_status_id == 1) {
+							$("#edit_pro_start").val($scope.selectedPromotionObject.pro_start);
+							$("#edit_pro_end").val($scope.selectedPromotionObject.pro_end);
+
+							if ($scope.selectedPromotionObject.pro_status_id == 1) {
 								$("#edit_pro_status_id").val(1);
-							} else if ($scope.selectedpromotionObject.pro_status_id == 2) {
+							} else if ($scope.selectedPromotionObject.pro_status_id == 2) {
 								$("#edit_pro_status_id").val(2);
 							} else {
 								$("#edit_pro_status_id").val(0);	
@@ -223,7 +226,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	// END Edit Unit
 
 	// Update Unit
-	$scope.updatepromotion = function(id) {
+	$scope.updatePromotion = function(id) {
 		var pro_id = $.trim($("#edit_pro_id").val()),
 			pro_name = $.trim($("#edit_pro_name").val()),
 			pro_discount = $("#edit_pro_discount").val(),
@@ -232,7 +235,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 			pro_status_id = $("#edit_pro_status_id").val();
 			
 		if (pro_id != '' && pro_name != '' && pro_discount != '' && pro_start != '' && pro_end != '' && pro_status_id != 999) {
-			PromotionService.updatepromotion(pro_id, pro_name, pro_discount, start,pro_end, pro_status_id).then(function (result) {
+			PromotionService.updatePromotion(pro_id, pro_name, pro_discount, pro_start,pro_end, pro_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -323,7 +326,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    PromotionService.deletepromotion(pro_id).then(function (result) {
+                                    PromotionService.deletePromotion(pro_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -394,10 +397,12 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
         });
 	};
 
-	this.addpromotion = function (pro_name, pro_discount, pro_status_id) {
+	this.addPromotion = function (pro_name, pro_discount, pro_start, pro_end, pro_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_promotion.php', {
             'name' : pro_name,
-            'role' : pro_discount,
+            'discount' : pro_discount,
+            'start' : pro_start,
+            'end' : pro_end,
             'status' : pro_status_id,
         }, function(data, status) {
             return data;
@@ -413,7 +418,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
         });
 	};
 
-	this.updatepromotion = function (pro_id, pro_name, pro_discount,pro_start,pro_end, pro_status_id) {
+	this.updatePromotion = function (pro_id, pro_name, pro_discount,pro_start,pro_end, pro_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_promotion.php', {
             'pro_id' : pro_id,
             'pro_name' : pro_name,
@@ -426,7 +431,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
         });
 	};
 
-	this.deletepromotion = function (pro_id) {
+	this.deletePromotion = function (pro_id) {
 		return $http.post('http://localhost/restaurant-api/api_delete_promotion.php', {
             'pro_id' : pro_id,
            

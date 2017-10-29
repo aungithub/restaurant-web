@@ -22,7 +22,7 @@
     <tr ng-repeat="obj in listPromotionObject">
         <th >{{obj.pro_id}}</th>
         <td>{{obj.pro_name}}</td>
-        <td>{{obj.pro_discount}}</td>
+        <td>{{obj.pro_discount}} %</td>
          <td>{{obj.pro_start}}</td>
         <td>{{obj.pro_end}}</td>
         <td>{{(obj.pro_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
@@ -68,26 +68,30 @@
             <div class="input-group input-group-sm fullwidth">
                 <input type="text" id="add_pro_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
-
-             <p>&nbsp;</p>
-
-             <div class="col-lg-9">
-            <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_pro_discount" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
 
              <p>&nbsp;</p>
 
              <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_pro_start" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="text" id="add_pro_discount" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+            </div>
+            </div>
+
+             <p>&nbsp;</p>
+
+             <div class="col-lg-9">
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_pro_start" class="form-control datepicker" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
             </div>
 
             <p>&nbsp;</p>
 
-             <div class="col-lg-9">
+            <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_pro_end" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="text" id="add_pro_end" class="form-control datepicker" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
             </div>
 
 
@@ -104,17 +108,15 @@
                 </select>
               </div>
              </div>
+
             </div>
           </div>
-        </div>
-      </div>
       <!-- Body -->
 
       <!-- Footer -->
       <div class="modal-footer">
         <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-        <button type="button" class="btn btn-primary" ng-click="addPromotion
-">เพิ่มโปรโมชั่น</button>
+        <button type="button" class="btn btn-primary" ng-click="addPromotion()">เพิ่มโปรโมชั่น</button>
       </div>
       <!-- Footer -->
 
@@ -173,19 +175,19 @@
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_pro_discount" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedPromotionObject.pro_discount}}">
+                <input type="text" id="edit_pro_discount" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedPromotionObject.pro_discount}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
             </div>
 
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_pro_start" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedPromotionObject.pro_start}}">
+                <input type="text" id="edit_pro_start" class="form-control datepicker" placeholder="" aria-describedby="sizing-addon3" value="{{selectedPromotionObject.pro_start}}">
             </div>
 
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_pro_end" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedPromotionObject.pro_end}}">
+                <input type="text" id="edit_pro_end" class="form-control datepicker" placeholder="" aria-describedby="sizing-addon3" value="{{selectedPromotionObject.pro_end}}">
             </div>
 
             <p>&nbsp;</p>
