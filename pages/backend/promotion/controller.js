@@ -109,48 +109,69 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 			pro_status_id = $("#add_pro_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
 		if (pro_name != '' && pro_discount != '' && pro_start != '' && pro_end != '' && pro_status_id != 999 ) {
-			PromotionService.addPromotion($("#add_pro_name").val(), pro_discount, pro_start, pro_end, pro_status_id).then(function (result) {
-				if (result.data.status == 200) {
-					noty({
-		                type : 'success',
-		                layout : 'top',
-		                modal : true,
-		                timeout: 3000,
-		                text : result.data.message,
-		                callback: {
-		                	afterClose: function () {
-		                		// ปิด noty
-		                		$.noty.clearQueue(); $.noty.closeAll();
+			if (pro_discount > 100) {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'ส่วนลดไม่สามารถมากกว่า 100%',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
 
-		                		// ปิด modal
-		                		$("#close_modal_add").click()
+	                		$("#add_pro_discount").val('');
 
-		                		// refresh หน้าจอ
-		                		//location.reload();
-		                		$scope.refreshList();
+	                		return;
+	                	}
+	                }
+	            });
+			}
+			else {
+				PromotionService.addPromotion($("#add_pro_name").val(), pro_discount, pro_start, pro_end, pro_status_id).then(function (result) {
+					if (result.data.status == 200) {
+						noty({
+			                type : 'success',
+			                layout : 'top',
+			                modal : true,
+			                timeout: 3000,
+			                text : result.data.message,
+			                callback: {
+			                	afterClose: function () {
+			                		// ปิด noty
+			                		$.noty.clearQueue(); $.noty.closeAll();
 
-		                	}
-		                }
-		            });
-				}
-				else {
-					noty({
-		                type : 'warning',
-		                layout : 'top',
-		                modal : true,
-		                timeout: 3000,
-		                text : result.data.message,
-		                callback: {
-		                	afterClose: function () {
-		                		// ปิด noty
-		                		$.noty.clearQueue(); $.noty.closeAll();
+			                		// ปิด modal
+			                		$("#close_modal_add").click()
 
-		                		// do something
-		                	}
-		                }
-		            });
-				}
-			});
+			                		// refresh หน้าจอ
+			                		//location.reload();
+			                		$scope.refreshList();
+
+			                	}
+			                }
+			            });
+					}
+					else {
+						noty({
+			                type : 'warning',
+			                layout : 'top',
+			                modal : true,
+			                timeout: 3000,
+			                text : result.data.message,
+			                callback: {
+			                	afterClose: function () {
+			                		// ปิด noty
+			                		$.noty.clearQueue(); $.noty.closeAll();
+
+			                		// do something
+			                	}
+			                }
+			            });
+					}
+				});
+			}
 		}
 		else {
 			noty({
@@ -235,46 +256,68 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 			pro_status_id = $("#edit_pro_status_id").val();
 			
 		if (pro_id != '' && pro_name != '' && pro_discount != '' && pro_start != '' && pro_end != '' && pro_status_id != 999) {
-			PromotionService.updatePromotion(pro_id, pro_name, pro_discount, pro_start,pro_end, pro_status_id).then(function (result) {
-				if (result.data.status == 200) {
-					noty({
-		                type : 'success',
-		                layout : 'top',
-		                modal : true,
-		                timeout: 3000,
-		                text : 'อัพเดทข้อมูลสำเร็จ...',
-		                callback: {
-		                	afterClose: function () {
-		                		// ปิด noty
-		                		$.noty.clearQueue(); $.noty.closeAll();
+			if (pro_discount > 100) {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'ส่วนลดไม่สามารถมากกว่า 100%',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
 
-		                		// ปิด modal
-		                		$("#close_modal_edit").click()
+	                		$("#edit_pro_discount").val($scope.selectedPromotionObject.pro_discount);
 
-		                		// refresh หน้าจอ
-		                		//location.reload();
-		                		$scope.refreshList();
-		                	}
-		                }
-		            });
-				}
-				else {
-					// กรณีไม่ใช่200
-					noty({
-		                type : 'error',
-		                layout : 'top',
-		                modal : true,
-		                timeout: 3000,
-		                text : 'อัพเดทข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
-		                callback: {
-		                	afterClose: function () {
-		                		// ปิด noty
-		                		$.noty.clearQueue(); $.noty.closeAll();
-		                	}
-		                }
-		            });
-				}
-			});
+	                		return;
+	                	}
+	                }
+	            });
+			}
+			else {
+
+				PromotionService.updatePromotion(pro_id, pro_name, pro_discount, pro_start,pro_end, pro_status_id).then(function (result) {
+					if (result.data.status == 200) {
+						noty({
+			                type : 'success',
+			                layout : 'top',
+			                modal : true,
+			                timeout: 3000,
+			                text : 'อัพเดทข้อมูลสำเร็จ...',
+			                callback: {
+			                	afterClose: function () {
+			                		// ปิด noty
+			                		$.noty.clearQueue(); $.noty.closeAll();
+
+			                		// ปิด modal
+			                		$("#close_modal_edit").click()
+
+			                		// refresh หน้าจอ
+			                		//location.reload();
+			                		$scope.refreshList();
+			                	}
+			                }
+			            });
+					}
+					else {
+						// กรณีไม่ใช่200
+						noty({
+			                type : 'error',
+			                layout : 'top',
+			                modal : true,
+			                timeout: 3000,
+			                text : 'อัพเดทข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+			                callback: {
+			                	afterClose: function () {
+			                		// ปิด noty
+			                		$.noty.clearQueue(); $.noty.closeAll();
+			                	}
+			                }
+			            });
+					}
+				});
+			}
 		}
 		else {
 			noty({
