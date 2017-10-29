@@ -328,7 +328,8 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deletePosition = function(id) {
-		var pos_id = id;
+		var pos_id = id,
+			pos_status_id = 2;
 
 		if (pos_id != '') {
 			noty({
@@ -360,7 +361,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    PositionService.deletePosition(pos_id).then(function (result) {
+                                    PositionService.deletePosition(pos_id, pos_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -468,10 +469,10 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
         });
 	};
 
-	this.deletePosition = function (pos_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_position.php', {
+	this.deletePosition = function (pos_id, pos_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_position.php', {
             'pos_id' : pos_id,
-           
+            'pos_status_id' : pos_status_id,
         }, function(data, status) {
             return data;
         });

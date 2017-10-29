@@ -17,7 +17,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listTableObject">
+    <tr ng-repeat="obj in listTableObject" ng-show="obj.table_status_id == 1">
         <th >{{obj.table_id}}</th>
         <td>{{obj.table_number}}</td>
         <td>{{(obj.table_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>

@@ -20,7 +20,7 @@
     </tr>
     </thead>
    <tbody>
-    <tr ng-repeat="obj in listEmployeeObject">
+    <tr ng-repeat="obj in listEmployeeObject" ng-show="obj.emp_status_id == 1">
         <th >{{obj.emp_id}}</th>
         <td>{{obj.emp_firstname}}</td>
         <td>{{obj.emp_lastname}}</td>

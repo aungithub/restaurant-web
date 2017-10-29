@@ -19,7 +19,7 @@
     </tr>
     </thead>
    <tbody>
-    <tr ng-repeat="obj in listPromotionObject">
+    <tr ng-repeat="obj in listPromotionObject" ng-show="obj.pro_status_id == 1">
         <th >{{obj.pro_id}}</th>
         <td>{{obj.pro_name}}</td>
         <td>{{obj.pro_discount}} %</td>

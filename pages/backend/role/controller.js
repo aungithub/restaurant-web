@@ -312,7 +312,8 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteRole = function(id) {
-		var role_id = id;
+		var role_id = id,
+			role_status_id = 2;
 
 		if (role_id != '') {
 			noty({
@@ -344,7 +345,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    RoleService.deleteRole(role_id).then(function (result) {
+                                    RoleService.deleteRole(role_id, role_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -446,10 +447,10 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
         });
 	};
 
-	this.deleteRole = function (role_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_role.php', {
+	this.deleteRole = function (role_id, role_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_role.php', {
             'role_id' : role_id,
-         
+            'role_status_id' : role_status_id,
         }, function(data, status) {
             return data;
         });

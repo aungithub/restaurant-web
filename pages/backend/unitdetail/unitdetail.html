@@ -20,7 +20,7 @@
     </tr>
     </thead>
      <tbody>
-    <tr ng-repeat="obj in listUnitdetailObject">
+    <tr ng-repeat="obj in listUnitdetailObject" ng-show="obj.primary_status_id == 1">
         <th >{{obj.primary_unit_id}}</th>
         <td>{{obj.primary_unit_number}}</td>
          <td>{{obj.primary_unit_name}}</td>

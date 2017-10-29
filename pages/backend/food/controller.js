@@ -332,7 +332,8 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteFood = function(id) {
-		var food_id = id;
+		var food_id = id,
+			food_status_id = 2;
 
 		if (food_id != '') {
 			noty({
@@ -364,7 +365,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    FoodService.deleteFood(food_id).then(function (result) {
+                                    FoodService.deleteFood(food_id, food_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -476,9 +477,10 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
         });
 	};
 
-	this.deleteFood = function (food_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_food.php', {
+		this.deleteFood = function (food_id, food_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_food.php', {
             'food_id' : food_id,
+            'food_status_id' : food_status_id,
         }, function(data, status) {
             return data;
         });

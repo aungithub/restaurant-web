@@ -282,7 +282,8 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteTable = function(id) {
-		var table_id = id;
+		var table_id = id,
+			table_status_id = 2;
 
 		if (table_id != '') {
 			noty({
@@ -314,7 +315,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    TableService.deleteTable(table_id).then(function (result) {
+                                    TableService.deleteTable(table_id, table_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -413,10 +414,10 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
         });
 	};
 
-	this.deleteTable = function (table_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_table.php', {
+	this.deleteTable = function (Table_id, table_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_table.php', {
             'table_id' : table_id,
-           
+            'table_status_id' : table_status_id,
         }, function(data, status) {
             return data;
         });

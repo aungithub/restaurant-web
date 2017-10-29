@@ -369,7 +369,9 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteUnitdetail = function(id) {
-		var unitdetail_id = id;
+		var unitdetail_id = id,
+			unitdetail_status_id = 2;
+
 		if (unitdetail_id != '') {
 			noty({
                 type : 'confirm',
@@ -400,7 +402,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    UnitdetailService.deleteUnitdetail(unitdetail_id).then(function (result) {
+                                    UnitdetailService.deleteUnitdetail(unitdetail_id, unitdetail_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -416,8 +418,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 								                		$.noty.clearQueue(); $.noty.closeAll();
 
 								                		// refresh หน้าจอ
-								                		//location.reload();
-								                		$scope.refreshList();
+								                		$scope.getAllUnitdetails();
 								                	}
 								                }
 								            });
@@ -512,10 +513,10 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
         });
 	};
 
-	this.deleteUnitdetail = function (unitdetail_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_unitdetail.php', {
+	this.deleteUnitdetail = function (unitdetail_id, unitdetail_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_unitdetail.php', {
             'unitdetail_id' : unitdetail_id,
-           
+            'unitdetail_status_id' : unitdetail_status_id,
         }, function(data, status) {
             return data;
         });

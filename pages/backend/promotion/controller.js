@@ -57,12 +57,14 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	});
 
 	// clear textbox value
-	$scope.loadAddromotionForm = function() {
+	$scope.loadAddPromotionForm = function() {
 		$("#add_pro_name").val('');
 		$("#add_pro_discount").val('');
 		$("#add_pro_start").val('');
 		$("#add_pro_end").val('');
 		$("#add_pro_status_id").val(999);
+
+
 	};
 
 	$scope.refreshList = function() {
@@ -338,7 +340,9 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deletepromotion = function(id) {
-		var pro_id = id;
+		var pro_id = id,
+			pro_status_id = 2;
+
 		if (pro_id != '') {
 			noty({
                 type : 'confirm',
@@ -369,7 +373,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    PromotionService.deletePromotion(pro_id).then(function (result) {
+                                    PromotionService.deletepromotion(pro_id, pro_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -474,10 +478,10 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
         });
 	};
 
-	this.deletePromotion = function (pro_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_promotion.php', {
+	this.deletepromotion = function (pro_id, pro_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_promotion.php', {
             'pro_id' : pro_id,
-           
+            'pro_status_id' : pro_status_id,
         }, function(data, status) {
             return data;
         });

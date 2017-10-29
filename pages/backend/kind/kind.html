@@ -17,7 +17,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listKindObject">
+    <tr ng-repeat="obj in listKindObject" ng-show="obj.kind_status == 1">
         <th >{{obj.kind_id}}</th>
         <td>{{obj.kind_name}}</td>
         <td>{{(obj.kind_status == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>

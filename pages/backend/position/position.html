@@ -18,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listPositionObject">
+    <tr ng-repeat="obj in listPositionObject" ng-show="obj.pos_status_id == 1">
         <th >{{obj.pos_id}}</th>
         <td>{{obj.pos_name}}</td>
         <td>{{obj.role_name}}</td>

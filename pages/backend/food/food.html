@@ -19,7 +19,7 @@
   </tr>
   </thead>
  <tbody>
-  <tr ng-repeat="obj in listFoodObject">
+  <tr ng-repeat="obj in listFoodObject" ng-show="obj.food_status_id == 1">
       <th >{{obj.food_id}}</th>
       <td>{{obj.food_name}}</td>
       <td>{{obj.kind_name}}</td>

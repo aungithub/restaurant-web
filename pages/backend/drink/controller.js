@@ -377,7 +377,8 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	// Delete Unit
 	$scope.deleteDrink = function(id) {
-		var drink_id = id;
+		var drink_id = id,
+			drink_status_id = 2;
 
 		if (drink_id != '') {
 			noty({
@@ -409,7 +410,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    DrinkService.deleteDrink(drink_id).then(function (result) {
+                                    DrinkService.deleteDrink(drink_id, drink_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -534,14 +535,15 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-	this.deleteDrink = function (drink_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_drink.php', {
+	this.deleteDrink = function (drink_id, drink_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
             'drink_id' : drink_id,
-          
+            'drink_status_id' : drink_status_id,
         }, function(data, status) {
             return data;
         });
 	};
+
 
 	this.getDrinkNoti = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_drink_noti.php', {

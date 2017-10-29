@@ -22,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listDrinkPOObject">
+    <tr ng-repeat="obj in listDrinkPOObject" ng-show="obj.dp_approve_status == 1">
         <th >{{obj.dp_id}}</th>
         <td>{{obj.dp_date}}</td>
         <td>{{obj.dp_approve_status}}</td>

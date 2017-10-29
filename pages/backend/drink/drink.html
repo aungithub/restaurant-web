@@ -21,7 +21,7 @@
     </tr>
     </thead>
     <tbody>
-   <tr ng-repeat="obj in listDrinkObject">
+   <tr ng-repeat="obj in listDrinkObject" ng-show="obj.drink_status_id == 1">
           <th>{{obj.drink_id}}</th>
           <td>{{obj.drink_name}}</td>
           <td>{{obj.vendor_name}}</td>
