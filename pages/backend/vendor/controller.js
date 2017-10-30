@@ -425,7 +425,7 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
         });
 	};
 
-	this.deleteVendor = function (vendor_id) {
+	this.deleteVendor = function (vendor_id,vendor_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_vendor.php', {
             'id' : vendor_id,
             'status' : vendor_status_id,

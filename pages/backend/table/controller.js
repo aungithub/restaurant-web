@@ -414,7 +414,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
         });
 	};
 
-	this.deleteTable = function (Table_id, table_status_id) {
+	this.deleteTable = function (table_id, table_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_table.php', {
             'table_id' : table_id,
             'table_status_id' : table_status_id,

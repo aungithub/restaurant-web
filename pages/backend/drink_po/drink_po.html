@@ -7,7 +7,7 @@
 
   <div class="panel panel-default" align="center"> 
   <!-- Default panel contents -->
-  <div class="panel-heading " >หน้าจอรายการสั่งซื้อ</div>
+  <div class="panel-heading " >รายการเสนอซื้อ</div>
 
   <!-- Table -->
   <table class="table table-striped table-bordered " >
@@ -22,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listDrinkPOObject" ng-show="obj.dp_approve_status == 1">
+    <tr ng-repeat="obj in listDrinkPOObject" >
         <th >{{obj.dp_id}}</th>
         <td>{{obj.dp_date}}</td>
         <td>{{obj.dp_approve_status}}</td>
@@ -45,7 +45,7 @@
       <!-- Header -->
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="addModalLabel">สร้างใบสั่งซื้อ</h3>
+        <h3 class="modal-title" id="addModalLabel">สร้างใบเสนอซื้อ</h3>
       </div>
       <!-- Header -->
 
@@ -125,7 +125,7 @@
         <form class="form-horizontal">
 
           <div class="form-group">
-            <label class="control-label col-sm-3" style="text-align: left; text-decoration: underline;"><h4>รายการสั่งซื้อ</h4></label>
+            <label class="control-label col-sm-3" style="text-align: left; text-decoration: underline;"><h4>รายการเสนอซื้อ</h4></label>
             <label class="control-label col-sm-8"></label>
           </div>
 

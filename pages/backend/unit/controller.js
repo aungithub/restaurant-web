@@ -369,7 +369,8 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 								                		$.noty.clearQueue(); $.noty.closeAll();
 
 								                		// refresh หน้าจอ
-								                		$scope.$apply();
+								                		//$scope.$apply();
+								                		$scope.refreshList();
 								                	}
 								                }
 								            });
