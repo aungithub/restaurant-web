@@ -17,6 +17,12 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	$scope.listVendorObject = null;
 	$scope.selectedVendorDrinkObject = null;
 
+	$scope.drink = null;
+	$scope.unit = null;
+	$scope.vendor = null;
+
+	$scope.oldDrinkPO = null;
+
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 	$rootScope.getAllNotification();
@@ -229,6 +235,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 			}
 
 			if (drink_name != '' && drink_vendor_price.length > 0 && drink_number != '' && drink_unit_id != '' && drink_price != '' && drink_status_id != 999 ) {
+				
 				DrinkService.addDrink($("#add_drink_name").val(), drink_vendor_price, drink_number, drink_unit_id, drink_price, drink_status_id).then(function (result) {
 					if (result.data.status == 200) {
 						noty({
@@ -578,6 +585,153 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		}
 	};
 	// END Delete Unit
+
+
+	$scope.createDrinkPO = function (drink_id) {
+
+		noty({
+            type : 'alert',
+            layout : 'top',
+            modal : true,
+            text : 'กำลังค้นหาข้อมูลการสั่งซื้อเดิม...',
+            callback: {
+            	afterShow: function () {
+					DrinkService.getOldDrinkPO(drink_id).then(function (resultOld) {
+
+						if (resultOld.data.status == 200) {
+							$scope.oldDrinkPO = resultOld.data.drinkPODetails;
+
+							DrinkService.getAllPOSelection().then(function (resultSelection) {
+								$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+
+								$scope.drink = resultSelection.data.drink;
+								$scope.unit = resultSelection.data.unit;
+								$scope.vendor = resultSelection.data.vendor;
+
+								// ถ้าพบการสั่งซื้อเดิม จะทำการกรอกฟอร์มให้อัตโนมัติ
+								if ($scope.oldDrinkPO.length > 0) {
+									setTimeout(function () {
+										$('#add_drink_id').val($scope.oldDrinkPO[0].drink_id);
+										$('#add_unit_id').val($scope.oldDrinkPO[0].unit_id);
+										$('#add_vendor_id').val($scope.oldDrinkPO[0].vendor_id);
+										$('#add_unit_price').val($scope.oldDrinkPO[0].unit_price);
+									}, 100);
+								}
+								
+							});
+						}
+						else {
+							$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'ค้นหาข้อมูลการสั่งซื้อเดิมไม่สำเร็จ กรุณาลองใหม่...',
+				                callback: {
+				                	afterClose: function () {
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+            }
+        });
+	};
+
+	$scope.addDrinkPO = function () {
+		var add_drink_id = $.trim($('#add_drink_id').val()),
+			add_unit_id = $.trim($('#add_unit_id').val()),
+			add_vendor_id = $.trim($('#add_vendor_id').val()),
+			add_unit_number = $.trim($('#add_unit_number').val()),
+			add_unit_price = $.trim($('#add_unit_price').val());
+
+		if ($rootScope.empID != '' && $rootScope.empID != 'undefined') {
+
+			if (add_drink_id != '' && add_unit_id != '' && add_vendor_id != '' && add_unit_number != '' && add_unit_number != 0 && add_unit_price != '') {
+				
+				var drinkPOObject = [{
+					drink_id: add_drink_id,
+					unit_id: add_unit_id,
+					vendor_id: add_vendor_id,
+					number: add_unit_number,
+					unit_price: add_unit_price
+				}];
+
+				noty({
+		            type : 'alert',
+		            layout : 'top',
+		            modal : true,
+		            text : 'กำลังสร้างใบสั่งซื้อ...',
+		            callback: {
+		            	afterShow: function () {
+		            		DrinkService.addDrinkPO($rootScope.empID, drinkPOObject).then(function (result) {
+		            			$.noty.clearQueue(); $.noty.closeAll();
+
+		            			if (result.data.status == 200) {
+									noty({
+						                type : 'success',
+						                layout : 'top',
+						                modal : true,
+						                timeout: 5000,
+						                text : 'สร้างใบสั่งซื้อเรียบร้อยแล้ว...',
+						                callback: {
+						                	afterClose: function () {
+						                		// ปิด noty
+						                		$.noty.clearQueue(); $.noty.closeAll();
+
+						                		// ปิด modal
+						                		$("#close_modal_add_po").click()
+
+						                		// refresh หน้าจอ
+						                		//location.reload();
+						                		$scope.refreshList();
+
+						                	}
+						                }
+						            });
+								}
+								else {
+									noty({
+						                type : 'warning',
+						                layout : 'top',
+						                modal : true,
+						                timeout: 3000,
+						                text : result.data.message,
+						                callback: {
+						                	afterClose: function () {
+						                		// ปิด noty
+						                		$.noty.clearQueue(); $.noty.closeAll();
+
+						                		// do something
+						                	}
+						                }
+						            });
+								}
+		            		});
+		            	}
+		            }
+		        });
+
+			}
+			else {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+	                callback: {
+	                	afterClose: function () {
+	                		$.noty.clearQueue(); $.noty.closeAll();
+	                	}
+	                }
+	            });
+			}
+		}
+	};
 }])
 .service('DrinkService', ['$http', '$q',function ($http, $q) {
 
@@ -654,6 +808,30 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	this.getDrinkNoti = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_drink_noti.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getAllPOSelection = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_po_selection.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getOldDrinkPO = function (drink_id) {
+		return $http.post('http://localhost/restaurant-api/api_get_old_drink_po.php', {
+            'drink_id' : drink_id
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.addDrinkPO = function (emp_id, drinkPOObject) {
+		return $http.post('http://localhost/restaurant-api/api_add_drink_po.php', {
+            'emp_id' : emp_id,
+            'drinkPOObject' : drinkPOObject
         }, function(data, status) {
             return data;
         });

@@ -23,7 +23,7 @@
     <tbody>
    <tr ng-repeat="obj in listDrinkObject" ng-show="obj.drink_status_id == 1" ng-style="obj.drink_number < 5 && {'background-color': '#FC7D61'}">
           <th>{{obj.drink_id}}</th>
-          <td>{{obj.drink_name}}</td>
+          <td>{{obj.drink_name}} <label ng-show="obj.drink_number < 5" data-toggle="modal" data-target="#addDrinkPOModal" ng-click="createDrinkPO(obj.drink_id)" style="color: blue; text-decoration: underline; cursor: pointer;">(กดเพื่อสั่งซื้อ)</label></td>
           <td>{{obj.vendor_name}}</td>
           <td>{{obj.drink_number}}</td> 
           <td>{{obj.unit_name}}</td>
@@ -232,4 +232,90 @@
   </div>
 </div>
 <!-- Edit Unit Modal -->
+
+<div class="modal fade" id="addDrinkPOModal" tabindex="-1" role="dialog" aria-labelledby="addDrinkPOModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="addDrinkPOModalLabel">สร้างใบเสนอซื้อ <label ng-show="oldDrinkPO.length > 0">(ข้อมูลสั่งซื้อล่าสุด)</label></h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <form class="form-horizontal">
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">เครื่องดื่ม</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="add_drink_id">
+                  <option selected="selected">เลือกเครื่องดื่ม</option>
+                  <option ng-repeat="obj in drink" value="{{obj.drink_id}}">{{obj.drink_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">หน่วย</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="add_unit_id">
+                  <option selected="selected">เลือกหน่วย</option>
+                  <option ng-repeat="obj in unit" value="{{obj.unit_id}}">{{obj.unit_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">บริษัท</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="add_vendor_id">
+                  <option selected="selected">เลือกบริษัท</option>
+                  <option ng-repeat="obj in vendor" value="{{obj.vendor_id}}">{{obj.vendor_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">จำนวน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_unit_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ราคาต่อหน่วย</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_unit_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </div>
+            </div>
+          </div>
+          
+        </form>
+
+      </div>
+      <!-- Body -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="addDrinkPO()">เพิ่ม</button>
+        <button type="button" id="close_modal_add_po" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+      </div>
+      <!-- Footer -->
+
+    </div>
+  </div>
+</div>
 
