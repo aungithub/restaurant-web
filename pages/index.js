@@ -78,7 +78,7 @@ angular.module('RESTAURANT.index', ['ngRoute'])
 
     var notiPO = $rootScope.$on('IndexController.notiPO', function (event, data) {
         $timeout(function () {
-            if ($rootScope.privacyAccess.indexOf('admin_drink_po') != -1) {
+            if ($rootScope.privacyAccess.indexOf('admin_drink_po,') != -1) {
                 DrinkPOService.getAllDrinkPONumber().then(function (result) {
                     if (result.data.status == 200) {
                         $scope.newDrinkPO = result.data.new_drink_po;
@@ -102,7 +102,7 @@ angular.module('RESTAURANT.index', ['ngRoute'])
 
     var notiDrink = $rootScope.$on('IndexController.notiDrink', function (event, data) {
         $timeout(function () {
-            if ($rootScope.privacyAccess.indexOf('admin_drink') != -1) {
+            if ($rootScope.privacyAccess.indexOf('admin_drink,') != -1) {
                 DrinkService.getDrinkNoti().then(function (result) {
                     if (result.data.status == 200) {
                         $scope.drinkNoti = result.data.drink_noti;

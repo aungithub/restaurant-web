@@ -14,6 +14,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	$scope.selectedDrinkPODetailObject = null;
 	$scope.selectedDrinkPODocObject = null;
 	$scope.totalPrice = 0;
+	$scope.totalPriceList = 0;
 	$scope.drink = null;
 	$scope.unit = null;
 	$scope.vendor = null;
@@ -75,6 +76,15 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 				if (i == $scope.selectedDrinkPODetailObject.length) {
 					$scope.$apply();
 				}
+			}
+		}
+	};
+
+	$scope.calculatePriceList = function() {
+		$scope.totalPriceList = 0;//หาราคารวม
+		if ($scope.addPOObject != null) {
+			for (var i = 0; i < $scope.addPOObject.length; i++) {
+				$scope.totalPriceList += $scope.addPOObject[i].unit_price * $scope.addPOObject[i].number;
 			}
 		}
 	};
@@ -523,18 +533,30 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 			//เพื่อนำไปใช้เป็นlistname
 		if (drink_index != 'undefined' && unit_index != 'undefined' && vendor_index !='undefined' && $("#add_unit_number").val() != '' && $("#add_unit_price").val() != '') {
-			$scope.addPOObject.push({
-				drink_id: $("#add_drink_id").val(),
-				drink_name: $scope.drink[drink_index].drink_name,
-				unit_id: $("#add_unit_id").val(),
-				unit_name: $scope.unit[unit_index].unit_name,
-				vendor_id: $("#add_vendor_id").val(),
-				vendor_name: $scope.vendor[vendor_index].vendor_name,
-				number: $("#add_unit_number").val(),
-				unit_price: $("#add_unit_price").val()
-			});
+			var drink_index_obj = $scope.addPOObject.findIndex(x => x.drink_id==$("#add_drink_id").val()),
+				vendor_index_obj = $scope.addPOObject.findIndex(x => x.vendor_id==$("#add_vendor_id").val());
+
+			if (drink_index_obj != -1 && vendor_index_obj != -1 && drink_index_obj == vendor_index_obj) {
+				$scope.addPOObject[drink_index_obj].number = parseInt($scope.addPOObject[drink_index_obj].number) + parseInt($("#add_unit_number").val());
+				$scope.addPOObject[drink_index_obj].unit_price = $("#add_unit_price").val();
+				$scope.addPOObject[drink_index_obj].unit_id = $("#add_unit_id").val();
+				$scope.addPOObject[drink_index_obj].unit_name = $scope.unit[unit_index].unit_name;
+			}
+			else {
+				$scope.addPOObject.push({
+					drink_id: $("#add_drink_id").val(),
+					drink_name: $scope.drink[drink_index].drink_name,
+					unit_id: $("#add_unit_id").val(),
+					unit_name: $scope.unit[unit_index].unit_name,
+					vendor_id: $("#add_vendor_id").val(),
+					vendor_name: $scope.vendor[vendor_index].vendor_name,
+					number: $("#add_unit_number").val(),
+					unit_price: $("#add_unit_price").val()
+				});
+			}
 
 			$scope.resetItem();//ฟังก์ชันใช้resetform
+			$scope.calculatePriceList(); // คำนวนราคาทั้งหมดที่เลือก
 		}
 		else {
 			noty({
@@ -555,6 +577,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	$scope.deleteItem = function (index) {
 		$scope.addPOObject.splice(index, 1);//spliceใช้ตัดข้อมูลโดยการกำหนดindexของอาร์เรย์
+		$scope.calculatePriceList(); // คำนวนราคาทั้งหมดที่เลือก
 	};
 
 	$scope.editItem = function (index) {
@@ -583,6 +606,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 			$scope.addPOObject[$scope.editingItemIndex].unit_price = $("#add_unit_price").val();
 
 			$scope.resetItem();
+			$scope.calculatePriceList(); // คำนวนราคาทั้งหมดที่เลือก
 		}
 		else {
 			noty({
