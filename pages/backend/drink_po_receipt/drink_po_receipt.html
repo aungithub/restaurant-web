@@ -73,10 +73,10 @@
                 <tr ng-repeat="obj in selectedDrinkPOReceiptDetailObject">
                     <td>{{obj.drink_name}}</td>
                     <td>{{obj.number}}</td>
-                    <td ng-show="obj.receipt_by == null"><input type="text" id="dpd_idx_number_{{$index}}" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" ng-keyup="calculate($index)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
-                    <td ng-show="obj.receipt_by == null"><label id="dpd_idx_label_number_remaining_{{$index}}"></label></td>
-                    <td ng-show="obj.receipt_by != null"><label>{{obj.receipt_number}}</label></td>
-                    <td ng-show="obj.receipt_by != null"><label>{{obj.receipt_remaining_number}}</label></td>
+                    <td ng-show="obj.receipt_by == null || obj.number > obj.receipt_number"><input type="text" id="dpd_idx_number_{{$index}}" class="form-control" value="{{obj.receipt_number}}" aria-describedby="sizing-addon3" value="" ng-keyup="calculate($index)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+                    <td ng-show="obj.receipt_by == null || obj.number > obj.receipt_number"><label id="dpd_idx_label_number_remaining_{{$index}}">{{obj.receipt_remaining_number}}</label></td>
+                    <td ng-show="obj.receipt_by != null && obj.number == obj.receipt_number"><label>{{obj.receipt_number}}</label></td>
+                    <td ng-show="obj.receipt_by != null && obj.number == obj.receipt_number"><label>{{obj.receipt_remaining_number}}</label></td>
                 </tr>
               </tbody>
             </table>
@@ -89,7 +89,7 @@
 
       <!-- Footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-disabled="selectedDrinkPOReceiptDetailObject[0].receipt_by != null" ng-click="save()">บันทึก</button>
+        <button type="button" class="btn btn-primary" ng-disabled="selectedDrinkPOReceiptDetailObject[0].receipt_by != null && selectedDrinkPOReceiptDetailObject[0].is_remaining == false" ng-click="save()">บันทึก</button>
         <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
       </div>
       <!-- Footer -->

@@ -176,6 +176,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	// END Edit drink po
 
 	$scope.save = function() {
+		var number_receipt_correct = true;
 
 		for (var i = 0; i < $scope.selectedDrinkPOReceiptDetailObject.length; i++) {
 			if ($('#dpd_idx_number_' + i).val().length == 0) {
@@ -193,34 +194,94 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	            });
 				return;
 			}
+			else {
+
+				if ($scope.selectedDrinkPOReceiptDetailObject[i].number > $('#dpd_idx_number_' + i).val()) {
+					number_receipt_correct = false;
+				}
+			}
 
 			$scope.selectedDrinkPOReceiptDetailObject[i]['receipt_number'] = $('#dpd_idx_number_' + i).val();
 
 			if (i == $scope.selectedDrinkPOReceiptDetailObject.length - 1) {
-				DrinkPOReceiptService.saveDrinkPOReceipt($rootScope.empID, $scope.selectedDrinkPOReceiptDetailObject).then(function (result) {
-					if (result.data.status == 200) {
-						noty({
-			                type : 'success',
-			                layout : 'top',
-			                modal : true,
-			                timeout: 3000,
-			                text : 'บันทึกการรับสำเร็จ...',
-			                callback: {
-			                	afterClose: function () {
-			                		// ปิด noty
-			                		$.noty.clearQueue(); $.noty.closeAll();
 
-			                		// ปิด modal
-			                		$("#close_modal_edit").click()
+				if (number_receipt_correct == false) {
 
-			                		// refresh หน้าจอ
-			                		//location.reload();
-			                		$scope.refreshList();
-			                	}
-			                }
-			            });
-					}
-				});
+					noty({
+		                type : 'confirm',
+		                layout : 'top',
+		                modal : true,
+		                text: 'จำนวนที่รับไม่ครบถ้วน คุณยังต้องการบันทึกรายการรับนี้หรือไม่?',
+		                buttons : [
+		                {
+		                    addClass : 'btn btn-danger',//คลาสของbootstrap
+		                    text : 'ยกเลิก',
+		                    onClick : function () {
+		                        $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
+		                    }
+		                },
+		                {
+		                	id : 'btn_confirm',
+		                    addClass: 'btn btn-primary',
+		                    text : 'บนทึก',
+		                    onClick : function () {
+		                        $.noty.clearQueue(); $.noty.closeAll();
+
+		                        DrinkPOReceiptService.saveDrinkPOReceipt($rootScope.empID, $scope.selectedDrinkPOReceiptDetailObject).then(function (result) {
+									if (result.data.status == 200) {
+										noty({
+							                type : 'success',
+							                layout : 'top',
+							                modal : true,
+							                timeout: 3000,
+							                text : 'บันทึกการรับสำเร็จ...',
+							                callback: {
+							                	afterClose: function () {
+							                		// ปิด noty
+							                		$.noty.clearQueue(); $.noty.closeAll();
+
+							                		// ปิด modal
+							                		$("#close_modal_edit").click()
+
+							                		// refresh หน้าจอ
+							                		//location.reload();
+							                		$scope.refreshList();
+							                	}
+							                }
+							            });
+									}
+								});
+		                    }
+		                }]
+		            });
+					
+				}
+				else {
+					DrinkPOReceiptService.saveDrinkPOReceipt($rootScope.empID, $scope.selectedDrinkPOReceiptDetailObject).then(function (result) {
+						if (result.data.status == 200) {
+							noty({
+				                type : 'success',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'บันทึกการรับสำเร็จ...',
+				                callback: {
+				                	afterClose: function () {
+				                		// ปิด noty
+				                		$.noty.clearQueue(); $.noty.closeAll();
+
+				                		// ปิด modal
+				                		$("#close_modal_edit").click()
+
+				                		// refresh หน้าจอ
+				                		//location.reload();
+				                		$scope.refreshList();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
 			}
 		}
 	};
