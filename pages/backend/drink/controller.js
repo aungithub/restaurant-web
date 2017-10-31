@@ -33,7 +33,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		$location.path('/backend/admin_login');
 	}
 
-	$scope.drinkPOPrivacy = ($rootScope.privacyAccess.indexOf('admin_drink_po') != -1 ? true : false);
+	$scope.drinkPOPrivacy = ($rootScope.privacyAccess.indexOf('admin_drink_po,') != -1 ? true : false);
 
 	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
 	noty({
