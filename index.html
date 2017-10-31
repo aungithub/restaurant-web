@@ -94,7 +94,7 @@
 
             <li><a href="restaurant-web/#/backend/admin_kind" ng-show="privacyAccess.indexOf('admin_kind') != -1">ประเภท</a></li>
 
-            <li><a href="restaurant-web/#/backend/admin_unit" ng-show="privacyAccess.indexOf('admin_unit') != -1">หน่วยหลัก</a></li>
+            <li><a href="restaurant-web/#/backend/admin_unit" ng-show="privacyAccess.indexOf('admin_unit,') != -1">หน่วยหลัก</a></li>
 
             <li><a href="restaurant-web/#/backend/admin_unitdetail" ng-show="privacyAccess.indexOf('admin_unitdetail') != -1">การแปลงหน่วย</a></li>
 
@@ -104,7 +104,7 @@
 
             <li><a href="restaurant-web/#/backend/admin_vendor" ng-show="privacyAccess.indexOf('admin_vendor') != -1">บริษัทคู่ค้า</a></li>
 
-            <li><a href="restaurant-web/#/backend/admin_drink_po" ng-show="privacyAccess.indexOf('admin_drink_po') != -1">รายการสั่งซื้อ <label ng-show="newDrinkPO > 0" style="color: red;">({{newDrinkPO}})</label></a></li>
+            <li><a href="restaurant-web/#/backend/admin_drink_po" ng-show="privacyAccess.indexOf('admin_drink_po,') != -1">รายการสั่งซื้อ <label ng-show="newDrinkPO > 0" style="color: red;">({{newDrinkPO}})</label></a></li>
 
             <li><a href="restaurant-web/#/backend/admin_drink_po_receipt" ng-show="privacyAccess.indexOf('admin_drink_po_receipt') != -1">รายการรับ <label ng-show="newDrinkPOReceipt > 0" id="noti_receipt" style="color: red;">({{newDrinkPOReceipt}})</label></a></li>
           </ul>

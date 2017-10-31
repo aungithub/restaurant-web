@@ -27,7 +27,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	$rootScope.getAllNotification();
 
 	// เช็คสิทธิ์สำหรับหน้าแรก
-	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
+	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route + ',') == -1) {
 		$location.path('/backend/admin_login');
 	}
 

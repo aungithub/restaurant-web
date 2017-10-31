@@ -22,6 +22,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	$scope.vendor = null;
 
 	$scope.oldDrinkPO = null;
+	$scope.drinkPOPrivacy = false;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
@@ -31,6 +32,8 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
 		$location.path('/backend/admin_login');
 	}
+
+	$scope.drinkPOPrivacy = ($rootScope.privacyAccess.indexOf('admin_drink_po') != -1 ? true : false);
 
 	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
 	noty({
