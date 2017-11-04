@@ -20,7 +20,7 @@
   </thead>
  <tbody>
   <tr ng-repeat="obj in listFoodObject" ng-show="obj.food_status_id == 1">
-      <th >{{obj.food_id}}</th>
+      <th >{{'F' + obj.food_char_id}}</th>
       <td>{{obj.food_name}}</td>
       <td>{{obj.kind_name}}</td>
       <td>{{obj.food_price}}</td>
@@ -146,7 +146,7 @@
         <!-- ฝั่งขวา -->
         <div class="col-lg-9">
           <div class="input-group input-group-sm fullwidth">
-              <input type="text" id="edit_food_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+              <input type="text" id="edit_food_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'F' + selectedFoodObject.food_char_id}}">
 
           </div>
 

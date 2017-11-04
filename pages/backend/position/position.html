@@ -19,7 +19,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="obj in listPositionObject" ng-show="obj.pos_status_id == 1">
-        <th >{{obj.pos_id}}</th>
+        <th >{{'P' + obj.pos_char_id}}</th>
         <td>{{obj.pos_name}}</td>
         <td>{{obj.role_name}}</td>
         <td>{{(obj.pos_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
@@ -133,7 +133,7 @@
           <!-- ฝั่งขวา -->
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_pos_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+                <input type="text" id="edit_pos_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'P' + selectedPositionObject.pos_char_id}}">
             </div>
 
             <p>&nbsp;</p>

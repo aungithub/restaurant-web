@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="obj in listRoleObject" ng-show="obj.role_status_id == 1">
-        <th >{{obj.role_id}}</th>
+        <th >{{'R' + obj.role_char_id}}</th>
         <td>{{obj.role_name}}</td>
         <td>{{(obj.role_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editRole(obj.role_id)">Edit</button></td>
@@ -167,7 +167,7 @@
             <label class="control-label col-sm-3">รหัสสิทธิ์</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <input type="text" id="edit_role_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{selectedroleObject.role_id}}">
+                <input type="text" id="edit_role_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{'R' + selectedroleObject.role_char_id}}">
               </div>
             </div>
           </div>

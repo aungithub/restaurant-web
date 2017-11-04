@@ -20,7 +20,7 @@
     </thead>
    <tbody>
     <tr ng-repeat="obj in listPromotionObject" ng-show="obj.pro_status_id == 1">
-        <th >{{obj.pro_id}}</th>
+        <th >{{'PRO' + obj.pro_char_id}}</th>
         <td>{{obj.pro_name}}</td>
         <td>{{obj.pro_discount}} %</td>
          <td>{{obj.pro_start}}</td>
@@ -163,7 +163,7 @@
           <!-- ฝั่งขวา -->
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_pro_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+                <input type="text" id="edit_pro_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'PRO' + selectedPromotionObject.pro_char_id}}">
             </div>
 
             <p>&nbsp;</p>

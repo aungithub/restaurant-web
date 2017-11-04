@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="obj in listTableObject" ng-show="obj.table_status_id == 1">
-        <th >{{obj.table_id}}</th>
+        <th >{{'T' + obj.table_char_id}}</th>
         <td>{{obj.table_number}}</td>
         <td>{{(obj.table_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editTable(obj.table_id)">Edit</button></td>
@@ -53,7 +53,7 @@
           </div>
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_table_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="text" id="add_table_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
             </div>
 
             <p>&nbsp;</p>
@@ -115,13 +115,13 @@
           <!-- ฝั่งขวา -->
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_table_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+                <input type="text" id="edit_table_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'T' + selectedTableObject.table_char_id}}">
             </div>
 
             <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_table_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedTableObject.table_number}}">
+                <input type="text" id="edit_table_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedTableObject.table_number}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
             </div>
 
             <p>&nbsp;</p>

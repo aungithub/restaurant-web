@@ -18,7 +18,7 @@
 
       <!-- แสดงข้อมูล unit ทั้งหมด -->
       <tr ng-repeat="obj in listUnitObject" ng-show="obj.unit_status_id == 1">
-          <th>{{obj.unit_id}}</th>
+          <th>{{'U' + obj.unit_char_id}}</th>
           <td>{{obj.unit_name}}</td>
           <td>{{(obj.unit_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
           <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editUnit(obj.unit_id)">Edit</button></td>
@@ -114,7 +114,7 @@
             <label class="control-label col-sm-3">รหัสหน่วย</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <input type="text" id="edit_unit_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+                <input type="text" id="edit_unit_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'U' + selectedUnitObject.unit_char_id}}">
               </div>
             </div>
           </div>

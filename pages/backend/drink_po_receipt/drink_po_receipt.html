@@ -14,7 +14,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="obj in listDrinkPOReceiptObject" ng-show="obj.dp_approved == true">
-        <th>{{obj.dp_id}}</th>
+        <th>{{'DPR' + obj.dp_char_id}}</th>
         <td>{{obj.dp_date}}</td>
         <td> <button type="button" class="btn btn-sm btn-default full-width" data-toggle="modal" data-target="#viewModal" ng-click="viewDrinkPO(obj.dp_id)">รายละเอียด</button></td>
     </tr>
@@ -44,7 +44,7 @@
             <label class="control-label col-sm-3">รหัสการสั่งซื้อ</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{selectedDrinkPOReceiptObject.dp_id}}">
+                <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{'DPR' + selectedDrinkPOReceiptObject.dp_char_id}}">
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="obj in listKindObject" ng-show="obj.kind_status == 1">
-        <th >{{obj.kind_id}}</th>
+        <th >{{'K' + obj.kind_char_id}}</th>
         <td>{{obj.kind_name}}</td>
         <td>{{(obj.kind_status == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editKind(obj.kind_id)">Edit</button></td>
@@ -115,7 +115,7 @@
           <!-- ฝั่งขวา -->
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_kind_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+                <input type="text" id="edit_kind_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'K' + selectedKindObject.kind_char_id}}">
             </div>
 
             <p>&nbsp;</p>
