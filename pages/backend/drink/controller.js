@@ -212,6 +212,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 				//drink_vendor_id = $("#add_drink_vendor_id").val(),
 				drink_vendor_price = [],
 				drink_number = $("#add_drink_number").val(),
+				drink_order_point = $("#add_drink_order_point").val(),
 				drink_unit_id = $("#add_drink_unit_id").val(),//ดึงค่าจากselectมาไว้ในตัแปล
 				drink_price = $("#add_drink_price").val(),//ดึงค่าจากselectมาไว้ในตัแปล
 				drink_status_id = $("#add_drink_status_id").val();
@@ -237,9 +238,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 				}
 			}
 
-			if (drink_name != '' && drink_vendor_price.length > 0 && drink_number != '' && drink_unit_id != '' && drink_price != '' && drink_status_id != 999 ) {
+			if (drink_name != '' && drink_vendor_price.length > 0 && drink_number != '' && drink_order_point != '' && drink_unit_id != '' && drink_price != '' && drink_status_id != 999 ) {
 				
-				DrinkService.addDrink($("#add_drink_name").val(), drink_vendor_price, drink_number, drink_unit_id, drink_price, drink_status_id).then(function (result) {
+				DrinkService.addDrink($("#add_drink_name").val(), drink_vendor_price, drink_number, drink_order_point, drink_unit_id, drink_price, drink_status_id).then(function (result) {
 					if (result.data.status == 200) {
 						noty({
 			                type : 'success',
@@ -406,6 +407,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 				//drink_vendor_id = $("#edit_drink_vendor_id").val(),
 				drink_vendor_price = [],
 				drink_number = $("#edit_drink_number").val(),
+				drink_order_point = $("#edit_drink_order_point").val(),
 				drink_unit_id = $("#edit_drink_unit_id").val(),
 				drink_price = $("#edit_drink_price").val(),
 				drink_status_id = $("#edit_drink_status_id").val();
@@ -432,8 +434,8 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 				}
 			}
 
-			if (drink_id != '' && drink_name != '' && drink_vendor_price != '' && drink_number != ''  && drink_unit_id != '' && drink_price != '' && drink_status_id != 999) {
-				DrinkService.updateDrink(drink_id, drink_name,drink_vendor_price, drink_number, drink_unit_id, drink_price, drink_status_id).then(function (result) {
+			if (drink_id != '' && drink_name != '' && drink_vendor_price != '' && drink_number != '' && drink_order_point != '' && drink_unit_id != '' && drink_price != '' && drink_status_id != 999) {
+				DrinkService.updateDrink(drink_id, drink_name,drink_vendor_price, drink_number, drink_order_point, drink_unit_id, drink_price, drink_status_id).then(function (result) {
 					if (result.data.status == 200) {
 						noty({
 			                type : 'success',
@@ -760,14 +762,15 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-	this.addDrink = function (drink_name, drink_vendor_price, drink_number, drink_unit_id, drink_price, drink_status_id) {
+	this.addDrink = function (drink_name, drink_vendor_price, drink_number, drink_order_point, drink_unit_id, drink_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_drink.php', {
             'drink_name' : drink_name,
             'drink_vendor_price' : drink_vendor_price,
-             'drink_number' : drink_number,
-             'drink_unit_id' : drink_unit_id,
+            'drink_number' : drink_number,
+            'drink_order_point' : drink_order_point,
+            'drink_unit_id' : drink_unit_id,
             'drink_price' : drink_price,
-             'drink_status_id' : drink_status_id,
+            'drink_status_id' : drink_status_id,
            
             
         }, function(data, status) {
@@ -784,12 +787,13 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-	this.updateDrink = function (drink_id, drink_name, drink_vendor_price, drink_number, drink_unit_id, drink_price, drink_status_id) {
+	this.updateDrink = function (drink_id, drink_name, drink_vendor_price, drink_number, drink_order_point, drink_unit_id, drink_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
             'drink_id' : drink_id,
             'drink_name' : drink_name,
             'drink_vendor_price' : drink_vendor_price,
             'drink_number' : drink_number, 
+            'drink_order_point' : drink_order_point,
             'drink_unit_id' : drink_unit_id,
             'drink_price' : drink_price,
             'drink_status_id' : drink_status_id,
