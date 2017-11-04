@@ -22,7 +22,7 @@
     </thead>
     <tbody>
    <tr ng-repeat="obj in listDrinkObject" ng-show="obj.drink_status_id == 1" ng-style="obj.is_less == 1 && {'background-color': '#FC7D61'}">
-          <th>{{obj.drink_id}}</th>
+          <th>{{'D' + obj.drink_char_id}}</th>
           <td>{{obj.drink_name}} <label ng-show="obj.drink_number < 5 && drinkPOPrivacy == true" data-toggle="modal" data-target="#addDrinkPOModal" ng-click="createDrinkPO(obj.drink_id)" style="color: blue; text-decoration: underline; cursor: pointer;">(กดเพื่อสั่งซื้อ)</label></td>
           <td>{{obj.vendor_name}}</td>
           <td>{{obj.drink_number}}</td> 
@@ -164,7 +164,7 @@
             <label class="control-label col-sm-3">รหัสเครื่องดื่ม</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <input type="text" id="edit_drink_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedId}}">
+                <input type="text" id="edit_drink_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'D' + selectedDrinkObject.drink_char_id}}">
               </div>
             </div>
           </div>

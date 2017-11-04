@@ -117,7 +117,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.listEmployeeObject = result.data.employees;
-							$scope.apply(function(){});
+							//$scope.apply(function(){});
 						}
 						else {
 							noty({
@@ -147,10 +147,11 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 			emp_password = $.trim($("#add_emp_password").val()), // ตตัดspacebarทั้งหมด
 			emp_confirm_password = $.trim($("#add_emp_confirm_password").val()), // ตตัดspacebarทั้งหมด
 			emp_card_id = $.trim($("#add_emp_card_id").val()), // ตตัดspacebarทั้งหมด
+			emp_tel = $.trim($("#add_emp_tel").val()), // ตตัดspacebarทั้งหมด
 			emp_position_id = $("#add_emp_position_id").val(), 
 			emp_status_id = $("#add_emp_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
-		if (emp_firstname != ''&& emp_lastname != '' && emp_username != '' && emp_password != '' && emp_card_id != '' && emp_position_id != '' && emp_status_id != 999 ) {
+		if (emp_firstname != ''&& emp_lastname != '' && emp_username != '' && emp_password != '' && emp_card_id != '' && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 ) {
 			if (emp_password != emp_confirm_password) {
 				noty({
 	                type : 'warning',
@@ -170,7 +171,24 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 			}
 
-			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(), $("#add_emp_username").val(), $("#add_emp_password").val(),  $("#add_emp_card_id").val(), $("#add_emp_position_id").val(), emp_status_id).then(function (result) {
+			if (emp_card_id.length != 13) {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'รหัสบัตรประชาชนต้องเป็น 13 หลัก',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+	                	}
+	                }
+	            });
+	            return;
+			}
+
+			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(), $("#add_emp_username").val(), $("#add_emp_password").val(),  $("#add_emp_card_id").val(), $("#add_emp_tel").val(), $("#add_emp_position_id").val(), emp_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -236,12 +254,13 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		$scope.selectedId = id;
 		$scope.selectedEmployeeObject = null;
 		$scope.selectedPositionObject = null;
+		$('#edit_emp_tel').val('');
 
 		noty({
             type : 'alert',
             layout : 'top',
             modal : true,
-            text : 'กำลังดึงข้อมูลหน่วย...',
+            text : 'กำลังดึงข้อมูลพนักงาน...',
             callback: {
             	afterShow: function () {
             		EmployeeService.getByID($scope.selectedId).then(function (result) {
@@ -251,6 +270,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 
 							$scope.selectedEmployeeObject = result.data.employees[0];
 							$scope.selectedPositionObject = result.data.position;
+							$('#edit_emp_tel').val($scope.selectedEmployeeObject.emp_tel);
 
 							if ($scope.selectedEmployeeObject.emp_status_id == 1) {
 								$("#edit_emp_status_id").val(1);
@@ -298,10 +318,11 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 			emp_password = $.trim($("#edit_emp_password").val()),
 			emp_confirm_password = $.trim($("#edit_emp_confirm_password").val()),
 			emp_card_id = $.trim($("#edit_emp_card_id").val()),
+			emp_tel = $.trim($("#edit_emp_tel").val()),
 			emp_position_id = $("#edit_emp_position_id").val(),
 			emp_status_id = $("#edit_emp_status_id").val();
 
-		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_username != '' && emp_card_id != '' && emp_position_id != '' && emp_status_id != 999 && emp_position_id != null && emp_status_id != null) {
+		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_username != '' && emp_card_id != '' && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 && emp_position_id != null && emp_status_id != null) {
 			
 			if (emp_password != "" && $("#edit_emp_password").val() != $("#edit_emp_confirm_password").val()) {
 				noty({
@@ -322,7 +343,24 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 			}
 
-			EmployeeService.updateEmployee(emp_id, $("#edit_emp_firstname").val(), $("#edit_emp_lastname").val(), $("#edit_emp_username").val(), $("#edit_emp_password").val(), $("#edit_emp_card_id").val(), emp_position_id, emp_status_id).then(function (result) {
+			if (emp_card_id.length != 13) {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'รหัสบัตรประชาชนต้องเป็น 13 หลัก',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+	                	}
+	                }
+	            });
+	            return;
+			}
+
+			EmployeeService.updateEmployee(emp_id, $("#edit_emp_firstname").val(), $("#edit_emp_lastname").val(), $("#edit_emp_username").val(), $("#edit_emp_password").val(), $("#edit_emp_card_id").val(), $("#edit_emp_tel").val(), emp_position_id, emp_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -493,13 +531,14 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
-	this.addEmployee = function (emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_pos_id, emp_status_id) {
+	this.addEmployee = function (emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_tel, emp_pos_id, emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_employee.php', {
             'firstname' : emp_firstname,
             'lastname' : emp_lastname,
             'username' : emp_username,
             'password' : emp_password,
             'idc' : emp_card_id,
+            'tel' : emp_tel,
             'position' : emp_pos_id,
             'status' : emp_status_id,
         }, function(data, status) {
@@ -516,7 +555,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
-	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_position_id, emp_status_id) {
+	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_tel, emp_position_id, emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
             'emp_id' : emp_id,
             'emp_firstname' : emp_firstname,
@@ -524,6 +563,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
             'emp_username' : emp_username,
             'emp_password' : emp_password,
             'emp_card_id' : emp_card_id,
+            'emp_tel' : emp_tel,
             'emp_position_id' : emp_position_id,
             'emp_status_id' : emp_status_id,
         }, function(data, status) {

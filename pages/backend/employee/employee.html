@@ -88,13 +88,13 @@
             <p>&nbsp;</p>
             
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="text" id="add_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
             </div>
 
            <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="add_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="text" id="add_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
             </div>
 
             <p>&nbsp;</p>
@@ -181,6 +181,8 @@
             <p>&nbsp;</p>
             <p>รหัสบัตรประชาชน</p>
              <p>&nbsp;</p>
+             <p>เบอร์โทรศัพท์</p>
+             <p>&nbsp;</p>
             <p>Username</p>
             <p>&nbsp;</p>
             <p>Password</p>
@@ -213,7 +215,12 @@
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_idcard}}">
+                <input type="text" id="edit_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_idcard}}" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+            </div>
+            <p>&nbsp;</p>
+
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="edit_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{(selectedEmployeeObject.emp_tel != '' ? selectedEmployeeObject.emp_tel : '')}}" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
             </div>
             <p>&nbsp;</p>
 
@@ -223,13 +230,13 @@
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="password" id="edit_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
 
              <p>&nbsp;</p>
 
             <div class="input-group input-group-sm fullwidth">
-                <input type="text" id="edit_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+                <input type="password" id="edit_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
             </div>
 
             <p>&nbsp;</p>
