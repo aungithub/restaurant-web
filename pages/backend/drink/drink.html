@@ -165,7 +165,6 @@
                 <tr>
                     <td style="width: 14.2%;">เครื่องดื่ม</td>
                     <td style="width: 14.2%;">บริษัท</td>
-                    <td style="width: 14.2%;">จำนวน</td>
                     <td style="width: 14.2%;">ราคา</td>
                     <td style="width: 14.2%;">สถานะ</td>
                     <td style="width: 14.2%;">แก้ไข</td>
@@ -177,7 +176,6 @@
                 <tr ng-repeat="obj in addDrinkObject">
                     <td style="width: 14.2%;">{{drinkName}}</td>
                     <td style="width: 14.2%;">{{obj.vendor_name}}</td>
-                    <td style="width: 14.2%;">{{drinkNumber}}</td>
                     <td style="width: 14.2%;">{{obj.drink_price}}</td>
                     <td style="width: 14.2%;">{{(obj.drink_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
                     <td style="width: 14.2%;"><button type="button" class="btn btn-sm btn-info full-width" ng-click="editItem($index)">แก้ไข</button></td>
@@ -311,10 +309,10 @@
             <label class="control-label col-sm-3"></label>
             <div class="col-sm-9">
               <div class="input-group">
-                <button type="button" class="btn btn-primary" ng-show="isEditingItem==false" ng-click="addItem()">เพิ่ม</button>
-                <button type="button" class="btn btn-info" ng-show="isEditingItem==true" ng-click="editingItemUpdate()">แก้ไข</button>
+                <button type="button" class="btn btn-primary" ng-show="isEditingItem==false" ng-click="addEditingItem()">เพิ่ม</button>
+                <button type="button" class="btn btn-info" ng-show="isEditingItem==true" ng-click="editingEditingItemUpdate()">แก้ไข</button>
                 &nbsp;
-                <button type="button" class="btn btn-default" ng-click="resetItem()">ยกเลิก</button>
+                <button type="button" class="btn btn-default" ng-click="resetEditingItem()">ยกเลิก</button>
               </div>
             </div>
           </div>
@@ -332,36 +330,26 @@
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
-                    <td style="width: 3%;">ลำดับ</td>
-                    <td style="width: 13.8%;">ชื่อ</td>
-                    <td style="width: 13.8%;">บริษัท</td>
-                    <td style="width: 13.8%;">จำนวน</td>
-                    <td style="width: 13.8%;">หน่วย</td>
-                    <td style="width: 13.8%;">ราคา</td>
-                    <td style="width: 13.8%;">แก้ไข</td>
-                    <td style="width: 13.8%;">ลบ</td>
+                    <td style="width: 14.2%;">เครื่องดื่ม</td>
+                    <td style="width: 14.2%;">บริษัท</td>
+                    <td style="width: 14.2%;">ราคา</td>
+                    <td style="width: 14.2%;">สถานะ</td>
+                    <td style="width: 14.2%;">แก้ไข</td>
+                    <td style="width: 14.2%;">ลบ</td>
                 </tr>
               </thead>
 
               <tbody>
-                <tr ng-repeat="obj in addPOObject">
-                    <td style="width: 3%;">{{$index + 1}}</td>
-                    <td style="width: 13.8%;">{{obj.drink_name}}</td>
-                    <td style="width: 13.8%;">{{obj.vendor_name}}</td>
-                    <td style="width: 13.8%;">{{obj.number}}</td>
-                    <td style="width: 13.8%;">{{obj.unit_name}}</td>
-                    <td style="width: 13.8%;">{{obj.unit_price | number : 2}}</td>
-                    <td style="width: 13.8%;"><button type="button" class="btn btn-sm btn-info full-width" ng-click="editItem($index)">แก้ไข</button></td>
-                    <td style="width: 13.8%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteItem($index)">ลบ</button></td>
+                <tr ng-repeat="obj in selectedDrinkVendorListObject">
+                    <td style="width: 14.2%;">{{drinkName}}</td>
+                    <td style="width: 14.2%;">{{obj.vendor_name}}</td>
+                    <td style="width: 14.2%;">{{obj.drink_price}}</td>
+                    <td style="width: 14.2%;">{{(obj.drink_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
+                    <td style="width: 14.2%;"><button type="button" class="btn btn-sm btn-info full-width" ng-click="editEditingItem($index)">แก้ไข</button></td>
+                    <td style="width: 14.2%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteEditingItem($index)">ลบ</button></td>
                 </tr>
               </tbody>
             </table>
-
-            <div class="form-group">
-              <label class="control-label col-sm-12" style="text-align: left; margin-left: 15px;"><h5>ราคารวมทั้งหมด : {{totalPriceList | number : 2}}</h5></label>
-              <label class="control-label col-sm-12" style="text-align: left; margin-left: 15px;"><h5>ภาษีมูลค่าเพิ่ม 7% : {{totalPriceList * 0.07 | number : 2}}</h5></label>
-              <label class="control-label col-sm-12" style="text-align: left; margin-left: 15px;"><h5>รวมสุทธิ : {{totalPriceList + (totalPriceList * 0.07) | number : 2}}</h5></label>
-            </div>
 
           </div>
         </form>
@@ -372,7 +360,7 @@
       <!-- Footer -->
       <div class="modal-footer">
           <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-          <button type="button" class="btn btn-primary" ng-click="updateDrink()">แก้ไข</button>
+          <button type="button" class="btn btn-primary" ng-click="updateDrink(selectedId)">แก้ไข</button>
       </div>
       <!-- Footer -->
       
