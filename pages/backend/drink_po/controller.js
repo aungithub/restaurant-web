@@ -286,7 +286,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 				                layout : 'top',
 				                modal : true,
 				                timeout: 3000,
-				                text : 'ไม่พบข้อมูลหน่วย...',
+				                text : 'ไม่พบข้อมูลรายละเอียดการสั่งซื้อ...',
 				                callback: {
 				                	afterClose: function () {
 				                		// ปิด noty

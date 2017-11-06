@@ -14,7 +14,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listDrinkPOReceiptObject" ng-show="obj.dp_approved == true">
+    <tr ng-repeat="obj in listDrinkPOReceiptObject | orderBy:'dp_receipt_status_number'" ng-show="obj.dp_approved == true" ng-style="(obj.dp_receipt_status_number == 0 && {'background-color': '#F5F5F5'}) || (obj.dp_receipt_status_number == 1 && {'background-color': '#F0E68C'}) || obj.dp_receipt_status_number == 2 && {'background-color': '#98FB98'}">
         <th>{{'DPR' + obj.dp_char_id}}</th>
         <td>{{obj.dp_date}}</td>
         <td>{{obj.dp_receipt_status}}</td>
