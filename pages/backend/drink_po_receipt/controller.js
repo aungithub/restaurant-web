@@ -12,6 +12,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	$scope.selectedId = "";
 	$scope.selectedDrinkPOReceiptObject = null;
 	$scope.selectedDrinkPOReceiptDetailObject = null;
+	$scope.isReceiptRemaining = false;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
@@ -101,7 +102,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	$scope.calculate = function (index) {
 		var number_receipt = parseInt($('#dpd_idx_number_' + index).val());
 
-		if (number_receipt > $scope.selectedDrinkPOReceiptDetailObject[index].number) {
+		if (number_receipt > $scope.selectedDrinkPOReceiptDetailObject[index].receipt_remaining_number) {
 			$('#dpd_idx_number_' + index).val('');
 			$('#dpd_idx_label_number_remaining_' + index).html('');
 			noty({
@@ -123,7 +124,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 				$('#dpd_idx_number_' + index).val(parseInt($('#dpd_idx_number_' + index).val()));
 			}
 			
-			$('#dpd_idx_label_number_remaining_' + index).html(Math.abs(number_receipt - $scope.selectedDrinkPOReceiptDetailObject[index].number));
+			$('#dpd_idx_label_number_remaining_' + index).html(Math.abs(number_receipt - $scope.selectedDrinkPOReceiptDetailObject[index].receipt_remaining_number));
 		}
 		
 	};
@@ -133,6 +134,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 		$scope.selectedId = id;
 		$scope.selectedDrinkPOReceiptObject = null;
 		$scope.selectedDrinkPOReceiptDetailObject = null;
+		$scope.isReceiptRemaining = false;
 
 		noty({
             type : 'alert',
@@ -148,6 +150,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 
 							$scope.selectedDrinkPOReceiptObject = result.data.drinkPOs[0];
 							$scope.selectedDrinkPOReceiptDetailObject = result.data.drinkPODetails;
+							$scope.isReceiptRemaining = result.data.isReceiptRemaining;
 						}
 						else {
 							// ปิด noty

@@ -9,12 +9,14 @@
     <tr>
         <th style="width: 15%;">รหัสใบเสนอซื้อ</th>
         <th style="width: 40%;">วันที่สั่งซื้อ</th>
+        <th style="width: 40%;">สถานะ</th>
         <th style="width: 8%;">รายละเอียด</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="obj in listDrinkPOReceiptObject" ng-show="obj.dp_approved == true">
         <th>{{'DPR' + obj.dp_char_id}}</th>
+        <td>{{obj.dp_date}}</td>
         <td>{{obj.dp_date}}</td>
         <td> <button type="button" class="btn btn-sm btn-default full-width" data-toggle="modal" data-target="#viewModal" ng-click="viewDrinkPO(obj.dp_id)">รายละเอียด</button></td>
     </tr>
@@ -73,10 +75,10 @@
                 <tr ng-repeat="obj in selectedDrinkPOReceiptDetailObject">
                     <td>{{obj.drink_name}}</td>
                     <td>{{obj.number}}</td>
-                    <td ng-show="obj.receipt_by == null || obj.number > obj.receipt_number"><input type="text" id="dpd_idx_number_{{$index}}" class="form-control" value="{{obj.receipt_number}}" aria-describedby="sizing-addon3" value="" ng-keyup="calculate($index)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
-                    <td ng-show="obj.receipt_by == null || obj.number > obj.receipt_number"><label id="dpd_idx_label_number_remaining_{{$index}}">{{obj.receipt_remaining_number}}</label></td>
-                    <td ng-show="obj.receipt_by != null && obj.number == obj.receipt_number"><label>{{obj.receipt_number}}</label></td>
-                    <td ng-show="obj.receipt_by != null && obj.number == obj.receipt_number"><label>{{obj.receipt_remaining_number}}</label></td>
+                    <td ng-show="obj.is_remaining == true"><input type="text" id="dpd_idx_number_{{$index}}" class="form-control" value="{{obj.receipt_remaining_number}}" aria-describedby="sizing-addon3" value="" ng-keyup="calculate($index)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+                    <td ng-show="obj.is_remaining == true"><label id="dpd_idx_label_number_remaining_{{$index}}">{{obj.receipt_remaining_number}}</label></td>
+                    <td ng-show="obj.is_remaining == false"><label>{{obj.receipt_number}}</label></td>
+                    <td ng-show="obj.is_remaining == false"><label>{{obj.receipt_remaining_number}}</label></td>
                 </tr>
               </tbody>
             </table>
@@ -89,7 +91,7 @@
 
       <!-- Footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-disabled="selectedDrinkPOReceiptDetailObject[0].receipt_by != null && selectedDrinkPOReceiptDetailObject[0].is_remaining == false" ng-click="save()">บันทึก</button>
+        <button type="button" class="btn btn-primary" ng-disabled="isReceiptRemaining == false" ng-click="save()">บันทึก</button>
         <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
       </div>
       <!-- Footer -->
