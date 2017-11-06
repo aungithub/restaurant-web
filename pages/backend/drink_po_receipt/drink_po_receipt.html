@@ -17,7 +17,7 @@
     <tr ng-repeat="obj in listDrinkPOReceiptObject" ng-show="obj.dp_approved == true">
         <th>{{'DPR' + obj.dp_char_id}}</th>
         <td>{{obj.dp_date}}</td>
-        <td>{{obj.dp_date}}</td>
+        <td>{{obj.dp_receipt_status}}</td>
         <td> <button type="button" class="btn btn-sm btn-default full-width" data-toggle="modal" data-target="#viewModal" ng-click="viewDrinkPO(obj.dp_id)">รายละเอียด</button></td>
     </tr>
     
