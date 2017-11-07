@@ -197,11 +197,12 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 			drink_order_point = $("#add_drink_order_point").val(),
 			drink_number = $("#add_drink_number").val(),
 			drink_unit_id = $("#add_drink_unit_id").val(),
+			drink_unit_price = $("#add_drink_unit_price").val(),
 			drink_status_id = $("#add_drink_status_id").val();
 
-		if (drink_name != '' && $scope.addDrinkObject.length > 0 && drink_order_point != '' && drink_number != '' && drink_unit_id != '' && drink_status_id != 999 ) {
+		if (drink_name != '' && $scope.addDrinkObject.length > 0 && drink_order_point != '' && drink_number != '' && drink_unit_id != '' && drink_unit_price != '' && drink_status_id != 999 ) {
 			
-			DrinkService.addDrink($("#add_drink_name").val(), $scope.addDrinkObject, drink_order_point, drink_number, drink_unit_id, drink_status_id).then(function (result) {
+			DrinkService.addDrink($("#add_drink_name").val(), $scope.addDrinkObject, drink_order_point, drink_number, drink_unit_id, drink_unit_price, drink_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -315,6 +316,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 							}
 							setTimeout(function() {
 								$("#edit_drink_unit_id").val($scope.selectedDrinkObject.drink_unit_id);
+								$("#edit_drink_unit_price").val($scope.selectedDrinkObject.drink_unit_price);
 								//$("#edit_drink_vendor_id").val($scope.selectedDrinkObject.drink_vendor_id);
 								if ($scope.selectedDrinkVendorListObject.length > 0) {
 									$('#edit_drink_vendor_id').val($scope.selectedDrinkVendorListObject[0].vendor_id);
@@ -354,10 +356,11 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 			drink_order_point = $("#edit_drink_order_point").val(),
 			drink_number = $("#edit_drink_number").val(),
 			drink_unit_id = $("#edit_drink_unit_id").val(),
+			drink_unit_price = $("#edit_drink_unit_price").val(),
 			drink_status_id = $("#edit_drink_status_id").val();
 
-		if (drink_name != '' && $scope.selectedDrinkVendorListObject.length > 0 && drink_order_point != '' && drink_number != '' && drink_unit_id != '' && drink_status_id != 999 ) {
-			DrinkService.updateDrink(id, drink_name, $scope.selectedDrinkVendorListObject, drink_number, drink_order_point, drink_unit_id, drink_status_id).then(function (result) {
+		if (drink_name != '' && $scope.selectedDrinkVendorListObject.length > 0 && drink_order_point != '' && drink_number != '' && drink_unit_id != '' && drink_unit_price != '' && drink_status_id != 999 ) {
+			DrinkService.updateDrink(id, drink_name, $scope.selectedDrinkVendorListObject, drink_number, drink_order_point, drink_unit_id, drink_unit_price, drink_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -877,7 +880,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-	this.addDrink = function (drink_name, add_drink_object, drink_order_point, drink_number, drink_unit_id, drink_status_id) {
+	this.addDrink = function (drink_name, add_drink_object, drink_order_point, drink_number, drink_unit_id, drink_unit_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_drink.php', {
             'drink_name' : drink_name,
             'add_drink_object' : add_drink_object,
@@ -885,6 +888,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
             'drink_order_point' : drink_order_point,
             'drink_number' : drink_number,
             'drink_status_id' : drink_status_id,
+            'drink_unit_price' : drink_unit_price
            
             
         }, function(data, status) {
@@ -901,7 +905,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-	this.updateDrink = function (drink_id, drink_name, edit_drink_object, drink_number, drink_order_point, drink_unit_id, drink_status_id) {
+	this.updateDrink = function (drink_id, drink_name, edit_drink_object, drink_number, drink_order_point, drink_unit_id, drink_unit_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
             'drink_id' : drink_id,
             'drink_name' : drink_name,
@@ -910,6 +914,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
             'drink_order_point' : drink_order_point,
             'drink_unit_id' : drink_unit_id,
             'drink_status_id' : drink_status_id,
+            'drink_unit_price' : drink_unit_price
            
         }, function(data, status) {
             return data;

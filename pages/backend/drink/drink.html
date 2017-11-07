@@ -24,7 +24,7 @@
    <tr ng-repeat="obj in listDrinkObject" ng-show="obj.drink_status_id == 1" ng-style="obj.is_less == 1 && {'background-color': '#FC7D61'}">
           <th>{{'D' + obj.drink_char_id}}</th>
           <td>{{obj.drink_name}} <label ng-show="obj.drink_number < 5 && drinkPOPrivacy == true" data-toggle="modal" data-target="#addDrinkPOModal" ng-click="createDrinkPO(obj.drink_id)" style="color: blue; text-decoration: underline; cursor: pointer;">(กดเพื่อสั่งซื้อ)</label></td>
-          <td>{{obj.vendor_name}}</td>
+          <td>{{obj.vendor_name_list}}</td>
           <td>{{obj.drink_number}}</td> 
           <td>{{obj.unit_name}}</td>
           <td>{{obj.drink_price}}</td>
@@ -88,10 +88,19 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label col-sm-3">ราคา</label>
+            <label class="control-label col-sm-3">ราคารับซื้อ</label>
             <div class="col-sm-9">
               <div class="input-group">
                 <input type="text" id="add_drink_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ราคาขายหน้าร้าน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_drink_unit_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
               </div>
             </div>
           </div>
@@ -255,10 +264,19 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label col-sm-3">ราคา</label>
+            <label class="control-label col-sm-3">ราคารับซื้อ</label>
             <div class="col-sm-9">
               <div class="input-group">
                 <input type="text" id="edit_drink_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" value="{{selectedDrinkObject.drink_price}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ราคาขายหน้าร้าน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_drink_unit_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" value="{{selectedDrinkObject.drink_unit_price}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
               </div>
             </div>
           </div>
