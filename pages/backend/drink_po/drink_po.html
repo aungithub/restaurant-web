@@ -1,4 +1,18 @@
 
+  <div class="row">
+    <div class="col-sm-10">
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control" id="show_drink_po_status" ng-model="poStatus" ng-change="showDrinkPoStatus()">
+        <option selected="selected" value="-1">เลือกสถานะ (แสดงทั้งหมด)</option>
+        <option value="0">อยู่ระหว่างการพิจารณา</option>
+        <option value="1">ไม่พิจารณา</option>
+        <option value="2">พิจารณาแล้ว</option>
+      </select>
+    </div>
+  </div>
+
+  <br/>
 
   <div class="panel panel-default" align="center"> 
   <!-- Default panel contents -->
@@ -17,7 +31,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listDrinkPOObject" >
+    <tr ng-repeat="obj in listDrinkPOObject" ng-show="obj.dp_approved_status_flag == poStatus || poStatus == -1">
         <th >{{'DPO' + obj.dp_char_id}}</th>
         <td>{{obj.dp_date}}</td>
         <td>{{obj.dp_approve_status}}</td>

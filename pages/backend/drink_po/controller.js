@@ -9,6 +9,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	$rootScope.loadCookies();
 
 	$scope.listDrinkPOObject = null;
+	$scope.listDrinkPOObjectTmp = null;
 	$scope.selectedId = "";
 	$scope.selectedDrinkPOObject = null;
 	$scope.selectedDrinkPODetailObject = null;
@@ -22,6 +23,8 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	$scope.isEditingItem = false;
 	$scope.editingItemIndex = -1;
 	$scope.isManager = false;
+
+	$scope.poStatus = -1;
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
@@ -66,6 +69,11 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 			}
 		}
 	});
+
+
+	$scope.showDrinkPoStatus = function () {
+		//$scope.poStatus
+	};
 
 	$scope.calculatePrice = function() {
 		$scope.totalPrice = 0;//หาราคารวม
