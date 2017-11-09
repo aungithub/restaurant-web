@@ -14,6 +14,8 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	$scope.selectedDrinkPOReceiptDetailObject = null;
 	$scope.isReceiptRemaining = false;
 
+	$scope.poStatus = -1;
+
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 	$rootScope.getAllNotification();
@@ -55,6 +57,10 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 			}
 		}
 	});
+
+	$scope.showDrinkPoStatus = function () {
+		//$scope.poStatus
+	};
 
 	// clear textbox value
 	$scope.loadAddDrinkPOReceiptForm = function() {

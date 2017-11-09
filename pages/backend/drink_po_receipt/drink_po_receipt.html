@@ -1,3 +1,18 @@
+ <div class="row">
+    <div class="col-sm-10">
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control" id="show_drink_po_status" ng-model="poStatus" ng-change="showDrinkPoStatus()">
+        <option selected="selected" value="-1">เลือกสถานะ (แสดงทั้งหมด)</option>
+        <option value="0">อยู่ระหว่างการรับ</option>
+        <option value="1">ยังรับไม่ครบ</option>
+        <option value="2">รับครบแล้ว</option>
+      </select>
+    </div>
+  </div>
+
+  <br/>
+
  <div class="panel panel-default" align="center"> 
   <!-- Default panel contents -->
   <div class="panel-heading " >รายการรับเครื่องดื่ม</div>
@@ -14,7 +29,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listDrinkPOReceiptObject | orderBy:'dp_receipt_status_number'" ng-show="obj.dp_approved == true" ng-style="(obj.dp_receipt_status_number == 0 && {'background-color': '#F5F5F5'}) || (obj.dp_receipt_status_number == 1 && {'background-color': '#F0E68C'}) || obj.dp_receipt_status_number == 2 && {'background-color': '#98FB98'}">
+    <tr ng-repeat="obj in listDrinkPOReceiptObject | orderBy:'dp_receipt_status_number'" ng-show="obj.dp_approved == true && (obj.dp_receipt_status_number == poStatus || poStatus == -1)" ng-style="(obj.dp_receipt_status_number == 0 && {'background-color': '#F5F5F5'}) || (obj.dp_receipt_status_number == 1 && {'background-color': '#F0E68C'}) || obj.dp_receipt_status_number == 2 && {'background-color': '#98FB98'}">
         <th>{{'DPR' + obj.dp_char_id}}</th>
         <td>{{obj.dp_date}}</td>
         <td>{{obj.dp_receipt_status}}</td>
