@@ -223,7 +223,7 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
 	// Update Unit
 	$scope.updateVendor = function(id) {
 
-		var vendor_id = $.trim($("#edit_vendor_id").val()),
+		var vendor_id = $.trim($("#edit_vendor_pk_id").val()),
 			vendor_name = $.trim($("#edit_vendor_name").val()),
 			vendor_tel = $("#edit_vendor_tel").val(),
 			vendor_address = $.trim($("#edit_vendor_address").val()),

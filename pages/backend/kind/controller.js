@@ -217,7 +217,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 	// Update Unit
 	
 	$scope.updateKind = function(id) {
-		var kind_id = $.trim($("#edit_kind_id").val()),
+		var kind_id = $.trim($("#edit_kind_pk_id").val()),
 			kind_name = $.trim($("#edit_kind_name").val()),
 			kind_status = $("#edit_kind_status").val();
 

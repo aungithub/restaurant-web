@@ -20,7 +20,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="obj in listVendorObject" ng-show="obj.vendor_status_id == 1">
-        <th >{{obj.vendor_id}}</th>
+        <th >{{'V' + obj.vendor_char_id}}</th>
         <td>{{obj.vendor_name}}</td>
          <th >{{obj.vendor_tel}}</th>
         <td>{{obj.vendor_address}}</td>
@@ -130,7 +130,8 @@
             <label class="control-label col-sm-3">รหัสบริษัทคู่ค้า</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <input type="text" id="edit_vendor_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{selectedVendorObject.vendor_id}}">
+                <input type="text" id="edit_vendor_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{'V' + selectedVendorObject.vendor_char_id}}">
+                 <input type="hidden" id="edit_vendor_pk_id" value="{{selectedVendorObject.vendor_id}}"/>
               </div>
             </div>
           </div>

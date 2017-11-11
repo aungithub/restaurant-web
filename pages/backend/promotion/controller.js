@@ -250,7 +250,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 
 	// Update Unit
 	$scope.updatePromotion = function(id) {
-		var pro_id = $.trim($("#edit_pro_id").val()),
+		var pro_id = $.trim($("#edit_pro_pk_id").val()),
 			pro_name = $.trim($("#edit_pro_name").val()),
 			pro_discount = $("#edit_pro_discount").val(),
 			pro_start = $("#edit_pro_start").val(),

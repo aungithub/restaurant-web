@@ -217,7 +217,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 	// Update Unit
 
 	$scope.updateTable = function(id) {
-		var table_id = $.trim($("#edit_table_id").val()),
+		var table_id = $.trim($("#edit_table_pk_id").val()),
 			table_number = $.trim($("#edit_table_number").val()),
 			table_status_id = $("#edit_table_status_id").val();
 

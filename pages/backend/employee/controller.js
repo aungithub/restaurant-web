@@ -65,6 +65,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		$("#add_emp_password").val('');
 		$("#add_emp_confirm_password").val('');
 		$("#add_emp_position_id").val(999);
+		$scope.addEmployeeObject = [];
 
 		noty({
 	        type : 'alert',
@@ -143,15 +144,16 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	$scope.addEmployee = function() {
 		var emp_firstname = $.trim($("#add_emp_firstname").val()), // ตตัดspacebarทั้งหมด
 			emp_lastname = $.trim($("#add_emp_lastname").val()), // ตตัดspacebarทั้งหมด
+			emp_card_id = $.trim($("#add_emp_card_id").val()), // ตตัดspacebarทั้งหมด
 			emp_username = $.trim($("#add_emp_username").val()), // ตตัดspacebarทั้งหมด
 			emp_password = $.trim($("#add_emp_password").val()), // ตตัดspacebarทั้งหมด
 			emp_confirm_password = $.trim($("#add_emp_confirm_password").val()), // ตตัดspacebarทั้งหมด
-			emp_card_id = $.trim($("#add_emp_card_id").val()), // ตตัดspacebarทั้งหมด
+			
 			emp_tel = $.trim($("#add_emp_tel").val()), // ตตัดspacebarทั้งหมด
 			emp_position_id = $("#add_emp_position_id").val(), 
 			emp_status_id = $("#add_emp_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
-		if (emp_firstname != ''&& emp_lastname != '' && emp_username != '' && emp_password != '' && emp_card_id != '' && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 ) {
+		if (emp_firstname != ''&& emp_lastname != '' && emp_card_id != '' && emp_username != '' && emp_password != ''  && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 ) {
 			if (emp_password != emp_confirm_password) {
 				noty({
 	                type : 'warning',
@@ -188,7 +190,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 			}
 
-			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(), $("#add_emp_username").val(), $("#add_emp_password").val(),  $("#add_emp_card_id").val(), $("#add_emp_tel").val(), $("#add_emp_position_id").val(), emp_status_id).then(function (result) {
+			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(),  $("#add_emp_card_id").val(), $("#add_emp_username").val(), $("#add_emp_password").val(), $("#add_emp_tel").val(), $("#add_emp_position_id").val(), emp_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -311,18 +313,19 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 
 	// Update Unit
 	$scope.updateEmployee = function(id) {
-		var emp_id = $.trim($("#edit_emp_id").val()),
+		var emp_id = $.trim($("#edit_emp_pk_id").val()),
 			emp_firstname = $.trim($("#edit_emp_firstname").val()),
 			emp_lastname = $.trim($("#edit_emp_lastname").val()),
+			emp_card_id = $.trim($("#edit_emp_card_id").val()),
 			emp_username = $.trim($("#edit_emp_username").val()),
 			emp_password = $.trim($("#edit_emp_password").val()),
 			emp_confirm_password = $.trim($("#edit_emp_confirm_password").val()),
-			emp_card_id = $.trim($("#edit_emp_card_id").val()),
+			
 			emp_tel = $.trim($("#edit_emp_tel").val()),
 			emp_position_id = $("#edit_emp_position_id").val(),
 			emp_status_id = $("#edit_emp_status_id").val();
 
-		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_username != '' && emp_card_id != '' && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 && emp_position_id != null && emp_status_id != null) {
+		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_card_id != '' && emp_username != ''  && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 && emp_position_id != null && emp_status_id != null) {
 			
 			if (emp_password != "" && $("#edit_emp_password").val() != $("#edit_emp_confirm_password").val()) {
 				noty({
@@ -360,7 +363,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 			}
 
-			EmployeeService.updateEmployee(emp_id, $("#edit_emp_firstname").val(), $("#edit_emp_lastname").val(), $("#edit_emp_username").val(), $("#edit_emp_password").val(), $("#edit_emp_card_id").val(), $("#edit_emp_tel").val(), emp_position_id, emp_status_id).then(function (result) {
+			EmployeeService.updateEmployee(emp_id, $("#edit_emp_firstname").val(), $("#edit_emp_lastname").val(), $("#edit_emp_card_id").val(), $("#edit_emp_username").val(), $("#edit_emp_password").val(), $("#edit_emp_tel").val(), emp_position_id, emp_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -531,13 +534,13 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
-	this.addEmployee = function (emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_tel, emp_pos_id, emp_status_id) {
+	this.addEmployee = function (emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_pos_id, emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_employee.php', {
             'firstname' : emp_firstname,
             'lastname' : emp_lastname,
+             'idc' : emp_card_id,
             'username' : emp_username,
             'password' : emp_password,
-            'idc' : emp_card_id,
             'tel' : emp_tel,
             'position' : emp_pos_id,
             'status' : emp_status_id,
@@ -555,14 +558,15 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
-	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_username, emp_password, emp_card_id, emp_tel, emp_position_id, emp_status_id) {
+	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_position_id, emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
             'emp_id' : emp_id,
             'emp_firstname' : emp_firstname,
             'emp_lastname' : emp_lastname,
+              'emp_card_id' : emp_card_id,
             'emp_username' : emp_username,
             'emp_password' : emp_password,
-            'emp_card_id' : emp_card_id,
+          
             'emp_tel' : emp_tel,
             'emp_position_id' : emp_position_id,
             'emp_status_id' : emp_status_id,

@@ -246,7 +246,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	      	role_back_pages_string += $(this).val();
 	    });
 
-		var role_id = $.trim($("#edit_role_id").val()),
+		var role_id = $.trim($("#edit_role_pk_id").val()),
 			role_name = $.trim($("#edit_role_name").val()),
 			//role_front = $("#edit_role_front").val(),
 			role_status_id = $("#edit_role_status_id").val();

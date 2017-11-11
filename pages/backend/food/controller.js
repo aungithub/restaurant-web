@@ -265,7 +265,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 
 	// Update Unit
 	$scope.updateFood = function(id) {
-		var food_id = $.trim($("#edit_food_id").val()),
+		var food_id = $.trim($("#edit_food_pk_id").val()),
 			food_name = $.trim($("#edit_food_name").val()),
 			food_kind_id = $("#edit_food_kind_id").val(),
 			food_price = $("#edit_food_price").val(),

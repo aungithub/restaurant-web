@@ -262,7 +262,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 
 	// Update Unit
 	$scope.updatePosition = function(id) {
-		var pos_id = $.trim($("#edit_pos_id").val()),
+		var pos_id = $.trim($("#edit_pos_pk_id").val()),
 			pos_name = $.trim($("#edit_pos_name").val()),
 			pos_role_id = $("#edit_pos_role_id").val(),
 			pos_status_id = $("#edit_pos_status_id").val();
