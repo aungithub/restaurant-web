@@ -348,7 +348,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลโปรโมชั่นนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',//คลาสของbootstrap
@@ -369,7 +369,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลหน่วย...',
+                            text : 'กำลังลบข้อมูลโปรโมชั่น...',
                             callback : {
                                 afterShow : function () {
 
@@ -382,7 +382,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลสำเร็จ...',
+								                text : 'ลบข้อมูลโปรโมชั่นสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -401,7 +401,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลโปรโมชั่นไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -479,7 +479,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	};
 
 	this.deletepromotion = function (pro_id, pro_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_promotion.php', {
+		return $http.post('http://localhost/restaurant-api/api_delete_promotion.php', {
             'pro_id' : pro_id,
             'pro_status_id' : pro_status_id,
         }, function(data, status) {
