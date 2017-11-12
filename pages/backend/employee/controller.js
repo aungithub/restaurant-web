@@ -452,7 +452,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลหน่วย...',
+                            text : 'กำลังลบข้อมูลพนักงาน...',
                             callback : {
                                 afterShow : function () {
 
@@ -576,7 +576,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	};
 
 	this.deleteEmployee = function (emp_id,  emp_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
+		return $http.post('http://localhost/restaurant-api/api_delete_employee.php', {
             'emp_id' : emp_id,
            
             'emp_status_id' : emp_status_id,

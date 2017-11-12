@@ -922,7 +922,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	};
 
 	this.deleteDrink = function (drink_id, drink_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
+		return $http.post('http://localhost/restaurant-api/api_delete_drink.php', {
             'drink_id' : drink_id,
             'drink_status_id' : drink_status_id,
         }, function(data, status) {
