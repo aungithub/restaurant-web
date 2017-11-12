@@ -582,7 +582,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	$scope.addItem = function () {
 		var drink_index = $scope.drink.findIndex(x => x.drink_id==$("#add_drink_id").val()),//หาindexของเครื่องดื่มที่เลือกเพื่อจะนำไปหาชื่อเครื่องดื่ม
-			unit_index = $scope.unit.findIndex(x => x.unit_id==$("#add_unit_id").val()),
+			unit_index = $scope.unit.findIndex(x => x.unitdetail_id==$("#add_unit_id").val()),
 			vendor_index = $scope.vendor.findIndex(x => x.vendor_id==$("#add_vendor_id").val());
 
 			//เพื่อนำไปใช้เป็นlistname
@@ -594,14 +594,16 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 				$scope.addPOObject[drink_index_obj].number = parseInt($scope.addPOObject[drink_index_obj].number) + parseInt($("#add_unit_number").val());
 				$scope.addPOObject[drink_index_obj].unit_price = $("#add_unit_price").val();
 				$scope.addPOObject[drink_index_obj].unit_id = $("#add_unit_id").val();
-				$scope.addPOObject[drink_index_obj].unit_name = $scope.unit[unit_index].unit_name;
+				$scope.addPOObject[drink_index_obj].unit_name = $scope.unit[unit_index].unitdetail_name;
 			}
 			else {
+				console.log(unit_index);
+				console.log($scope.unit);
 				$scope.addPOObject.push({
 					drink_id: $("#add_drink_id").val(),
 					drink_name: $scope.drink[drink_index].drink_name,
 					unit_id: $("#add_unit_id").val(),
-					unit_name: $scope.unit[unit_index].unit_name,
+					unit_name: $scope.unit[unit_index].unitdetail_name,
 					vendor_id: $("#add_vendor_id").val(),
 					vendor_name: $scope.vendor[vendor_index].vendor_name,
 					number: $("#add_unit_number").val(),
@@ -653,7 +655,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 			$scope.addPOObject[$scope.editingItemIndex].drink_id = $("#add_drink_id").val();
 			$scope.addPOObject[$scope.editingItemIndex].drink_name = $scope.drink[drink_index].drink_name;
 			$scope.addPOObject[$scope.editingItemIndex].unit_id = $("#add_unit_id").val();
-			$scope.addPOObject[$scope.editingItemIndex].unit_name = $scope.unit[unit_index].unit_name;
+			$scope.addPOObject[$scope.editingItemIndex].unit_name = $scope.unit[unit_index].unitdetail_name;
 			$scope.addPOObject[$scope.editingItemIndex].vendor_id = $("#add_vendor_id").val();
 			$scope.addPOObject[$scope.editingItemIndex].vendor_name = $scope.vendor[vendor_index].vendor_name;
 			$scope.addPOObject[$scope.editingItemIndex].number = $("#add_unit_number").val();
