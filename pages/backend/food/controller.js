@@ -340,7 +340,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลอาหารนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',//คลาสของbootstrap
@@ -361,7 +361,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูล...',
+                            text : 'กำลังลบข้อมูลอาหาร...',
                             callback : {
                                 afterShow : function () {
 
@@ -374,7 +374,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
+								                text : 'ลบข้อมูลอาหารสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -393,7 +393,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลอาหารไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -477,8 +477,8 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
         });
 	};
 
-		this.deleteFood = function (food_id, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_food.php', {
+	this.deleteFood = function (food_id, food_status_id) {
+		return $http.post('http://localhost/restaurant-api/api_delete_food.php', {
             'food_id' : food_id,
             'food_status_id' : food_status_id,
         }, function(data, status) {
