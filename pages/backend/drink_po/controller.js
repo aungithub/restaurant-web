@@ -26,6 +26,11 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	$scope.poStatus = -1;
 
+	$scope.addDrinkId = 0;
+
+	$scope.addVendorId = 0;
+	$scope.vendorUnitPrice = '';
+
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 	$rootScope.getAllNotification();
@@ -75,6 +80,47 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		//$scope.poStatus
 	};
 
+	$scope.selectDrink = function () {
+		var _drinkID = $.trim($('#add_drink_id').val());
+
+		if (_drinkID > 0) {
+			noty({
+		        type : 'alert', // alert, success, warning, error, confirm
+		        layout : 'top',
+		        modal : true,
+		        text : 'กำลังโหลด...',
+		        callback: {
+		        	afterShow: function () {
+						DrinkPOService.getVendorByDrinkID(_drinkID).then(function (result) {
+							$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+
+							$scope.vendor = result.data.vendor;
+
+							//$scope.$apply();
+						});
+					}
+				}
+			});
+		}
+		$scope.vendorUnitPrice = '';
+	};
+
+	$scope.selectDrinkVendor = function () {
+		var _drinkVendorID = $.trim($('#add_vendor_id').val());
+
+		if (_drinkVendorID > 0) {
+			var vendor_idx = $scope.vendor.findIndex(x => x.vendor_id==_drinkVendorID);
+
+			if (vendor_idx != 'undefined' && vendor_idx != -1) {
+				$scope.vendorUnitPrice = $scope.vendor[vendor_idx].vendor_unit_price;
+				console.log($scope.vendor[vendor_idx].vendor_unit_price);
+			}
+			else {
+				$scope.vendorUnitPrice = '';
+			}
+		}
+	};
+
 	$scope.calculatePrice = function() {
 		$scope.totalPrice = 0;//หาราคารวม
 		if ($scope.selectedDrinkPODetailObject != null) {
@@ -118,7 +164,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 						$scope.drink = result.data.drink;
 						$scope.unit = result.data.unit;
-						$scope.vendor = result.data.vendor;
+						//$scope.vendor = result.data.vendor;
 
 						//$scope.$apply();
 					});
@@ -686,6 +732,13 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	this.getAllDrinkPONumber = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_new_drink_po.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getVendorByDrinkID = function (drinkID) {
+		return $http.get('http://localhost/restaurant-api/api_get_vendor_by_drink.php?drink_id=' + drinkID, {
         }, function(data, status) {
             return data;
         });
