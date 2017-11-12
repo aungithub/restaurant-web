@@ -22,7 +22,7 @@
         <td>{{obj.kind_name}}</td>
         <td>{{(obj.kind_status == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editKind(obj.kind_id)">Edit</button></td>
-        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-disabled="obj.kind_status_id != 1" ng-click="deleteKind(obj.kind_id)">Delete</button></td>
+        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteKind(obj.kind_id)">Delete</button></td>
     </tr>
     
     </tbody>
