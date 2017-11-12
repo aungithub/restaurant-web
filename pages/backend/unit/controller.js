@@ -328,7 +328,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลหน่วยหลักนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',
@@ -349,7 +349,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลหน่วย...',
+                            text : 'กำลังลบข้อมูลหน่วยหลัก...',
                             callback : {
                                 afterShow : function () {
 
@@ -362,7 +362,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
+								                text : 'ลบข้อมูลหน่วยหลักสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -381,7 +381,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลหน่วยหลักไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -455,7 +455,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 	};
 
 	this.deleteUnit = function (unit_id, unit_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_unit.php', {
+		return $http.post('http://localhost/restaurant-api/api_delete_unit.php', {
             'unit_id' : unit_id,
             'unit_status_id' : unit_status_id,
         }, function(data, status) {
