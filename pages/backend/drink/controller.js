@@ -428,7 +428,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลเครื่องดื่มนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',//คลาสของbootstrap
@@ -449,7 +449,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูล...',
+                            text : 'กำลังลบข้อมูลเครื่องดื่ม...',
                             callback : {
                                 afterShow : function () {
 
@@ -462,7 +462,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลสำเร็จ...',
+								                text : 'ลบข้อมูลเครื่องดื่มสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -481,7 +481,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลเครื่องดื่มไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
