@@ -336,7 +336,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลตำแหน่งงานนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',//คลาสของbootstrap
@@ -357,7 +357,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูล...',
+                            text : 'กำลังลบข้อมูลตำแหน่งงาน...',
                             callback : {
                                 afterShow : function () {
 
@@ -389,7 +389,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลตำแหน่งงานไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -470,7 +470,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	};
 
 	this.deletePosition = function (pos_id, pos_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_position.php', {
+		return $http.post('http://localhost/restaurant-api/api_delete_position.php', {
             'pos_id' : pos_id,
             'pos_status_id' : pos_status_id,
         }, function(data, status) {
