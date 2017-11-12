@@ -22,7 +22,7 @@
           <td>{{obj.unit_name}}</td>
           <td>{{(obj.unit_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
           <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editUnit(obj.unit_id)">Edit</button></td>
-          <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteUnit(obj.unit_id)">Delete</button></td>
+          <td><button type="button" class="btn btn-sm btn-danger full-width" ng-disabled="obj.unit_status_id != 1" ng-click="deleteUnit(obj.unit_id)">Delete</button></td>
       </tr>
       <!-- แสดงข้อมูล unit ทั้งหมด -->
 

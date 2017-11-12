@@ -22,7 +22,7 @@
         <td>{{obj.role_name}}</td>
         <td>{{(obj.role_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editRole(obj.role_id)">Edit</button></td>
-        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteRole(obj.role_id)">Delete</button></td>
+        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-disabled="obj.role_status_id != 1" ng-click="deleteRole(obj.role_id)">Delete</button></td>
     </tr>
     
     </tbody>

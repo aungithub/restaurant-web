@@ -378,11 +378,11 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 
 										if (result.data.status == 200) {
 											noty({
-								                type : 'success',
+								                type : result.data.noty_type,
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลโปรโมชั่นสำเร็จ...',
+								                text : result.data.message,
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty

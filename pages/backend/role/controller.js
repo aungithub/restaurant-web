@@ -350,11 +350,11 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 
 										if (result.data.status == 200) {
 											noty({
-								                type : 'success',
+								                type : result.data.noty_type,
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลสิทธิ์การใช้งานสำเร็จ...',
+								                text : result.data.message,
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
