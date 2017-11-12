@@ -305,8 +305,8 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 	$scope.updateUnitdetail = function() {
 		var primary_unit_id = $.trim($("#edit_primary_unit_id").val()),
 			secondary_unit_id = $.trim($("#edit_secondary_unit_id").val()),
-			primary_unit_number = $("#edit_primary_unit_number").val(),
-			secondary_unit_number = $("#edit_secondary_unit_number").val(),
+			primary_unit_number = $("#edit_secondary_unit_number").val(),
+			secondary_unit_number = $("#edit_primary_unit_number").val(),
 			unitdetail_status_id = $("#edit_unitdetail_status_id").val();
 
 		if (primary_unit_id != '' && secondary_unit_id != '' && primary_unit_number != '' && secondary_unit_number != '' && unitdetail_status_id != 999) {
