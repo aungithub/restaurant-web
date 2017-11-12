@@ -377,7 +377,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลหน่วยนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลการแปลงหน่วยนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',
@@ -398,7 +398,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลหน่วย...',
+                            text : 'กำลังลบข้อมูลการแปลงหน่วย...',
                             callback : {
                                 afterShow : function () {
 
@@ -411,7 +411,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยสำเร็จ...',
+								                text : 'ลบข้อมูลการแปลงหน่วยสำเร็จ...',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -429,7 +429,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลการแปลงหน่วยไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -514,7 +514,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 	};
 
 	this.deleteUnitdetail = function (unitdetail_id, unitdetail_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_unitdetail.php', {
+		return $http.post('http://localhost/restaurant-api/api_delete_unitdetail.php', {
             'unitdetail_id' : unitdetail_id,
             'unitdetail_status_id' : unitdetail_status_id,
         }, function(data, status) {
