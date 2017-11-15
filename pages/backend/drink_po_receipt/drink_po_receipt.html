@@ -23,15 +23,16 @@
 
     <thead>
     <tr>
-        <th style="width: 15%;">รหัสใบเสนอซื้อ</th>
+        <th style="width: 15%;">รหัสใบสั่งซื้อ</th>
         <th style="width: 40%;">วันที่สั่งซื้อ</th>
         <th style="width: 40%;">สถานะ</th>
         <th style="width: 8%;">รายละเอียด</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="obj in listDrinkPOReceiptObject | orderBy:'dp_receipt_status_number'" ng-show="obj.dp_approved == true && (obj.dp_receipt_status_number == poStatus || poStatus == -1)" ng-style="(obj.dp_receipt_status_number == 0 && {'background-color': '#F5F5F5'}) || (obj.dp_receipt_status_number == 1 && {'background-color': '#F0E68C'}) || obj.dp_receipt_status_number == 2 && {'background-color': '#98FB98'}">
-        <th>{{'DPR' + obj.dp_char_id}}</th>
+    <tr ng-repeat="obj in listDrinkPOReceiptObject | orderBy:'dp_receipt_status_number'" ng-show="obj.dp_approved == true && (obj.dp_receipt_status_number == poStatus || poStatus == -1)" ng-style="(obj.dp_receipt_status_number == 0 && {'background-color': '#F5F5F5'}) || (obj.dp_receipt_status_number == 1 && {'background-color': '#F0E68C'}) || obj.dp_receipt_status_number == 2 && {'background-color': '#98FB98'}"> 
+      
+        <th>{{'DO' + obj.dp_char_id}}</th>
         <td>{{obj.dp_date}}</td>
         <td>{{obj.dp_receipt_status}}</td>
         <td> <button type="button" class="btn btn-sm btn-default full-width" data-toggle="modal" data-target="#viewModal" ng-click="viewDrinkPO(obj.dp_id)">รายละเอียด</button></td>
@@ -59,10 +60,10 @@
         <form class="form-horizontal">
 
           <div class="form-group">
-            <label class="control-label col-sm-3">รหัสการสั่งซื้อ</label>
+            <label class="control-label col-sm-3">รหัสใบสั่งซื้อ</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{'DPR' + selectedDrinkPOReceiptObject.dp_char_id}}">
+                <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{'DO' + selectedDrinkPOReceiptObject.dp_char_id}}">
               </div>
             </div>
           </div>

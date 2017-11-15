@@ -407,7 +407,7 @@
             <label class="control-label col-sm-3">เครื่องดื่ม</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <select class="form-control" id="add_drink_id">
+                <select class="form-control" id="add_drink_id" ng-model="addDrinkId" ng-change="selectDrink()">
                   <option selected="selected">เลือกเครื่องดื่ม</option>
                   <option ng-repeat="obj in drink" value="{{obj.drink_id}}">{{obj.drink_name}}</option>
                 </select>
@@ -419,9 +419,9 @@
             <label class="control-label col-sm-3">หน่วย</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <select class="form-control" id="add_unit_id">
+                <select class="form-control" id="add_unit_id"  ng-model="addUnitId" ng-change="selectDrinkUnit()">
                   <option selected="selected">เลือกหน่วย</option>
-                  <option ng-repeat="obj in unit" value="{{obj.unit_id}}">{{obj.unit_name}}</option>
+                  <option ng-repeat="obj in unit" value="{{obj.unitdetail_id}}">{{obj.unitdetail_name}}</option>
                 </select>
               </div>
             </div>
@@ -431,7 +431,7 @@
             <label class="control-label col-sm-3">บริษัท</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <select class="form-control" id="add_vendor_id">
+                <select class="form-control" id="add_vendor_id" ng-model="addVendorId" ng-change="selectDrinkVendor()">
                   <option selected="selected">เลือกบริษัท</option>
                   <option ng-repeat="obj in vendor" value="{{obj.vendor_id}}">{{obj.vendor_name}}</option>
                 </select>
@@ -452,11 +452,68 @@
             <label class="control-label col-sm-3">ราคาต่อหน่วย</label>
             <div class="col-sm-9">
               <div class="input-group">
-                <input type="text" id="add_unit_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                <input type="text" id="add_unit_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" ng-value="vendorUnitPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3"></label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <button type="button" class="btn btn-primary" ng-show="isEditingItem==false" ng-click="addItem()">เพิ่ม</button>
+                <button type="button" class="btn btn-info" ng-show="isEditingItem==true" ng-click="editingItemUpdate()">แก้ไข</button>
+                &nbsp;
+                <button type="button" class="btn btn-default" ng-click="resetItem()">ยกเลิก</button>
               </div>
             </div>
           </div>
           
+        </form>
+
+        <form class="form-horizontal">
+
+          <div class="form-group">
+            <label class="control-label col-sm-3" style="text-align: left; text-decoration: underline;"><h4>รายการเสนอซื้อ</h4></label>
+            <label class="control-label col-sm-8"></label>
+          </div>
+
+          <div class="form-group">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                    <td style="width: 3%;">ลำดับ</td>
+                    <td style="width: 13.8%;">ชื่อ</td>
+                    <td style="width: 13.8%;">บริษัท</td>
+                    <td style="width: 13.8%;">จำนวน</td>
+                    <td style="width: 13.8%;">หน่วย</td>
+                    <td style="width: 13.8%;">ราคา</td>
+                    <td style="width: 13.8%;">แก้ไข</td>
+                    <td style="width: 13.8%;">ลบ</td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="obj in addDrinkObject">
+                    <td style="width: 3%;">{{$index + 1}}</td>
+                    <td style="width: 13.8%;">{{obj.drink_name}}</td>
+                    <td style="width: 13.8%;">{{obj.vendor_name}}</td>
+                    <td style="width: 13.8%;">{{obj.number}}</td>
+                    <td style="width: 13.8%;">{{obj.unit_name}}</td>
+                    <td style="width: 13.8%;">{{obj.unit_price | number : 2}}</td>
+                    <td style="width: 13.8%;"><button type="button" class="btn btn-sm btn-info full-width" ng-click="editItem($index)">แก้ไข</button></td>
+                    <td style="width: 13.8%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteItem($index)">ลบ</button></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="form-group">
+              <label class="control-label col-sm-12" style="text-align: left; margin-left: 15px;"><h5>ราคารวมทั้งหมด : {{totalPriceList | number : 2}}</h5></label>
+              <label class="control-label col-sm-12" style="text-align: left; margin-left: 15px;"><h5>ภาษีมูลค่าเพิ่ม 7% : {{totalPriceList * 0.07 | number : 2}}</h5></label>
+              <label class="control-label col-sm-12" style="text-align: left; margin-left: 15px;"><h5>รวมสุทธิ : {{totalPriceList + (totalPriceList * 0.07) | number : 2}}</h5></label>
+            </div>
+
+          </div>
         </form>
 
       </div>

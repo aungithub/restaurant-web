@@ -73,7 +73,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.listTableObject = result.data.tables;
-								$scope.$apply();
+								//$scope.$apply();
 						}
 						else {
 							noty({
@@ -98,10 +98,11 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 	// Add Unit
 	$scope.addTable = function() {
 		var table_number = $.trim($("#add_table_number").val()), // ตตัดspacebarทั้งหมด
-			table_status_id = $("#add_table_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
+			table_status = $("#add_table_status").val(),//ดึงค่าจากselectมาไว้ในตัแปล
+			table_status_id = $("#add_table_status_id").val();
 
-		if (table_number != '' && table_status_id != 999 ) {
-			TableService.addTable($("#add_table_number").val(), table_status_id).then(function (result) {
+		if (table_number != '' && table_status != '' && table_status_id != 999 ) {
+			TableService.addTable($("#add_table_number").val(), table_status , table_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -219,10 +220,11 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 	$scope.updateTable = function(id) {
 		var table_id = $.trim($("#edit_table_pk_id").val()),
 			table_number = $.trim($("#edit_table_number").val()),
+			table_status = $("#edit_table_status").val(),
 			table_status_id = $("#edit_table_status_id").val();
 
-		if (table_id != '' && table_number != '' && table_status_id != 999) {
-			TableService.updateTable(table_id, table_number, table_status_id).then(function (result) {
+		if (table_id != '' && table_number != '' && table_status != '' && table_status_id != 999) {
+			TableService.updateTable(table_id, table_number, table_status ,table_status_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -283,6 +285,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
 	// Delete Unit
 	$scope.deleteTable = function(id) {
 		var table_id = id,
+			table_status = 2,
 			table_status_id = 2;
 
 		if (table_id != '') {
@@ -315,7 +318,7 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
-                                    TableService.deleteTable(table_id, table_status_id).then(function (result) {
+                                    TableService.deleteTable(table_id,table_status, table_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -386,10 +389,11 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
         });
 	};
 
-	this.addTable = function (table_number, table_status_id) {
+	this.addTable = function (table_number, table_status,table_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_table.php', {
             'number' : table_number,
-            'status' : table_status_id,
+            'table_status' : table_status,
+             'status' : table_status_id,
         }, function(data, status) {
             return data;
         });
@@ -404,20 +408,22 @@ angular.module('RESTAURANT.admin_table', ['ngRoute'])
         });
 	};
 
-	this.updateTable = function (table_id, table_number, table_status_id) {
+	this.updateTable = function (table_id, table_number,table_status, table_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_table.php', {
             'table_id' : table_id,
             'table_number' : table_number,
-            'table_status_id' : table_status_id,
+            'table_status' : table_status,
+             'table_status_id' : table_status_id,
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deleteTable = function (table_id, table_status_id) {
+	this.deleteTable = function (table_id,table_status, table_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_delete_table.php', {
             'table_id' : table_id,
-            'table_status_id' : table_status_id,
+            'table_status' : table_status,
+             'table_status_id' : table_status_id,
         }, function(data, status) {
             return data;
         });

@@ -9,9 +9,10 @@
 
     <thead>
     <tr>
-        <th style="width: 25%;">หมายเลขโต๊ะ</th>
-        <th style="width: 34%;">จำนวน</th>
-        <th style="width: 25%;">สถานะ</th>
+        <th style="width: 21%;">หมายเลขโต๊ะ</th>
+        <th style="width: 21%;">จำนวน</th>
+        <th style="width: 21%;">สถานะโต๊ะ</th>
+        <th style="width: 21%;">สถานะ</th>
         <th style="width: 8%;">แก้ไข</th>
         <th style="width: 8%;">ลบ</th>
     </tr>
@@ -20,6 +21,7 @@
     <tr ng-repeat="obj in listTableObject">
         <th >{{'T' + obj.table_char_id}}</th>
         <td>{{obj.table_number}}</td>
+        <td>{{(obj.table_status == 1 ? 'จองแล้ว' : 'ว่าง')}}</td>
         <td>{{(obj.table_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editTable(obj.table_id)">Edit</button></td>
         <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteTable(obj.table_id)">Delete</button></td>
@@ -49,11 +51,26 @@
           <div class="col-lg-3">
             <p>จำนวนโต๊ะ</p>
             <p>&nbsp;</p>
+            <p>สถานะโต๊ะ</p>
+             <p>&nbsp;</p>
             <p>สถานะ</p>
           </div>
           <div class="col-lg-9">
             <div class="input-group input-group-sm fullwidth">
                 <input type="text" id="add_table_number" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+            </div>
+
+            <p>&nbsp;</p>
+
+            <div class="btn-group" role="group">
+
+              <div class="btn-group" role="group">
+                <select class="form-control" id="add_table_status">
+                  <option value="">เลือกสถานะ</option>
+                  <option value="1">จองแล้ว</option>
+                  <option value="2">ว่าง</option>
+                </select>
+              </div>
             </div>
 
             <p>&nbsp;</p>
@@ -108,6 +125,8 @@
             <p>&nbsp;</p>
             <p>จำนวน</p>
              <p>&nbsp;</p>
+            <p>สถานะโต๊ะ</p>
+             <p>&nbsp;</p>
             <p>สถานะ</p>
           </div>
           <!-- ฝั่งซ้าย -->
@@ -126,6 +145,16 @@
             </div>
 
             <p>&nbsp;</p>
+
+            <div class="btn-group" role="group">
+              <select class="form-control" id="edit_table_status">
+                <option value="999">เลือกสถานะ</option>
+                <option value="1">จองแล้ว</option>
+                <option value="2">ว่าง</option>
+              </select>
+            </div>
+
+             <p>&nbsp;</p>
 
             <div class="btn-group" role="group">
               <select class="form-control" id="edit_table_status_id">
