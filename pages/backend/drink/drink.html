@@ -23,7 +23,7 @@
     <tbody>
    <tr ng-repeat="obj in listDrinkObject" ng-style="obj.is_less == 1 && {'background-color': '#FC7D61'}">
           <th>{{'D' + obj.drink_char_id}}</th>
-          <td>{{obj.drink_name}} <label ng-show="obj.drink_number < obj.drink_order_point && drinkPOPrivacy == true && obj.drink_status_id == 1" data-toggle="modal" data-target="#addDrinkPOModal" ng-click="createDrinkPO(obj.drink_id)" style="color: blue; text-decoration: underline; cursor: pointer;">(กดเพื่อสั่งซื้อ)</label></td>
+          <td>{{obj.drink_name}} <label ng-show="obj.drink_number < 5 && drinkPOPrivacy == true && obj.drink_status_id == 1" data-toggle="modal" data-target="#addDrinkPOModal" ng-click="createDrinkPO(obj.drink_id)" style="color: blue; text-decoration: underline; cursor: pointer;">(กดเพื่อสั่งซื้อ)</label></td>
           <td>{{obj.vendor_name_list}}</td>
           <td>{{obj.drink_number}}</td> 
           <td>{{obj.unit_name}}</td>
