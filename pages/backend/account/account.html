@@ -13,9 +13,9 @@
         <div class="col-sm-4">
           <input type="text" class="form-control" id="firstname" placeholder="firstname">
         </div>
-        <label for="firstname" class="col-sm-2 col-form-label">Laststname</label>
+        <label for="lastname" class="col-sm-2 col-form-label">Lastname</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="firstname" placeholder="lastname">
+          <input type="text" class="form-control" id="lastname" placeholder="lastname">
         </div>
       </div>
 
@@ -63,10 +63,10 @@
             </select>
           </div>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="birthday" placeholder="Day">
+            <input type="text" class="form-control" id="birthday" placeholder="Day" maxlength="2" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
           </div>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="birthyear" placeholder="Year">
+            <input type="text" class="form-control" id="birthyear" placeholder="Year" maxlength="4" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
           </select>
         </div>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="mobilephone" placeholder="Mobile Phone">
+          <input type="text" class="form-control" id="mobilephone" placeholder="Mobile Phone" maxlength="11" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
         </div>
       </div>
 
@@ -102,10 +102,10 @@
 
       <div class="form-group row">
         <div class="col-sm-6">
-          <button type="button" class="form-control" id="add">Add Account</button>
+          <button type="button" class="form-control" id="add" ng-click="addAccount()">Add Account</button>
         </div>
         <div class="col-sm-6">
-          <button type="button" class="form-control" id="edit">Edit Account</button>
+          <button type="button" class="form-control" id="edit" ng-click="editAccount()">Edit Account</button>
         </div>
       </div>
 

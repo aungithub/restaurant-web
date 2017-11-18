@@ -110,113 +110,169 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 		}
 	};
 
-	/*$scope.loginClicked = function () {
-		var username = $.trim($('#username').val());
-		var password = $.trim($('#password').val());
-		if (username == '' || password == '') {
+	$scope.addAccount = function () {
+		if ($.trim($('#firstname').val()) == '') {
 			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
                 type : 'warning',
                 layout : 'top',
                 modal : true,
                 timeout: 3000,
-                text : 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                text : 'กรุณากรอกชื่อ',
             });
-		} 
-		else {
+            return;
+		}
+		if ($.trim($('#lastname').val()) == '') {
 			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
-                type : 'alert',
+                type : 'warning',
                 layout : 'top',
                 modal : true,
-                text : 'กำลังเข้าสู่ระบบ...',
-                closeWith: [], // บังคับไม่ให้กดปิด
-                callback: {
-                	afterShow: function () {
-                		UserLogin.login(username, password).then(function (result) {
-
-                			if (result.data.status == 404) {
-                				$.noty.clearQueue(); $.noty.closeAll();
-								noty({
-					                type : 'warning',
-					                layout : 'top',
-					                modal : true,
-					                timeout: 3000,
-					                text : 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
-					            });
-                			}
-                			else if (result.data.status == 200) {
-                				$.noty.clearQueue(); $.noty.closeAll(); // เคลียร์ noty ทั้งหมด
-
-                				// ทำให้รู้ว่า login แล้ว
-                				$rootScope.isLoggedIn = true;
-
-                				// เก็บสิทธิ์ไว้ที่ตัวแปรเพื่อเอาไปใช้ในทุกๆหน้า
-                				$rootScope.privacyAccess = result.data.roles;
-                				
-                				$cookies.put('isLoggedIn', true);
-                				$cookies.put('privacyAccess', $rootScope.privacyAccess);
-                				$cookies.put('empID', result.data.emp_id);
-                				$cookies.put('empPosID', result.data.emp_pos_id);
-
-								noty({
-					                type : 'success',
-					                layout : 'top',
-					                modal : true,
-					                timeout: 3000,
-					                text : 'เข้าสู่ระบบสำเร็จ...',
-					                callback: {
-					                	afterClose: function () {
-					                		$.noty.clearQueue(); $.noty.closeAll();
-
-					                		// ควรพา user เข้าไปสู่หน้าที่เขาสามารถทำงานต่อได้หลังจากเข้าสู่ระบบ
-					                		$window.location.href = $rootScope.adminFirstPage;
-					                	}
-					                }
-					            });
-                			}
-						});
-                	}
-                }
+                timeout: 3000,
+                text : 'กรุณากรอกนามสกุล',
             });
+            return;
 		}
-	};*/
+		if ($.trim($('#username').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอก Username',
+            });
+            return;
+		}
+		if ($.trim($('#password').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอก password',
+            });
+            return;
+		}
+		if ($.trim($('#confirmpassword').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอก confirmpassword',
+            });
+            return;
+		}
+		else {
+			if ($('#password').val() != $('#confirmpassword').val()) {
+				$.noty.clearQueue(); $.noty.closeAll();
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'password กับ confirmpassword ต้องตรงกัน',
+	            });
+	            return;
+			}
+		}
+
+		if ($.trim($('#birthday').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกวันที่เกิด',
+            });
+            return;
+		}
+		if ($.trim($('#birthyear').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกปีที่เกิด',
+            });
+            return;
+		}
+		if ($.trim($('#mobilephone').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกเบอร์โทร',
+            });
+            return;
+		}
+		if ($.trim($('#email').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอก email',
+            });
+            return;
+		}
+		if ($.trim($('#mobilephone').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกเบอร์โทร',
+            });
+            return;
+		}
+	};
+
 }])
 .service('AccountService', ['$http', '$q',function ($http, $q) {
-	this.getAccountID = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_account_id.php', {
-        }, function(data, status) {
-            return data;
-        });
-	};
+this.getAccountID = function () {
+	return $http.get('http://localhost/restaurant-api/api_get_account_id.php', {
+    }, function(data, status) {
+        return data;
+    });
+};
 
-	this.getAccount = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_account.php', {
-        }, function(data, status) {
-            return data;
-        });
-	};
+this.getAccount = function () {
+	return $http.get('http://localhost/restaurant-api/api_get_account.php', {
+    }, function(data, status) {
+        return data;
+    });
+};
 
-	this.search = function (search) {
-		return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
-        }, function(data, status) {
-            return data;
-        });
-	};
+this.search = function (search) {
+	return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
+    }, function(data, status) {
+        return data;
+    });
+};
 
-	this.delete = function (Account_ID) {
-		return $http.post('http://localhost/restaurant-api/api_delete_account.php', {
-			'Account_ID': Account_ID
-        }, function(data, status) {
-            return data;
-        });
-	};
+this.delete = function (Account_ID) {
+	return $http.post('http://localhost/restaurant-api/api_delete_account.php', {
+		'Account_ID': Account_ID
+    }, function(data, status) {
+        return data;
+    });
+};
 
-	this.checkusername = function (username) {
-		return $http.post('http://localhost/restaurant-api/api_check_account_username.php', {
-			'username': username
-        }, function(data, status) {
-            return data;
-        });
-	};
+this.checkusername = function (username) {
+	return $http.post('http://localhost/restaurant-api/api_check_account_username.php', {
+		'username': username
+    }, function(data, status) {
+        return data;
+    });
+};
 }]);
