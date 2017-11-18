@@ -69,3 +69,49 @@ ALTER TABLE Account_Password DROP PRIMARY KEY, ADD PRIMARY KEY(Account_ID, Item)
 
 
 # อัพเดท เว็บและ api ปรับปรุงการ add
+
+
+# จบ
+
+
+
+
+TABLE ทั้งหมด หากเจ๊งยังสามารถนำ script ข้างล่างไป run ได้
+#===================================#
+
+
+CREATE TABLE `Account` (
+  `Account_ID` char(10) NOT NULL DEFAULT '',
+  `M_NAME` varchar(50) DEFAULT '',
+  `M_LastName` varchar(50) DEFAULT '',
+  `M_Username` varchar(50) DEFAULT '',
+  `Birthday` date DEFAULT NULL,
+  `Gender` char(1) DEFAULT NULL,
+  `Country_ID` char(5) DEFAULT NULL,
+  `Mobile` char(9) DEFAULT NULL,
+  `Email` char(50) DEFAULT NULL,
+  PRIMARY KEY (`Account_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE `Account_Password` (
+  `Account_ID` char(10) NOT NULL DEFAULT '',
+  `Item` char(3) NOT NULL DEFAULT '',
+  `M_Password` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Account_ID`,`Item`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE `Country` (
+  `Country_ID` char(5) NOT NULL DEFAULT '',
+  `Country_Name` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Country_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `Country` (`Country_ID`, `Country_Name`)
+VALUES
+	('66','Thailand');
