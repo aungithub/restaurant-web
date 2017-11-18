@@ -16,7 +16,25 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 		$location.path('/backend/admin_login');
 	}
 
-	$scope.drinkPOPrivacy = ($rootScope.privacyAccess.indexOf(route) != -1 ? true : false);
+	$scope.account = null;
+
+	AccountService.getAccount().then(function (result) {
+		$scope.account = result.data.account;
+	});
+
+	$scope.selectaccount = function (Account_ID) {
+
+	};
+
+	$scope.deleteaccount = function (Account_ID) {
+		
+	};
+
+	$scope.search = function () {
+		AccountService.search($('#search').val()).then(function (result) {
+			$scope.account = result.data.account;
+		});
+	};
 
 	/*$scope.loginClicked = function () {
 		var username = $.trim($('#username').val());
@@ -91,12 +109,15 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	};*/
 }])
 .service('AccountService', ['$http', '$q',function ($http, $q) {
-	this.login = function (username, password) {
-		$http.defaults.headers.common = { 'Content-type' : 'application/json'};
+	this.getAccount = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_account.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
 
-		return $http.post('http://localhost/restaurant-api/api_login.php', {
-            'username' : username,
-            'password' : password
+	this.search = function (search) {
+		return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
         }, function(data, status) {
             return data;
         });

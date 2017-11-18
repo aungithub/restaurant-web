@@ -115,7 +115,7 @@
           <input type="text" class="form-control" id="search" placeholder="Search">
         </div>
         <div class="col-sm-5">
-          <button type="button" class="form-control btn btn-primary" id="buttonsearch">Search</button>
+          <button type="button" class="form-control btn btn-primary" id="buttonsearch" ng-click="search()">Search</button>
         </div>
       </div>
 
@@ -136,43 +136,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><a>เลือก</a></td>
-            <td>ACC00001</td>
-            <td>ball</td>
-            <td>supapong</td>
-            <td>bsupapong</td>
-            <td><a>ลบ</a></td>
+          <tr ng-repeat="obj in account">
+            <td><a ng-click="selectaccount(obj.Account_ID)">เลือก</a></td>
+            <td>{{obj.Account_ID}}</td>
+            <td>{{obj.M_NAME}}</td>
+            <td>{{obj.M_LastName}}</td>
+            <td>{{obj.M_Username}}</td>
+            <td><a ng-click="deleteaccount(obj.Account_ID)">ลบ</a></td>
           </tr>
-          <tr>
-            <td><a>เลือก</a></td>
-            <td>ACC00001</td>
-            <td>ball</td>
-            <td>supapong</td>
-            <td>bsupapong</td>
-            <td><a>ลบ</a></td>
-          </tr>
-          <tr>
-            <td><a>เลือก</a></td>
-            <td>ACC00001</td>
-            <td>ball</td>
-            <td>supapong</td>
-            <td>bsupapong</td>
-            <td><a>ลบ</a></td>
-          </tr>
-       <!--<tr ng-repeat="obj in listDrinkObject" ng-style="obj.is_less == 1 && {'background-color': '#FC7D61'}">
-              <th>{{'D' + obj.drink_char_id}}</th>
-              <td>{{obj.drink_name}} <label ng-show="obj.drink_number < 5 && drinkPOPrivacy == true && obj.drink_status_id == 1" data-toggle="modal" data-target="#addDrinkPOModal" ng-click="createDrinkPO(obj.drink_id)" style="color: blue; text-decoration: underline; cursor: pointer;">(กดเพื่อสั่งซื้อ)</label></td>
-              <td>{{obj.vendor_name_list}}</td>
-              <td>{{obj.drink_number}}</td> 
-              <td>{{obj.unit_name}}</td>
-              <td>{{obj.drink_price}}</td>
-              <td>{{(obj.drink_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>  
-              
-              <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editDrink(obj.drink_id)">Edit</button></td>
-              <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteDrink(obj.drink_id)">Delete</button></td>
-          </tr>-->
-           <!-- แสดงข้อมูล unit ทั้งหมด -->
 
         </tbody>
       </table>
