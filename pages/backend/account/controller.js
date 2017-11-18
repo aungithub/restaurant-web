@@ -21,12 +21,25 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	$scope.country = null;
 
 	$scope.load_account_data = function() {
+
 		AccountService.getAccountID().then(function (result_Account_ID) {
 			$scope.account_id = result_Account_ID.data.Account_ID;
 
 			AccountService.getAccount().then(function (result) {
 				$scope.account = result.data.account;
-				$scope.country = result.data.country;;
+				$scope.country = result.data.country;
+
+				$('#firstname').val('');
+				$('#lastname').val('');
+				$('#username').val('');
+				$('#password').val('');
+				$('#birthyear').val('');
+				$('#birthmonth').val('01');
+				$('#birthday').val('');
+				$('#gender').val('M');
+				$('#country').val(66);
+				$('#mobilephone').val('');
+				$('#email').val('');
 			});
 		});
 	}
@@ -151,6 +164,21 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
                 text : 'กรุณากรอก Username',
             });
             return;
+		}
+		else {
+			AccountService.checkusername($('#username').val()).then(function (result) {
+				if (result.data.status == 500) {
+					$.noty.clearQueue(); $.noty.closeAll();
+					noty({
+		                type : 'warning',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : 'username ซ้ำ',
+		            });
+		            return;
+				}
+			});
 		}
 		if ($.trim($('#password').val()) == '') {
 			$.noty.clearQueue(); $.noty.closeAll();

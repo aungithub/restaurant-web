@@ -60,3 +60,12 @@ INSERT INTO Country(Country_ID, Country_Name) VALUES(66, 'Thailand');
 
 
 # อัพเดท เว็บและ api การ add เสร็จ
+
+
+
+
+# run alter table
+ALTER TABLE Account_Password DROP PRIMARY KEY, ADD PRIMARY KEY(Account_ID, Item);
+
+
+# อัพเดท เว็บและ api ปรับปรุงการ add
