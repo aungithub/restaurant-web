@@ -210,6 +210,19 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
             });
             return;
 		}
+		else {
+			if ($('#birthyear').val() < 1900 || $('#birthyear').val() > 2560) {
+				$.noty.clearQueue(); $.noty.closeAll();
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'ปีเกิดไม่ถูกต้อง',
+	            });
+	            return;
+			}
+		}
 		if ($.trim($('#mobilephone').val()) == '') {
 			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
@@ -243,44 +256,108 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
             });
             return;
 		}
+
+		var day = $('#birthday').val();
+		if (day.length == 1) {
+			day = '0' + day;
+		}
+
+		var data = {
+			'Account_ID': $('#Account_ID').val(),
+			'firstname': $('#firstname').val(),
+			'lastname': $('#lastname').val(),
+			'username': $('#username').val(),
+			'password': $('#password').val(),
+			'birthday': $('#birthyear').val() + '' + $('#birthmonth').val() + '' + day,
+			'gender': $('#gender').val(),
+			'country': $('#country').val(),
+			'mobilephone': $('#mobilephone').val(),
+			'email': $('#email').val()
+		};
+
+		noty({
+	        type : 'alert',
+	        layout : 'top',
+	        modal : true,
+	        text : 'เพิ่มข้อมูล',
+	        callback: {
+	        	afterShow: function (){
+	        		AccountService.addAccount(data).then(function (result) {
+	        			$.noty.clearQueue(); $.noty.closeAll();
+
+	        			if (result.data.status == 200) {
+	        				noty({
+				                type : 'success',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'เพิ่มข้อมูลสำเร็จ',
+				                callback: {
+				                	afterShow: function(){
+				                		$scope.load_account_data();
+				                	}
+				                }
+				            });
+	        			}
+	        			else {
+	        				noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'เพิ่มข้อมูลไม่สำเร็จ',
+				            });
+	        			}
+						
+					});
+	        	}
+	        }
+	    });
+
 	};
 
 }])
 .service('AccountService', ['$http', '$q',function ($http, $q) {
-this.getAccountID = function () {
-	return $http.get('http://localhost/restaurant-api/api_get_account_id.php', {
-    }, function(data, status) {
-        return data;
-    });
-};
+	this.getAccountID = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_account_id.php', {
+	    }, function(data, status) {
+	        return data;
+	    });
+	};
 
-this.getAccount = function () {
-	return $http.get('http://localhost/restaurant-api/api_get_account.php', {
-    }, function(data, status) {
-        return data;
-    });
-};
+	this.getAccount = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_account.php', {
+	    }, function(data, status) {
+	        return data;
+	    });
+	};
 
-this.search = function (search) {
-	return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
-    }, function(data, status) {
-        return data;
-    });
-};
+	this.search = function (search) {
+		return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
+	    }, function(data, status) {
+	        return data;
+	    });
+	};
 
-this.delete = function (Account_ID) {
-	return $http.post('http://localhost/restaurant-api/api_delete_account.php', {
-		'Account_ID': Account_ID
-    }, function(data, status) {
-        return data;
-    });
-};
+	this.delete = function (Account_ID) {
+		return $http.post('http://localhost/restaurant-api/api_delete_account.php', {
+			'Account_ID': Account_ID
+	    }, function(data, status) {
+	        return data;
+	    });
+	};
 
-this.checkusername = function (username) {
-	return $http.post('http://localhost/restaurant-api/api_check_account_username.php', {
-		'username': username
-    }, function(data, status) {
-        return data;
-    });
-};
+	this.checkusername = function (username) {
+		return $http.post('http://localhost/restaurant-api/api_check_account_username.php', {
+			'username': username
+	    }, function(data, status) {
+	        return data;
+	    });
+	};
+
+	this.addAccount = function (data) {
+		return $http.post('http://localhost/restaurant-api/api_add_account.php', data, function(data, status) {
+	        return data;
+	    });
+	};
 }]);

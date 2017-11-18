@@ -56,3 +56,7 @@ CREATE TABLE `Country` (
 # insert country ลง db
 
 INSERT INTO Country(Country_ID, Country_Name) VALUES(66, 'Thailand');
+
+
+
+# อัพเดท เว็บและ api การ add เสร็จ
