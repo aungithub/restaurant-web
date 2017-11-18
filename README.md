@@ -42,3 +42,6 @@ ng-keydown="$event.keyCode === 13 && function()"
 
 {{total_price + (total_price * 0.07) | number : 2}}
 # ราคารวม + 7% + แสดงทศนิยม  2 ตำแหน่ง
+
+<select class="form-control" id="add_vendor_id" ng-model="addVendorId" ng-change="selectDrinkVendor()">
+# ng-change ใช้เมื่อหากมีการเปลี่ยนตัวเลือกใน select option จะเข้าไปทำ function ที่กำหนด

@@ -80,6 +80,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		//$scope.poStatus
 	};
 
+	//cm function ที่ใช้เมื่อมีการเลือกเครื่องดื่ม จะทำการดึงบริษัทที่ผูกกับเครื่องดื่มนั้นๆ
 	$scope.selectDrink = function () {
 		var _drinkID = $.trim($('#add_drink_id').val());
 
@@ -91,6 +92,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		        text : 'กำลังโหลด...',
 		        callback: {
 		        	afterShow: function () {
+		        		//cm ดึงบริษัทที่ผูกกับเครื่องดื่มนี้
 						DrinkPOService.getVendorByDrinkID(_drinkID).then(function (result) {
 							$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
@@ -105,6 +107,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		$scope.vendorUnitPrice = '';
 	};
 
+	//cm ใช้เมื่อมีการเลือกบริษัทคู่ค้า จะเข้า function นี้ เพื่อทำการแสดงราคาเครื่องดื่มของบริษัทคู่ค้านี้
 	$scope.selectDrinkVendor = function () {
 		var _drinkVendorID = $.trim($('#add_vendor_id').val());
 
@@ -121,6 +124,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		}
 	};
 
+	//cm ใช้คำนวนราคาในหน้า อนุมัติ
 	$scope.calculatePrice = function() {
 		$scope.totalPrice = 0;//หาราคารวม
 		if ($scope.selectedDrinkPODetailObject != null) {
@@ -134,6 +138,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		}
 	};
 
+	//cm ใช้คำนวนราคาทั้งหมดในเครื่องดื่มที่เลือกในหน้า add
 	$scope.calculatePriceList = function() {
 		$scope.totalPriceList = 0;//หาราคารวม
 		if ($scope.addPOObject != null) {
@@ -208,7 +213,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		});
 	}
 
-	// Add Unit
+	//cm function สำหรับการ add การสั่งซื้อ
 	$scope.addDrinkPO = function() {
 
 		if ($rootScope.empID != '' && $rootScope.empID != 'undefined') {
@@ -294,6 +299,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	};
 	// END Add Unit
 
+	//cm function สำหรับคำนวนเมื่อมีการกรอกตัวเลขลงในช่องกรอก ในหน้าอนุมัติ
 	$scope.editDrink = function(index) {
 		if ($.trim($('#dpd_idx_' + index).val()) != '') { //$('#dpd_idx_' + index).val() คือการget valจากtextbox
 			$('#dpd_idx_' + index).val(parseInt($('#dpd_idx_' + index).val()))
@@ -307,7 +313,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		}
 	};
 
-	// Edit Unit
+	//cm function สำหรับดูการสั่งซื้อ สำหรับผู้ที่มีสิทธิ์อนุมัติการสั่งซื้อ เพื่อให้ใช้สำหรับการอนุมัติ
 	$scope.viewDrinkPO = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedDrinkPOObject = null;
@@ -356,6 +362,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	};
 	// END Edit Unit
 
+	//cm function สำหรับโ๙ว์ปุ่มออกใบสั่งซื้อ ตามบริษัท
 	$scope.viewDrinkPODoc = function (dp_id) {
 		$scope.selectedId = dp_id;
 		$scope.selectedDrinkPOObject = null;
@@ -378,6 +385,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 							var vendor = [];
 							var obj = [];
 
+							//cm ทำการรวมบริษัทเดียวกันไว้เป็นตัวเลือกเดียว
 							if (typeof $scope.selectedDrinkPODocObject != 'undefined') {
 								for (var i=0; i < $scope.selectedDrinkPODocObject.length; i++) {
 									if (vendor.indexOf($scope.selectedDrinkPODocObject[i].vendor_name) == -1) { //เช็คvendorname ซ้ำ ไหม
@@ -417,6 +425,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับ อนุมัติการสั่งซื้อ
 	$scope.approve = function(id) {
 		noty({
             type : 'confirm',
@@ -494,6 +503,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับไม่อนุมัติการสั่งซื้อ
 	$scope.reject = function(id) {
 		noty({
             type : 'confirm',
@@ -571,6 +581,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับล้างข้อมู, form
 	$scope.resetItem = function () {
 		$("#add_drink_id").val('');
 		$("#add_unit_id").val('');
@@ -580,6 +591,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		$scope.isEditingItem = false;
 	};
 
+	//cm function สำหรับเพิ่ม drink ลงในตัวแปร
 	$scope.addItem = function () {
 		var drink_index = $scope.drink.findIndex(x => x.drink_id==$("#add_drink_id").val()),//หาindexของเครื่องดื่มที่เลือกเพื่อจะนำไปหาชื่อเครื่องดื่ม
 			unit_index = $scope.unit.findIndex(x => x.unitdetail_id==$("#add_unit_id").val()),
@@ -591,6 +603,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 				vendor_index_obj = $scope.addPOObject.findIndex(x => x.vendor_id==$("#add_vendor_id").val());
 
 			if (drink_index_obj != -1 && vendor_index_obj != -1 && drink_index_obj == vendor_index_obj) {
+				//cm แก้ไขเครื่องดื่มที่มีในตัวแปรอยู่แล้ว
 				$scope.addPOObject[drink_index_obj].number = parseInt($scope.addPOObject[drink_index_obj].number) + parseInt($("#add_unit_number").val());
 				$scope.addPOObject[drink_index_obj].unit_price = $("#add_unit_price").val();
 				$scope.addPOObject[drink_index_obj].unit_id = $("#add_unit_id").val();
@@ -599,6 +612,8 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 			else {
 				console.log(unit_index);
 				console.log($scope.unit);
+
+				//cm เพิ่มเครื่องดื่มลงในตัวแปร
 				$scope.addPOObject.push({
 					drink_id: $("#add_drink_id").val(),
 					drink_name: $scope.drink[drink_index].drink_name,
@@ -631,11 +646,13 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		}
 	};
 
+	//cm ใช้สำหรับลบ item จาก array
 	$scope.deleteItem = function (index) {
 		$scope.addPOObject.splice(index, 1);//spliceใช้ตัดข้อมูลโดยการกำหนดindexของอาร์เรย์
 		$scope.calculatePriceList(); // คำนวนราคาทั้งหมดที่เลือก
 	};
 
+	//cm function สำหรับให้ auto ระบบกรอก form หลังจากกด edit
 	$scope.editItem = function (index) {
 		$scope.editingItemIndex = index;
 		$scope.isEditingItem = true;
@@ -646,11 +663,15 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		$("#add_unit_price").val($scope.addPOObject[index].unit_price);
 	};
 
+	//cm function ที่ใช้สำหรับ update item ที่แก้ไขใน list
 	$scope.editingItemUpdate = function () {
+		//cm ค้นหา index จากตัวแปร $scope.drink, $scope.unit, $scope.vendor ที่ถูกเลือกในตัวเลือกต่างๆ
 		var drink_index = $scope.drink.findIndex(x => x.drink_id==$("#add_drink_id").val()),
 			unit_index = $scope.unit.findIndex(x => x.unit_id==$("#add_unit_id").val()),
 			vendor_index = $scope.vendor.findIndex(x => x.vendor_id==$("#add_vendor_id").val());
 
+		//cm ถ้าเจอ index ในตัวแปร $scope.addPOObject
+		//cm ทำการใส่ข้อมูลเข้าไปใหม่เพื่ออัพเดทข้อมูลเดิม
 		if (drink_index != 'undefined' && unit_index != 'undefined' && vendor_index !='undefined' && drink_index != -1 && unit_index != -1 && vendor_index != -1 && $("#add_unit_number").val() != '' && $("#add_unit_price").val() != '') {
 			$scope.addPOObject[$scope.editingItemIndex].drink_id = $("#add_drink_id").val();
 			$scope.addPOObject[$scope.editingItemIndex].drink_name = $scope.drink[drink_index].drink_name;
@@ -661,8 +682,10 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 			$scope.addPOObject[$scope.editingItemIndex].number = $("#add_unit_number").val();
 			$scope.addPOObject[$scope.editingItemIndex].unit_price = $("#add_unit_price").val();
 
+			//cm ทำการล้างค่าข้อมูลที่ form ที่กรอก
 			$scope.resetItem();
-			$scope.calculatePriceList(); // คำนวนราคาทั้งหมดที่เลือก
+			//cm คำนวนราคาทั้งหมดที่เลือก
+			$scope.calculatePriceList(); 
 		}
 		else {
 			noty({
@@ -681,7 +704,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		}
 	};
 
-	// Print
+	//cm เปิดหน้า print โดยกำหนด dp_id กับ vendor_id ไปทาง url
 	$scope.printDrinkPO = function (dp_id, vendor_id) {
 		window.open('restaurant-web/#/backend/admin_drink_po_print?dp_id=' + dp_id + '&vendor_id=' + vendor_id,'_blank');
 	};
@@ -705,6 +728,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
         });
 	};
 
+	//cm อนุมัติการสั่งซื้อ
 	this.approveDrinkPO = function (id, drink_pos, approval, empID) {
 		return $http.post('http://localhost/restaurant-api/api_approve_drink_po.php', {
             'id' : id,
@@ -716,6 +740,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
         });
 	};
 
+	//cm get ตัวเลือกต่างๆสำหรับหน้าสั่งซื้อ
 	this.getAllPOSelection = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_po_selection.php', {
         }, function(data, status) {
