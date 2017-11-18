@@ -20,7 +20,8 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.admin_vendor',
 	'RESTAURANT.admin_drink_po',
 	'RESTAURANT.admin_drink_po_print',
-	'RESTAURANT.admin_drink_po_receipt'
+	'RESTAURANT.admin_drink_po_receipt',
+	'RESTAURANT.admin_account'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
@@ -118,6 +119,12 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$routeProvider.when('/backend/admin_drink_po_print', {
 		templateUrl: 'restaurant-web/pages/backend/drink_po_print/drink_po_print.html',
 		controller: 'DrinkPOPrintController',
+		cache: false
+	});
+
+	$routeProvider.when('/backend/admin_account', {
+		templateUrl: 'restaurant-web/pages/backend/account/account.html',
+		controller: 'AccountController',
 		cache: false
 	});
 
