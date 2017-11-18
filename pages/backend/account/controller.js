@@ -18,14 +18,22 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 
 	$scope.account_id = null;
 	$scope.account = null;
+	$scope.country = null;
 
-	AccountService.getAccountID().then(function (result_Account_ID) {
-		$scope.account_id = result_Account_ID.data.Account_ID;
+	$scope.load_account_data = function() {
+		AccountService.getAccountID().then(function (result_Account_ID) {
+			$scope.account_id = result_Account_ID.data.Account_ID;
 
-		AccountService.getAccount().then(function (result) {
-			$scope.account = result.data.account;
+			AccountService.getAccount().then(function (result) {
+				$scope.account = result.data.account;
+				$scope.country = result.data.country;;
+			});
 		});
-	});
+	}
+
+
+	// โหลดข้อมูลตอนเข้ามาหน้านี้
+	$scope.load_account_data();
 
 	$scope.selectaccount = function (Account_ID) {
 

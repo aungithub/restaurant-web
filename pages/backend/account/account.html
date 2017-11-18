@@ -85,7 +85,7 @@
         <label for="mobilephone" class="col-sm-2 col-form-label">Mobile Phone</label>
         <div class="col-sm-5">
           <select id="country" class="form-control">
-            <option selected value="66">Thailand</option>
+            <option ng-repeat="obj in country" value="{{obj.Country_ID}}">{{obj.Country_Name}}</option>
           </select>
         </div>
         <div class="col-sm-5">
