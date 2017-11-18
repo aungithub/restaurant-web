@@ -52,3 +52,7 @@ CREATE TABLE `Country` (
 # อัพเดท เว็บและ api auto generate account id
 
 # อัพเดท เว็บะล api เช็คค่าข้อมูลว่าครบหรือไม่
+
+# insert country ลง db
+
+INSERT INTO Country(Country_ID, Country_Name) VALUES(66, 'Thailand');
