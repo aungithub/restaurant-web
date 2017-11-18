@@ -46,3 +46,5 @@ CREATE TABLE `Country` (
 # อัพเดท เว็บและ api
 
 # อัพเดท เว็บและ api การลบ การ search
+
+# อัพเดท เว็บและ api เช็ค username ซ้ำ

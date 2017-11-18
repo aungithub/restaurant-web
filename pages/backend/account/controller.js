@@ -78,6 +78,33 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 		});
 	};
 
+	$scope.checkusername = function () {
+		if ($.trim($('#username').val()) != '') {
+
+			AccountService.checkusername($('#username').val()).then(function (result) {
+				if (result.data.status == 200) {
+					$.noty.clearQueue(); $.noty.closeAll();
+					noty({
+		                type : 'success',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : 'สามารถใช้ username นี้ได้',
+		            });
+				} else if (result.data.status == 500) {
+					$.noty.clearQueue(); $.noty.closeAll();
+					noty({
+		                type : 'warning',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : 'username ซ้ำ',
+		            });
+				}
+			});
+		}
+	};
+
 	/*$scope.loginClicked = function () {
 		var username = $.trim($('#username').val());
 		var password = $.trim($('#password').val());
@@ -168,6 +195,14 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	this.delete = function (Account_ID) {
 		return $http.post('http://localhost/restaurant-api/api_delete_account.php', {
 			'Account_ID': Account_ID
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.checkusername = function (username) {
+		return $http.post('http://localhost/restaurant-api/api_check_account_username.php', {
+			'username': username
         }, function(data, status) {
             return data;
         });
