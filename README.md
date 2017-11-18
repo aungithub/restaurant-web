@@ -25,3 +25,6 @@ ng-disabled="condition == true"
 
 <input type="text" maxlength="13"/>
 # คือกำหนดให้ input นี้ พิมพ์ได้สูงสุดแค่ 13 ตัวอักษร
+
+<button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteEmployee(obj.emp_id)">Delete</button>
+# ng-click นี้คือ กดแล้วจะไปทำงานที่ function deleteEmployee โดยส่ง emp_id ไปด้วย
