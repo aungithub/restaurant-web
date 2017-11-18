@@ -16,3 +16,9 @@ ng-show="condition == true"
 
 ng-disabled="condition == true"
 # ใส่ในอะไรก็ได้เพื่อจะเป็น condition ว่า จะให้ disable ต่อเมื่อ condition ถูกต้อง
+
+<input type="text" value="{{variable}}"/>
+# คือการแสดงข้อมูลตัวแปร variable จาก controller โดยจะต้องมี {{}}
+
+<label>{{variable}}</label>
+# คือการแสดงข้อมูลตัวแปร variable จาก controller โดยจะต้องมี {{}}
