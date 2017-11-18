@@ -1,5 +1,6 @@
  # restaurant-web
 
+HTML
 
 onkeypress='return event.charCode >= 48 && event.charCode <= 57'
 # ใส่ใน input type text เพื่อให้พิมพ์ได้แค่ตัวเลข
