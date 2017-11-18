@@ -31,13 +31,17 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         text : 'กำลังโหลด...',
         callback: {
         	afterShow: function () {
+        		//cm เข้ามาหน้านี้ จะดึงข้อมูลพนักงานทั้งหมดมาแสดงใน list
 				EmployeeService.getAllEmployee().then(function (result) {
 					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
+					//cm ถ้า status 200 คือดึงได้ปกติไม่มี error ใดๆ ฝั่ง API
 					if (result.data.status == 200) {
+						//cm โยนข้อมูลพนักงานทั้งหมดใส่ในตัวแปร เพื่อเอาไปแสดงที่ employee.html
 						$scope.listEmployeeObject = result.data.employees;
 					}
 					else {
+						//cm แสดงข้อความจาก api ถ้า status ไม่ใช่ 200
 						noty({
 			                type : 'warning',
 			                layout : 'top',
@@ -57,6 +61,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	});
 
 	// clear textbox value
+	//cm เคลียร์ข้อมูลใน textbox ต่างๆ และจะดึงข้อมูลบางส่วนมาใส่ select option
 	$scope.loadAddEmployeeForm = function() {
 		$("#add_emp_firstname").val('');
 		$("#add_emp_lastname").val('');
@@ -74,15 +79,18 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	        text : 'กำลังโหลด...',
 	        callback: {
 	        	afterShow: function () {
+	        		//cm ดึงตำแหน่งงานทั้งหมดจาก API และจะเอาไปแสดงใน select option
 					EmployeeService.getAllPositions().then(function (result) {
+						//cm ถ้า status 200 และ ตำแหน่งงานไม่ได้เป็นข้อมูลว่างๆ
 						if (result.data.status == 200 && result.data.positions.length > 0) {
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
 
+							//cm นำข้อมูลตำแหน่งงานลงตัวแปรเพื่อไปแสดงที่ select option
 							$scope.listPositionsObject = result.data.positions;
 						}
 						else {
-							// ปิด noty
+							//cm บังคับปิด noty ทั้งหมด เผื่อว่ามันมีค้างอยู่
 							$.noty.clearQueue(); $.noty.closeAll();
 
 							noty({
@@ -105,6 +113,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		});
 	};
 
+	//cm function สำหรับดึงข้อมูลพนักงานอีกรอบ และ refresh list เพื่อแสดงข้อมูลพนักงาน ณ ปัจจุบัน
 	$scope.refreshList = function() {
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
@@ -113,6 +122,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	        text : 'กำลังโหลด...',
 	        callback: {
 	        	afterShow: function () {
+	        		//cm ดึงพนักงานทั้งหมด
 					EmployeeService.getAllEmployee().then(function (result) {
 						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
@@ -140,8 +150,9 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		});
 	}
 
-	// Add Unit
+	//cm function สำหรับใช้ add พนักงาน
 	$scope.addEmployee = function() {
+		//cm เตรียมข้อมูลโดยดึงมาจาก textbox และ select option และอื่นๆ
 		var emp_firstname = $.trim($("#add_emp_firstname").val()), // ตตัดspacebarทั้งหมด
 			emp_lastname = $.trim($("#add_emp_lastname").val()), // ตตัดspacebarทั้งหมด
 			emp_card_id = $.trim($("#add_emp_card_id").val()), // ตตัดspacebarทั้งหมด
@@ -153,7 +164,9 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 			emp_position_id = $("#add_emp_position_id").val(), 
 			emp_status_id = $("#add_emp_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
+		//cm เช็คว่าถ้าพิมข้อมูลมาครบจะเข้าทำ if
 		if (emp_firstname != ''&& emp_lastname != '' && emp_card_id != '' && emp_username != '' && emp_password != ''  && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 ) {
+			//cm ถ้า password ไม่เหมือนกัน confirm password จะแจ้งเตือน
 			if (emp_password != emp_confirm_password) {
 				noty({
 	                type : 'warning',
@@ -173,6 +186,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 			}
 
+			//cm ถ้าความยาวรหัสบัตร ปชช ไม่เท่ากับ 13 หลัก จะแจ้งเตือน
 			if (emp_card_id.length != 13) {
 				noty({
 	                type : 'warning',
@@ -190,7 +204,9 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 			}
 
+			//cm ถ้าผ่านมาถึงนี้จะโยนข้อมูลทั้งหมดไปยัง addEmployee ใน EmployeeService เพื่อเอาลง database
 			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(),  $("#add_emp_card_id").val(), $("#add_emp_username").val(), $("#add_emp_password").val(), $("#add_emp_tel").val(), $("#add_emp_position_id").val(), emp_status_id).then(function (result) {
+				//cm ถ้า status 200 คือเอาลง database ได้ ไม่มีปัญหา
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -249,11 +265,11 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
             });
 		}
 	};
-	// END Add Unit
+	// END Add Employee
 
-	// Edit Unit
+	//cm function สำหรับเมื่อกด edit พนักงาน จะไปดึงข้อมูลมาโชว์ และให้ edit
 	$scope.editEmployee = function(id) {
-		$scope.selectedId = id;
+		$scope.selectedId = id; //cm เก็บ emp_id ใส่ตัวแปรไว้ เอาไปใช้ในอนาคต
 		$scope.selectedEmployeeObject = null;
 		$scope.selectedPositionObject = null;
 		$('#edit_emp_tel').val('');
@@ -265,15 +281,20 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
             text : 'กำลังดึงข้อมูลพนักงาน...',
             callback: {
             	afterShow: function () {
+            		//cm ดึงข้อมูลพนักงานโดยกำหนด emp_id
             		EmployeeService.getByID($scope.selectedId).then(function (result) {
 						if (result.data.status == 200 && result.data.employees.length > 0) {
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
 
+							//cm เอาข้อมูลพนักงานคนนี้ใส่ตัวแปร เอาไว้ไปโชว์ใน view
 							$scope.selectedEmployeeObject = result.data.employees[0];
+							//cm ดึงข้อมูลตำแหน่งงานมาโชว์ใน select option
 							$scope.selectedPositionObject = result.data.position;
+							//cm กรอกเบอร์โทรลงในช่อง
 							$('#edit_emp_tel').val($scope.selectedEmployeeObject.emp_tel);
 
+							//cm เช็คสถานะพนักงาน และให้เลือกสถานะในตัวเลือกอัตโนมัติ
 							if ($scope.selectedEmployeeObject.emp_status_id == 1) {
 								$("#edit_emp_status_id").val(1);
 							} else if ($scope.selectedEmployeeObject.emp_status_id == 2) {
@@ -282,6 +303,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 								$("#edit_emp_status_id").val(0);	
 							}
 
+							//cm timeout 0.1 วิ เพื่อให้ตำแหน่งงานถูกสร้างใน select option ก่อน จากนั้นจะเลือกตำแหน่งงานพนักงานคนนี้อัตโนมัติ
 							setTimeout(function() {
 								$("#edit_emp_position_id").val($scope.selectedEmployeeObject.emp_pos_id);
 							}, 100);
@@ -311,7 +333,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	};
 	// END Edit Unit
 
-	// Update Unit
+	//cm function สำหรับ update  ข้อมูลพนักงาน โดยกำหนด emp_id คนที่จะ update 
 	$scope.updateEmployee = function(id) {
 		var emp_id = $.trim($("#edit_emp_pk_id").val()),
 			emp_firstname = $.trim($("#edit_emp_firstname").val()),
@@ -419,14 +441,15 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
             });
 		}
 	};
-	// END Update Unit
+	// END Update employee
 
-	// Delete Unit
+	//cm function สำหรับลบพนักงานโดยกำหนด emp_id
 	$scope.deleteEmployee = function(id) {
 		var emp_id = id,
 			emp_status_id = 2;
 
 		if (emp_id != '') {
+			//cm แสดง noty เป็นแบบ confirm จะได้มีปุ่มให้กด
 			noty({
                 type : 'confirm',
                 layout : 'top',
@@ -456,6 +479,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
                             callback : {
                                 afterShow : function () {
 
+                                	//cm ส่ง emp_id และ สถานะ 2 (ไม่ใช้งาน) ไป function deleteEmployee ใน EmployeeService เพื่อลบพนักงานคนนี้
                                     EmployeeService.deleteEmployee(emp_id, emp_status_id).then(function (result) {
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
@@ -520,21 +544,27 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 }])
 .service('EmployeeService', ['$http', '$q',function ($http, $q) {
 
+	//cm function สำหรับดึงข้อมูลตำแหน่งงานทั้งหมดจากฐานข้อมูล โดยยิงไปขอที่ API
 	this.getAllPositions = function () {
+		//cm ใช้ http method get ในการดึง 
 		return $http.get('http://localhost/restaurant-api/api_get_position.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
+	//cm function สำหรับดึงข้อมูลพนักงานทั้งหมด
 	this.getAllEmployee = function () {
+		//cm ใช้ http method get ในการดึง
 		return $http.get('http://localhost/restaurant-api/api_get_employee.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
+	//cm function สำหรับ add พนักงานที่ user กรอก ลงในฐานข้อมูล
 	this.addEmployee = function (emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_pos_id, emp_status_id) {
+		//cm ใช้ http method pos ในการ post ข้อมูลไปยัง api เพื่อจะเอาลง database
 		return $http.post('http://localhost/restaurant-api/api_add_employee.php', {
             'firstname' : emp_firstname,
             'lastname' : emp_lastname,
@@ -549,6 +579,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับใช้ดึงพนักงานโดยการหนดให้ดึงตาม emp_id
 	this.getByID = function (id) {
 		var conditions = "?emp_id=" + id;
 
@@ -558,6 +589,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับใช้ update ข้อมูลพนักงาน
 	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_position_id, emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
             'emp_id' : emp_id,
@@ -575,6 +607,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับใช้ลบพนักงาน โดยส่ง emp_id ไปเป็นเงื่อนไขว่าจะลบคนนี้
 	this.deleteEmployee = function (emp_id,  emp_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_delete_employee.php', {
             'emp_id' : emp_id,
