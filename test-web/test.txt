@@ -1,1 +1,40 @@
-โจทย์
+#จดไว้กันลืม
+
+# เพิ่ม table account, account password, contry
+
+
+CREATE TABLE `Account` (
+  `Account_ID` char(10) NOT NULL DEFAULT '',
+  `M_NAME` varchar(50) DEFAULT '',
+  `M_LastName` varchar(50) DEFAULT '',
+  `M_Username` varchar(50) DEFAULT '',
+  `Birthday` date DEFAULT NULL,
+  `Gender` char(1) DEFAULT NULL,
+  `Country_ID` char(5) DEFAULT NULL,
+  `Mobile` char(9) DEFAULT NULL,
+  `Email` char(50) DEFAULT NULL,
+  PRIMARY KEY (`Account_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `Account_Password` (
+  `Account_ID` char(10) NOT NULL DEFAULT '',
+  `Item` char(3) NOT NULL DEFAULT '',
+  `M_Password` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Account_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `Country` (
+  `Country_ID` char(5) NOT NULL DEFAULT '',
+  `Country_Name` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Country_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# ======================================================================== #
+
+# ไปหน้าสิทธิ์ เพื่อเพิ่มสิทธิ์ ACCOUNT จะได้ใช้งานหน้า ACCOUNT ได้
