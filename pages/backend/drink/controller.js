@@ -40,6 +40,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		$location.path('/backend/admin_login');
 	}
 
+	//cm เช็คว่า user มีสิทธิ์ใช้งานหน้านี้หรือไม่ ถ้ามีคือ true ไม่มีคือ false ใช้สำหรับจะเอาไปโชว์ หรือซ่อนปุ่มสำหรับเปิดหน้า อนุมัติ
 	$scope.drinkPOPrivacy = ($rootScope.privacyAccess.indexOf('admin_drink_po,') != -1 ? true : false);
 
 	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
@@ -76,7 +77,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		}
 	});
 
-	// clear textbox value
+	// clear textbox value และ ดึงข้อมูลต่างๆ
 	$scope.loadAddDrinkForm = function() {
 		$("#add_drink_name").val('');
 		$("#add_drink_vendor_id").val('');
@@ -191,7 +192,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		});
 	}
 
-	// Add Unit
+	// Add drink
 	$scope.addDrink = function() {
 		var drink_name = $.trim($("#add_drink_name").val()), // ตตัดspacebarทั้งหมด
 			drink_order_point = $("#add_drink_order_point").val(),
@@ -261,9 +262,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
             });
 		}
 	};
-	// END Add Unit
+	// END Add drink
 
-	// Edit Unit
+	// Edit drink
 	$scope.editDrink = function(id) {
 		$scope.drinkName = "";
 		$scope.selectedId = id;
@@ -348,9 +349,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
             }
         });
 	};
-	// END Edit Unit
+	// END Edit drink
 
-	// Update Unit
+	// Update drink
 	$scope.updateDrink = function(id) {
 		var drink_name = $.trim($("#edit_drink_name").val()), // ตตัดspacebarทั้งหมด
 			drink_order_point = $("#edit_drink_order_point").val(),
@@ -416,9 +417,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
             });
 		}
 	};
-	// END Update Unit
+	// END Update drink
 
-	// Delete Unit
+	// Delete drink
 	$scope.deleteDrink = function(id) {
 		var drink_id = id,
 			drink_status_id = 2;
@@ -516,6 +517,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	// END Delete Unit
 
 
+	//cm function สำหรับสร้าง form ใบสั่งซื้อ และดึงการสั่งซื้อล่าสุดมาแสดง หลัวจากกด สั่งซื้อ จากเครื่องดื่มที่เหลือน้อย
 	$scope.createDrinkPO = function (drink_id) {
 
 		noty({
@@ -570,6 +572,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับสร้างใบสั่งซื้อหลังจากกดสร้างใบสั่งซื้อ
 	$scope.addDrinkPO = function () {
 		var add_drink_id = $.trim($('#add_drink_id').val()),
 			add_unit_id = $.trim($('#add_unit_id').val()),
@@ -757,8 +760,9 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		}
 	};
 
+	//cm
 	/*
-	* ส่วนของการแก้ไขเครื่องดื่ม 
+	* กันลืม: ส่วนของการแก้ไขเครื่องดื่ม 
 	* logic คล้ายๆส่วนของการสร้างเครื่องดื่ม
 	*/
 	$scope.resetEditingItem = function () {
@@ -767,6 +771,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		$scope.isEditingItem = false;
 	};
 
+	//cm เพิ่ม item ลงใน  list หลังจาก กด add
 	$scope.addEditingItem = function () {
 		$scope.drinkName = $('#edit_drink_name').val();
 		$scope.drinkNumber = $('#edit_drink_number').val();
@@ -813,10 +818,12 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		}
 	};
 
+	//cm ลบ item ออกจาก array
 	$scope.deleteEditingItem = function (index) {
 		$scope.selectedDrinkVendorListObject.splice(index, 1);//spliceใช้ตัดข้อมูลโดยการกำหนดindexของอาร์เรย์
 	};
 
+	//cm ออโต้กรอกข้อมูลลง form หลังกดปุ่มแก้ไข
 	$scope.editEditingItem = function (index) {
 		$scope.editingItemIndex = index;
 		$scope.isEditingItem = true;
@@ -824,6 +831,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 		$("#edit_drink_vendor_id").val($scope.selectedDrinkVendorListObject[index].vendor_id);
 	};
 
+	//cm function สำหรับอัพเดท item ที่กดแก้ไขจาก list และอัพเดทหลังจากการแก้ไข 
 	$scope.editingEditingItemUpdate = function () {
 		$scope.drinkName = $('#edit_drink_name').val();
 		$scope.drinkNumber = $('#edit_drink_number').val();
@@ -858,6 +866,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 }])
 .service('DrinkService', ['$http', '$q',function ($http, $q) {
 
+	//cm ดึงหน่วยทั้งหมด
 	this.getAllUnit = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_unit.php', {
         }, function(data, status) {
@@ -865,7 +874,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-
+	//cm ดึงบริษัทคู่ค้าทั้งหมด
 	this.getAllVendor = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_vendor.php', {
         }, function(data, status) {
@@ -873,6 +882,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm ดึงเครื่องดื่มทั้งหมด
 	this.getAllDrink = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_drink.php', {
         }, function(data, status) {
@@ -880,6 +890,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm เพิ่มเครื่องดื่ม
 	this.addDrink = function (drink_name, add_drink_object, drink_order_point, drink_number, drink_unit_id, drink_unit_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_add_drink.php', {
             'drink_name' : drink_name,
@@ -896,6 +907,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm ดึงเครื่องดื่มด้วย drink_id
 	this.getByID = function (id) {
 		var conditions = "?drink_id=" + id;
 
@@ -905,6 +917,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm อัพเดทเครื่องดื่ม
 	this.updateDrink = function (drink_id, drink_name, edit_drink_object, drink_number, drink_order_point, drink_unit_id, drink_unit_price, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
             'drink_id' : drink_id,
@@ -921,6 +934,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm ลบเครื่องดื่ม
 	this.deleteDrink = function (drink_id, drink_status_id) {
 		return $http.post('http://localhost/restaurant-api/api_delete_drink.php', {
             'drink_id' : drink_id,
@@ -930,7 +944,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
-
+	//cm function สำหรับดึงการแจ้งเตือนเครื่องดื่มเหลือน้อย
 	this.getDrinkNoti = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_drink_noti.php', {
         }, function(data, status) {
@@ -938,6 +952,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm function ดึงตัวเลือกต่างๆของการสั่งซื้อ
 	this.getAllPOSelection = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_po_selection.php', {
         }, function(data, status) {
@@ -945,6 +960,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับใช้ดึงการสั่งซื้อล่าสุด ของเครื่องดื่มนี้
 	this.getOldDrinkPO = function (drink_id) {
 		return $http.post('http://localhost/restaurant-api/api_get_old_drink_po.php', {
             'drink_id' : drink_id
@@ -953,6 +969,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
         });
 	};
 
+	//cm function ใช้สำหรับ add ใบสั่งซื้อ
 	this.addDrinkPO = function (emp_id, drinkPOObject) {
 		return $http.post('http://localhost/restaurant-api/api_add_drink_po.php', {
             'emp_id' : emp_id,

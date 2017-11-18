@@ -757,6 +757,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับดึงการแจ้งเตือนการสั่งซื้อใหม่ๆ
 	this.getAllDrinkPONumber = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_new_drink_po.php', {
         }, function(data, status) {

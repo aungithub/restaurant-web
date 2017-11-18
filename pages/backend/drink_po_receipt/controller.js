@@ -323,6 +323,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
         });
 	};
 
+	//cm function สำหรับดึงการแจ้งเตือนการสั่งซื้อได้รับอนุมัติ
 	this.getAllDrinkPOReceiptNumber = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_new_drink_po_receipt.php', {
         }, function(data, status) {
