@@ -27,7 +27,49 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	};
 
 	$scope.deleteaccount = function (Account_ID) {
-		
+		noty({
+            type : 'confirm',
+            layout : 'top',
+            modal : true,
+            text: 'ต้องการลบข้อมูล?',
+            buttons : [
+            {
+                addClass : 'btn btn-danger',//คลาสของbootstrap
+                text : 'ยกเลิก',
+                onClick : function () {
+                    $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
+                }
+            },
+            {
+            	id : 'btn_confirm',
+                addClass: 'btn btn-primary',
+                text : 'ยืนยัน',
+                onClick : function () {
+                    $.noty.clearQueue(); $.noty.closeAll();
+
+                    noty({
+                        type : 'alert',
+                        layout : 'top',
+                        modal : true,
+                        closeWith : [],
+                        text : 'ลบข้อมูล...',
+                        callback : {
+                            afterShow : function () {
+                            	AccountService.delete(Account_ID).then(function (result) {
+                            		$.noty.clearQueue(); $.noty.closeAll();
+
+                            		if (result.data.status == 200) {
+                            			AccountService.getAccount().then(function (result) {
+											$scope.account = result.data.account;
+										});
+                            		}
+                            	});
+                            }
+                        }
+                    });
+                }
+            }]
+        });
 	};
 
 	$scope.search = function () {
@@ -118,6 +160,14 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 
 	this.search = function (search) {
 		return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.delete = function (Account_ID) {
+		return $http.post('http://localhost/restaurant-api/api_delete_account.php', {
+			'Account_ID': Account_ID
         }, function(data, status) {
             return data;
         });
