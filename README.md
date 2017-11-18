@@ -22,3 +22,6 @@ ng-disabled="condition == true"
 
 <label>{{variable}}</label>
 # คือการแสดงข้อมูลตัวแปร variable จาก controller โดยจะต้องมี {{}}
+
+<input type="text" maxlength="13"/>
+# คือกำหนดให้ input นี้ พิมพ์ได้สูงสุดแค่ 13 ตัวอักษร
