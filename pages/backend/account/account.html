@@ -23,10 +23,10 @@
       <div class="form-group row">
         <label for="username" class="col-sm-2 col-form-label">Username</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="username" placeholder="username">
+          <input type="text" class="form-control" id="username" ng-disabled="selectAccount == true" placeholder="username">
         </div>
         <div class="col-sm-5">
-          <button type="button" class="form-control btn btn-primary" id="checkusername" ng-click="checkusername()">Check</button>
+          <button type="button" class="form-control btn btn-primary" ng-disabled="selectAccount == true" id="checkusername" ng-click="checkusername()">Check</button>
         </div>
       </div>
 

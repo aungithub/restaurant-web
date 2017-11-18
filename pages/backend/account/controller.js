@@ -19,9 +19,11 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	$scope.account_id = null;
 	$scope.account = null;
 	$scope.country = null;
+	$scope.selectAccount = false;
+	$scope.selectedAccountID = null;
 
 	$scope.load_account_data = function() {
-
+		$scope.selectAccount = false;
 		AccountService.getAccountID().then(function (result_Account_ID) {
 			$scope.account_id = result_Account_ID.data.Account_ID;
 
@@ -33,6 +35,7 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 				$('#lastname').val('');
 				$('#username').val('');
 				$('#password').val('');
+				$('#confirmpassword').val('');
 				$('#birthyear').val('');
 				$('#birthmonth').val('01');
 				$('#birthday').val('');
@@ -49,10 +52,28 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	$scope.load_account_data();
 
 	$scope.selectaccount = function (Account_ID) {
+		$scope.selectAccount = true;
+		AccountService.getAccountByID(Account_ID).then(function (result) {
+			var selectedAccount = result.data.account[0];
+			$scope.selectedAccountID = selectedAccount.Account_ID;
 
+			$('#firstname').val(selectedAccount.M_NAME);
+			$('#lastname').val(selectedAccount.M_LastName);
+			$('#username').val(selectedAccount.M_Username);
+			$('#password').val('');
+			$('#confirmpassword').val('');
+			$('#birthyear').val(selectedAccount.byear);
+			$('#birthmonth').val('' + selectedAccount.bmonth + '');
+			$('#birthday').val(selectedAccount.bday);
+			$('#gender').val(selectedAccount.Gender);
+			$('#country').val(selectedAccount.Country_ID);
+			$('#mobilephone').val(selectedAccount.Mobile);
+			$('#email').val(selectedAccount.Email);
+		});
 	};
 
 	$scope.deleteaccount = function (Account_ID) {
+		$scope.selectAccount = false;
 		noty({
             type : 'confirm',
             layout : 'top',
@@ -98,7 +119,180 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
         });
 	};
 
+	$scope.editAccount = function () {
+		if ($.trim($('#firstname').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกชื่อ',
+            });
+            return;
+		}
+		if ($.trim($('#lastname').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกนามสกุล',
+            });
+            return;
+		}
+		if ($.trim($('#password').val()) != '' || $.trim($('#confirmpassword').val()) != '') {
+			if ($('#password').val() != $('#confirmpassword').val()) {
+				$.noty.clearQueue(); $.noty.closeAll();
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'password กับ confirmpassword ต้องตรงกัน',
+	            });
+	            return;
+			}
+		}
+
+		if ($.trim($('#birthday').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกวันที่เกิด',
+            });
+            return;
+		}
+		if ($.trim($('#birthyear').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกปีที่เกิด',
+            });
+            return;
+		}
+		else {
+			if ($('#birthyear').val() < 1900 || $('#birthyear').val() > 2560) {
+				$.noty.clearQueue(); $.noty.closeAll();
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'ปีเกิดไม่ถูกต้อง',
+	            });
+	            return;
+			}
+		}
+		if ($.trim($('#mobilephone').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกเบอร์โทร',
+            });
+            return;
+		}
+		if ($.trim($('#email').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอก email',
+            });
+            return;
+		}
+		if ($.trim($('#mobilephone').val()) == '') {
+			$.noty.clearQueue(); $.noty.closeAll();
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกเบอร์โทร',
+            });
+            return;
+		}
+
+		var day = $('#birthday').val();
+		if (day.length == 1) {
+			day = '0' + day;
+		}
+
+		var data = {
+			'Account_ID': $scope.selectedAccountID,
+			'firstname': $('#firstname').val(),
+			'lastname': $('#lastname').val(),
+			'password': $('#password').val(),
+			'birthday': $('#birthyear').val() + '' + $('#birthmonth').val() + '' + day,
+			'gender': $('#gender').val(),
+			'country': $('#country').val(),
+			'mobilephone': $('#mobilephone').val(),
+			'email': $('#email').val()
+		};
+
+		noty({
+	        type : 'alert',
+	        layout : 'top',
+	        modal : true,
+	        text : 'อัพเดทข้อมูล',
+	        callback: {
+	        	afterShow: function (){
+	        		AccountService.updateAccount(data).then(function (result) {
+	        			$.noty.clearQueue(); $.noty.closeAll();
+
+	        			if (result.data.status == 200) {
+	        				noty({
+				                type : 'success',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'อัพเดทข้อมูลสำเร็จ',
+				                callback: {
+				                	afterShow: function(){
+				                		$scope.load_account_data();
+				                	}
+				                }
+				            });
+	        			}
+	        			else if (result.data.status == 500) {
+	        				noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'Password นี้เคยใช้ไปแล้ว กรุณาเลือกใหม่',
+				            });
+	        			}
+	        			else {
+	        				noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000,
+				                text : 'อัพเดทข้อมูลไม่สำเร็จ',
+				            });
+	        			}
+						
+					});
+	        	}
+	        }
+	    });
+	};
+
 	$scope.search = function () {
+		$scope.selectAccount = false;
 		AccountService.search($('#search').val()).then(function (result) {
 			$scope.account = result.data.account;
 		});
@@ -132,6 +326,7 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	};
 
 	$scope.addAccount = function () {
+		$scope.selectAccount = false;
 		if ($.trim($('#firstname').val()) == '') {
 			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
@@ -360,6 +555,13 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	    });
 	};
 
+	this.getAccountByID = function (Account_ID) {
+		return $http.get('http://localhost/restaurant-api/api_get_account_by_id.php?Account_ID=' + Account_ID, {
+	    }, function(data, status) {
+	        return data;
+	    });
+	};
+
 	this.search = function (search) {
 		return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
 	    }, function(data, status) {
@@ -385,6 +587,12 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 
 	this.addAccount = function (data) {
 		return $http.post('http://localhost/restaurant-api/api_add_account.php', data, function(data, status) {
+	        return data;
+	    });
+	};
+
+	this.updateAccount = function (data) {
+		return $http.post('http://localhost/restaurant-api/api_update_account.php', data, function(data, status) {
 	        return data;
 	    });
 	};
