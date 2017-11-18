@@ -16,10 +16,15 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 		$location.path('/backend/admin_login');
 	}
 
+	$scope.account_id = null;
 	$scope.account = null;
 
-	AccountService.getAccount().then(function (result) {
-		$scope.account = result.data.account;
+	AccountService.getAccountID().then(function (result_Account_ID) {
+		$scope.account_id = result_Account_ID.data.Account_ID;
+
+		AccountService.getAccount().then(function (result) {
+			$scope.account = result.data.account;
+		});
 	});
 
 	$scope.selectaccount = function (Account_ID) {
@@ -178,6 +183,13 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	};*/
 }])
 .service('AccountService', ['$http', '$q',function ($http, $q) {
+	this.getAccountID = function () {
+		return $http.get('http://localhost/restaurant-api/api_get_account_id.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
 	this.getAccount = function () {
 		return $http.get('http://localhost/restaurant-api/api_get_account.php', {
         }, function(data, status) {
