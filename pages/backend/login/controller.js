@@ -17,6 +17,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 		$window.location.href = $rootScope.adminFirstPage;
 	}
 
+	//cm function ที่จะเข้ามาทำ หลังจากปุ่ม login ถูก click
 	$scope.loginClicked = function () {
 		var username = $.trim($('#username').val());
 		var password = $.trim($('#password').val());
