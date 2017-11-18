@@ -28,3 +28,7 @@ ng-disabled="condition == true"
 
 <button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteEmployee(obj.emp_id)">Delete</button>
 # ng-click นี้คือ กดแล้วจะไปทำงานที่ function deleteEmployee โดยส่ง emp_id ไปด้วย
+
+ng-keydown="$event.keyCode === 13 && function()"
+# ng-keydown คือถ้ามีการกดปุ่มใดๆ 
+# $event.keyCode === 13 คือ ถ้า ascii code แอสกี้ โค้ดเป็น 13 คือกด enter จะเข้าไปทำ function()
