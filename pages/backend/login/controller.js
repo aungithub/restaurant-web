@@ -17,7 +17,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 		$window.location.href = $rootScope.adminFirstPage;
 	}
 
-	//cm function ที่จะเข้ามาทำ หลังจากปุ่ม login ถูก click
+	//cm function ที่จะเข้ามาทำ หลังจากปุ่ม login ถูก click หรือ enter 
 	$scope.loginClicked = function () {
 		var username = $.trim($('#username').val());
 		var password = $.trim($('#password').val());
@@ -41,6 +41,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
                 closeWith: [], // บังคับไม่ให้กดปิด
                 callback: {
                 	afterShow: function () {
+                		//cm ส่ง username และ password ไป login
                 		UserLogin.login(username, password).then(function (result) {
 
                 			if (result.data.status == 404) {
@@ -62,6 +63,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
                 				// เก็บสิทธิ์ไว้ที่ตัวแปรเพื่อเอาไปใช้ในทุกๆหน้า
                 				$rootScope.privacyAccess = result.data.roles;
                 				
+                				//cm ทำการเก็บ ข้อมูลต่างๆลง cookies บน browser
                 				$cookies.put('isLoggedIn', true);
                 				$cookies.put('privacyAccess', $rootScope.privacyAccess);
                 				$cookies.put('empID', result.data.emp_id);
@@ -77,7 +79,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 					                	afterClose: function () {
 					                		$.noty.clearQueue(); $.noty.closeAll();
 
-					                		// ควรพา user เข้าไปสู่หน้าที่เขาสามารถทำงานต่อได้หลังจากเข้าสู่ระบบ
+					                		//cm redirect พา user ไปหน้าหลังจาก login 
 					                		$window.location.href = $rootScope.adminFirstPage;
 					                	}
 					                }

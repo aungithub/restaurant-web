@@ -68,6 +68,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	        text : 'กำลังโหลด...',
 	        callback: {
 	        	afterShow: function () {
+	        		//cm ดึง สิทธิ์ทั้งหมด
 					PositionService.getAllRoles().then(function (result) {
 						if (result.data.status == 200 && result.data.roles.length > 0) {
 							// ปิด noty

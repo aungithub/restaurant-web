@@ -95,15 +95,19 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 		});
 	}
 
-	// Add Unit
+	//cm function สำหรับ add role
 	$scope.addRole = function() {
 		var roles_pages = [],
 			role_back_pages_string = "";
+
+		//cm คือการดึง role ที่ถูกติ๊กเลือกทั้งหมด มาเก็บไว้ว่ามีอันไหนถูกเลือกบ้าง
 		$('.roles_back input[type="checkbox"]:checked').each(function() {
 			if (role_back_pages_string != '') {
 				role_back_pages_string += ',';
 			}
+			//cm push ลงตัวแปรไว้
 	    	roles_pages.push($(this).val());
+	    	//cm ต่อ string ไว้ ผลลัพธ์เช่น admin_unit,admin_employee
 	      	role_back_pages_string += $(this).val();
 	    });
 
@@ -170,12 +174,13 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
             });
 		}
 	};
-	// END Add Unit
+	// END Add role
 
-	// Edit Unit
+	//cm function แก้ไข role
 	$scope.editRole = function(id) {
 		$scope.selectedId = id;
 		$scope.selectedroleObject = null;
+		//cm ให้ role ทั้งหมด ถูกติ๊กออกก่อน (ไม่ติ๊กเลือก)
 		$('.role_checkbox').prop('checked', false);
 
 		noty({
@@ -200,11 +205,14 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 								$("#edit_role_status_id").val(0);	
 							}
 
-							// for backend pages
+							//cm ถ้ามี role ว่าให้เข้าหน้าไหนได้บ้าง
 							if ($scope.selectedroleObject.role_back != null && $scope.selectedroleObject.role_back.length > 0) {
+								//cm split role ออกมา จะได้ข้อมูลเป็น array เช่น admin_unit,admin_employee จะได้ ['admin_unit', 'admin_employee']
 								var roles = $scope.selectedroleObject.role_back.split(',');
 
+								//cm วนลูป role ที่ split ออกมา เพือให้มันติ๊กเลือกอัตโนมัติ
 								for (var i = 0; i < roles.length; i++) {
+									//cm ติ๊กเลือก role ที่ได้ถูก split มา
 									$(".role_" + $.trim(roles[i])).prop('checked', true);
 								}
 							}
