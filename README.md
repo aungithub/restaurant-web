@@ -32,3 +32,13 @@ ng-disabled="condition == true"
 ng-keydown="$event.keyCode === 13 && function()"
 # ng-keydown คือถ้ามีการกดปุ่มใดๆ 
 # $event.keyCode === 13 คือ ถ้า ascii code แอสกี้ โค้ดเป็น 13 คือกด enter จะเข้าไปทำ function()
+
+
+{{total_price | number : 2}}
+# คือให้แสดง total_price ทศนิยม 2 ตำแหน่ง
+
+{{total_price * 0.07 | number : 2}}
+# คิด 7% ของ total_price และแสดงเป็นทศนิยม 2 ตำแหน่ง
+
+{{total_price + (total_price * 0.07) | number : 2}}
+# ราคารวม + 7% + แสดงทศนิยม  2 ตำแหน่ง

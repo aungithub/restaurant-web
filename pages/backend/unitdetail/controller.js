@@ -21,7 +21,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 		$location.path('/backend/admin_login');
 	}
 
-	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
+	// โหลดข้อมูล unitdetail ทั้งหมดมาแสดงที่ตาราง
 	noty({
         type : 'alert',
         layout : 'top',
@@ -55,7 +55,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 	});
 
 	$scope.getAllUnitdetails = function () {
-		// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
+		// โหลดข้อมูล unitdetail ทั้งหมดมาแสดงที่ตาราง
 		noty({
 	        type : 'alert',
 	        layout : 'top',

@@ -20,8 +20,9 @@ angular.module('RESTAURANT.admin_drink_po_print', ['ngRoute'])
 		$location.path('/backend/admin_login');
 	}
 
+	//cm เช็คว่ามี dp_id และ vendor_id ถูกส่งมากับ URL หรือไม่ ถ้ามี จะทำงานใน if
 	if (typeof $routeParams.dp_id != 'undefined' && typeof $routeParams.vendor_id != 'undefined') {
-		// $routeParams.dp_id
+		//cm ทำการ convert dp_id และ vendor_id เป็น integer แล้วเช็คว่ามากกว่า 0 ไหม
 		if (parseInt($routeParams.dp_id) > 0 && parseInt($routeParams.vendor_id) > 0) {
 			noty({
 		        type : 'alert', // alert, success, warning, error, confirm
@@ -30,6 +31,7 @@ angular.module('RESTAURANT.admin_drink_po_print', ['ngRoute'])
 		        text : 'กำลังโหลดใบเสนอซื้อ...',
 		        callback: {
 		        	afterShow: function () {
+		        		//cm ดึงข้อมูลรายละเอียดการสั่งซื้อตาม dp_id และ vendor_id
 						DrinkPOPrintService.getDrinkPOPrint($routeParams.dp_id, $routeParams.vendor_id).then(function (result) {
 							$.noty.clearQueue(); $.noty.closeAll();
 
@@ -37,6 +39,7 @@ angular.module('RESTAURANT.admin_drink_po_print', ['ngRoute'])
 								$scope.listDrinkPOObject = result.data.drinkPOs;
 								$scope.listDrinkPOObject[0].dp_date
 
+								//cm ทำการวนลูป item ทั้งหมดเพื่อหาราคารวม
 								for (var i = 0; i < $scope.listDrinkPOObject.length; i++) {
 									$scope.total_price += $scope.listDrinkPOObject[i].dpd_number * $scope.listDrinkPOObject[i].dpd_unit_price;
 								}
