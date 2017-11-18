@@ -1,6 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
+//cm import โมดูลทุกโมดูลเข้ามาใน angular app
 angular.module('RESTAURANT', [
 	'ngCookies',
 	'ngRoute',
@@ -25,11 +26,11 @@ angular.module('RESTAURANT', [
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
-
+	//cm config ว่าถ้าเข้า path นี้ๆ จะใช้ html อันไหน และ controller ไหนในการทำงาน
 	$routeProvider.when('/backend/admin_login', {
 		templateUrl: 'restaurant-web/pages/backend/login/login.html',
 		controller: 'LoginController',
-		cache: false
+		cache: false //cm ไม่เก็บ cache
 	});
 
 	$routeProvider.when('/backend/admin_position', {
@@ -128,6 +129,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		cache: false
 	});
 
+	//cm เพื่อลบเครื่องหมาย ! ออกไป เพราะพบปัญหา angular ต้องใส่ #! ใน url
 	$locationProvider.hashPrefix('');
 	$locationProvider.html5Mode({
 		enabled: false,
@@ -136,40 +138,44 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	//$routeProvider.otherwise({redirectTo: '/backend/admin_login'});
 }])
 .run(['$rootScope', '$location', '$cookies', function($rootScope, $location, $cookies) {
-	$rootScope.isLoggedIn = false;
-	$rootScope.privacyAccess = '';
-	$rootScope.empID = '';
-	$rootScope.empPosID = '';
 
+	//cm กำหนดตัวแปร rootScope เพื่อจะนำไปใช้ได้ทั้งระบบ
+	$rootScope.isLoggedIn = false; //cm ตัวแปรเพื่อบอกว่า login หรือยัง
+	$rootScope.privacyAccess = ''; //cm ตัวแปรเพื่อเก็บสิทธิ์การเข้าถึงหน้าเว็บ
+	$rootScope.empID = ''; //cm ตัวแปรเพื่อเก็บ emp id หลัง login
+	$rootScope.empPosID = ''; //cm ตัวแปรเพื่อเก็บรหัสตำแหน่งงาน
+
+	//cm ลบ cache
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 		if (typeof(fromState.templateUrl) !== 'undefined'){
 			$templateCache.remove(fromState.templateUrl);
 		}
 	});
 
+	//cm function เพื่อจะเอาไว้ใช้ให้มันดึง cookie ที่เก็บใน browser หลังการ login
 	$rootScope.loadCookies = function () {
-		// เช็คว่ามี cookie isLoggedIn เก็บอยู่มั้ย (เอาไว้บอกว่าเคย login แล้ว)
+		//cm เช็คว่ามี cookie isLoggedIn เก็บอยู่มั้ย (เอาไว้บอกว่าเคย login แล้ว)
 		if ($cookies.get('isLoggedIn') != 'undefined' && $cookies.get('isLoggedIn') != undefined) {
 	    	$rootScope.isLoggedIn = $cookies.get('isLoggedIn');
 	    }
 
-	    // เช็คว่ามี cookie privacyAccess เก็บอยู่มั้ย (สิทธิ์ต่างๆ)
+	    //cm เช็คว่ามี cookie privacyAccess เก็บอยู่มั้ย (สิทธิ์ต่างๆ)
 	    if ($cookies.get('privacyAccess') != 'undefined' && $cookies.get('privacyAccess') != undefined) {
 	    	$rootScope.privacyAccess = $cookies.get('privacyAccess');
 	    }
 
-	    // เช็คว่ามี cookie empID เก็บอยู่มั้ย (เอาไว้ใช้ส่งไป api)
+	    //cm เช็คว่ามี cookie empID เก็บอยู่มั้ย (เอาไว้ใช้ส่งไป api)
 		if ($cookies.get('empID') != 'undefined' && $cookies.get('empID') != undefined) {
 	    	$rootScope.empID = $cookies.get('empID');
 	    }
 
-	    // เช็คว่ามี cookie empPosID เก็บอยู่มั้ย (เอาไว้ใช้ส่งไป api)
+	    //cm เช็คว่ามี cookie empPosID เก็บอยู่มั้ย (เอาไว้ใช้ส่งไป api)
 		if ($cookies.get('empPosID') != 'undefined' && $cookies.get('empPosID') != undefined) {
 	    	$rootScope.empPosID = $cookies.get('empPosID');
 	    }
 	};
 
-	// ล้างข้อมูลทั้งหมด
+	//cm function ล้างข้อมูลตัวแปร rootScope ทั้งหมด
 	$rootScope.resetAll = function () {
 		$rootScope.isLoggedIn = false;
 		$rootScope.privacyAccess = '';
@@ -177,12 +183,14 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		$rootScope.empPosID = '';
 	};
 
+	//cm function เพื่อให้ระบบทำการดึงการแจ้งเตือนต่างๆ
 	$rootScope.getAllNotification = function () {
+		//cm เพื่อให้เรียกใช้ function ใน IndexController
 		$rootScope.$emit('IndexController.notiPO');
 		$rootScope.$emit('IndexController.notiPOReceipt');
 		$rootScope.$emit('IndexController.notiDrink');
 	};
 
 	$rootScope.property = true;
-	$rootScope.adminFirstPage = 'restaurant-web/#/backend/admin_home'; // หน้าแรกหลังจาก Login
+	$rootScope.adminFirstPage = 'restaurant-web/#/backend/admin_home'; //cm หน้าแรกหลังจาก Login
 }]);

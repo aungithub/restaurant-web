@@ -1,11 +1,13 @@
 'use strict';
 
+//cm กำหนดว่า โมดูลนี้ชื่อ index
 angular.module('RESTAURANT.index', ['ngRoute'])
 
+//cm กำหนดชื่อ Controller และ import ตัวแปรที่จะใช้เข้ามา
 .controller('IndexController', ['$rootScope', '$scope', '$location', '$timeout', '$cookies', '$window', 'DrinkPOService', 'DrinkPOReceiptService', 'DrinkService', function($rootScope, $scope, $location, $timeout, $cookies, $window, DrinkPOService, DrinkPOReceiptService, DrinkService) {
-	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
-	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
+	//cm โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	$rootScope.loadCookies();
+    //cm ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
 
 	$scope.isLoggedIn = $rootScope.isLoggedIn;
 	$scope.privacyAccess = $rootScope.privacyAccess;
@@ -16,7 +18,9 @@ angular.module('RESTAURANT.index', ['ngRoute'])
     $scope.newDrinkPOReceipt = 0;
     $scope.drinkNoti = 0;
 
+    //cm function ใช้สำหรับออกจากระบบ
 	$scope.logout = function () {
+        //cm noty ออกมาให้ confirm
 		noty({
             type : 'confirm',
             layout : 'top',
@@ -45,16 +49,18 @@ angular.module('RESTAURANT.index', ['ngRoute'])
 				        timeout: 1000,
 				        callback: {
 				        	afterClose: function () {
+                                //cm ทำการลบ cookies ออกจาก browser และล้างข้อมูลตัวแปรทั้งหมด
 				        		$cookies.remove('isLoggedIn');
 				        		$cookies.remove('privacyAccess');
                                 $cookies.remove('empID');
                                 $cookies.remove('empPosID');
-				        		$rootScope.resetAll();
+				        		$rootScope.resetAll(); //cm เรียกใช้ fuction ใน app.js เพื่อล้างข้อมูลทั้งหมด
 				        		$scope.isLoggedIn = false;
 				        		$scope.privacyAccess = '';
                                 $scope.empID = '';
                                 $scope.empPosID = '';
 
+                                //cm ดีดกลับไปหน้า login
 				        		$window.location.href = 'restaurant-web/#/backend/admin_login'; // หน้าแรกหลังจาก Logout
 				        	}
 				        }
@@ -65,6 +71,7 @@ angular.module('RESTAURANT.index', ['ngRoute'])
          });
 	};
 
+    //cm function ใช้สำหรับซ่อนเมนู login และแสดงเมนูต่างๆ
 	var hideLoginShowMenu = $rootScope.$on('IndexController.hideLoginShowMenu', function (event, data) {
         $timeout(function () {
             $scope.isLoggedIn = $rootScope.isLoggedIn; // ดึงค่าการ login จาก root
@@ -76,8 +83,10 @@ angular.module('RESTAURANT.index', ['ngRoute'])
         });
     });
 
+    //cm function ใช้สำหรับดึงการแจ้งเตือนหากมีการสั่งซื้อใหม่ๆ
     var notiPO = $rootScope.$on('IndexController.notiPO', function (event, data) {
         $timeout(function () {
+            //cm เช็คสิทธิ์ว่ามีสิทธิ์ใช้งานเมนูการสั่งซื้อไหม
             if ($rootScope.privacyAccess.indexOf('admin_drink_po,') != -1) {
                 DrinkPOService.getAllDrinkPONumber().then(function (result) {
                     if (result.data.status == 200) {
@@ -88,6 +97,7 @@ angular.module('RESTAURANT.index', ['ngRoute'])
         });
     });
 
+    //cm function ใช้สำหรับดึงการแจ้งเตือนหากมีการอนุมัติสั่งซื้อใหม่ๆ
     var notiPOReceipt = $rootScope.$on('IndexController.notiPOReceipt', function (event, data) {
         $timeout(function () {
             if ($rootScope.privacyAccess.indexOf('admin_drink_po_receipt') != -1) {
@@ -100,6 +110,7 @@ angular.module('RESTAURANT.index', ['ngRoute'])
         });
     });
 
+    //cm function ใช้สำหรับดึงการแจ้งเตือนหากมีเครื่องดื่มไหนมีจำนวนน้อยกว่า 5
     var notiDrink = $rootScope.$on('IndexController.notiDrink', function (event, data) {
         $timeout(function () {
             if ($rootScope.privacyAccess.indexOf('admin_drink,') != -1) {
