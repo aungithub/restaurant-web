@@ -22,7 +22,12 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.admin_drink_po',
 	'RESTAURANT.admin_drink_po_print',
 	'RESTAURANT.admin_drink_po_receipt',
-	'RESTAURANT.admin_account'
+	'RESTAURANT.admin_account',
+	'RESTAURANT.user_login',
+	'RESTAURANT.user_home',
+	'RESTAURANT.user_menu',
+	'RESTAURANT.user_reserve',
+	'RESTAURANT.user_payment'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
@@ -129,6 +134,35 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		cache: false
 	});
 
+	$routeProvider.when('/frontend/user_login', {
+		templateUrl: 'restaurant-web/pages/frontend/login/login.html',
+		controller: 'UserLoginController',
+		cache: false //cm ไม่เก็บ cache
+	});
+	$routeProvider.when('/frontend/user_home', {
+		templateUrl: 'restaurant-web/pages/frontend/home/home.html',
+		controller: 'UserHomeController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_menu', {
+		templateUrl: 'restaurant-web/pages/frontend/menu/menu.html',
+		controller: 'MenuController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_reserve', {
+		templateUrl: 'restaurant-web/pages/frontend/reserve/reserve.html',
+		controller: 'ReserveController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_payment', {
+		templateUrl: 'restaurant-web/pages/frontend/payment/payment.html',
+		controller: 'PaymentController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
 	//cm เพื่อลบเครื่องหมาย ! ออกไป เพราะพบปัญหา angular ต้องใส่ #! ใน url
 	$locationProvider.hashPrefix('');
 	$locationProvider.html5Mode({
@@ -145,6 +179,8 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$rootScope.empID = ''; //cm ตัวแปรเพื่อเก็บ emp id หลัง login
 	$rootScope.empPosID = ''; //cm ตัวแปรเพื่อเก็บรหัสตำแหน่งงาน
 
+	$rootScope.isFrontendLoggedIn = false;
+
 	//cm ลบ cache
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 		if (typeof(fromState.templateUrl) !== 'undefined'){
@@ -157,6 +193,11 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		//cm เช็คว่ามี cookie isLoggedIn เก็บอยู่มั้ย (เอาไว้บอกว่าเคย login แล้ว)
 		if ($cookies.get('isLoggedIn') != 'undefined' && $cookies.get('isLoggedIn') != undefined) {
 	    	$rootScope.isLoggedIn = $cookies.get('isLoggedIn');
+	    }
+
+	    //cm เช็คว่ามี cookie isFrontendLoggedIn เก็บอยู่มั้ย (เอาไว้บอกว่าเคย login แล้ว)
+		if ($cookies.get('isFrontendLoggedIn') != 'undefined' && $cookies.get('isFrontendLoggedIn') != undefined) {
+	    	$rootScope.isFrontendLoggedIn = $cookies.get('isFrontendLoggedIn');
 	    }
 
 	    //cm เช็คว่ามี cookie privacyAccess เก็บอยู่มั้ย (สิทธิ์ต่างๆ)
@@ -183,6 +224,11 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		$rootScope.empPosID = '';
 	};
 
+	//cm function ล้างข้อมูลตัวแปร rootScope ทั้งหมด
+	$rootScope.resetAll = function () {
+		$rootScope.isFrontendLoggedIn = false;
+	};
+
 	//cm function เพื่อให้ระบบทำการดึงการแจ้งเตือนต่างๆ
 	$rootScope.getAllNotification = function () {
 		//cm เพื่อให้เรียกใช้ function ใน IndexController
@@ -193,4 +239,18 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 
 	$rootScope.property = true;
 	$rootScope.adminFirstPage = 'restaurant-web/#/backend/admin_home'; //cm หน้าแรกหลังจาก Login
-}]);
+	$rootScope.userFirstPage = 'restaurant-web/#/frontend/user_home'; //cm หน้าแรกหลังจาก Login
+}])
+.directive('stringToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return '' + value;
+      });
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value);
+      });
+    }
+  };
+});

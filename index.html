@@ -42,6 +42,8 @@
   <!-- App -->
   <script src="restaurant-web/app.js?ts=2555555"></script>
   <script src="restaurant-web/pages/index.js?ts=2555555"></script>
+
+  <!-- Backend -->
   <script src="restaurant-web/pages/backend/login/controller.js?ts=2555555"></script>
   <script src="restaurant-web/pages/backend/home/controller.js?ts=2555555"></script>
   <script src="restaurant-web/pages/backend/unit/controller.js?ts=2555555"></script>
@@ -59,11 +61,20 @@
   <script src="restaurant-web/pages/backend/drink_po_print/controller.js?ts=2555555"></script>
   <script src="restaurant-web/pages/backend/drink_po_receipt/controller.js?ts=2555555"></script>
   <script src="restaurant-web/pages/backend/account/controller.js?ts=2555555"></script>
+
+  <!-- Frontend -->
+  <script src="restaurant-web/pages/frontend/login/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/frontend/home/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/frontend/menu/controller.js?ts=2555555"></script>
+   <script src="restaurant-web/pages/frontend/reserve/controller.js?ts=2555555"></script>
+  <script src="restaurant-web/pages/frontend/payment/controller.js?ts=2555555"></script>
   <!-- App -->
 
   </head>
   <body data-ng-controller="IndexController">
-    <nav class="navbar navbar-inverse">
+
+    <!-- backend -->
+    <nav class="navbar navbar-inverse" ng-show="isBackend == true">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -73,7 +84,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="restaurant-web/#/backend/admin_login">หน้าแรก</a> 
+          <a class="navbar-brand" href="restaurant-web/#/frontend/user_login">หน้าแรก</a> 
 
         </div>
 
@@ -84,9 +95,7 @@
           <ul class="nav navbar-nav navbar-left">
 
             <!--cm แสดงเมนูตามสิทธิ์ -->
-            <li><a href="restaurant-web/#/backend/admin_account" ng-show="privacyAccess.indexOf('admin_account') != -1">ACCOUNT</a></li>
-          
-            <li><a href="restaurant-web/#/backend/admin_employee" ng-show="privacyAccess.indexOf('admin_employee') != -1">พนักงาน</a></li>
+             <li><a href="restaurant-web/#/backend/admin_employee" ng-show="privacyAccess.indexOf('admin_employee') != -1">พนักงาน</a></li>
 
             <li><a href="restaurant-web/#/backend/admin_position" ng-show="privacyAccess.indexOf('admin_position') != -1">ตำแหน่งงาน</a></li>
 
@@ -117,12 +126,75 @@
             <!--cm แสดงเมนูเข้าสู่ระบบหากยังไม่ login -->
             <li><a href="restaurant-web/#/backend/admin_login" ng-show="isLoggedIn == false">เข้าสู่ระบบ</a></li>
             <!--cm แสดงเมนูออกจากระบบหากยัง login แล้ว -->
-            <li><a ng-click="logout()" ng-show="isLoggedIn != false">ออกจากระบบ</a></li>
+            <li><a ng-click="backendLogout()" ng-show="isLoggedIn != false">ออกจากระบบ</a></li>
           </ul>
         </div>
   
       </div>
     </nav>
+
+    <!-- frontend -->
+     <nav class="navbar navbar-light" ng-show="isBackend == false" style="background-color: #e3f2fd;">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="restaurant-web/#/frontend/user_login">หน้าแรก</a> 
+
+        </div>
+
+         
+        <!--cm แสดงเมนูทั้งหมด -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav navbar-left">
+
+            <!--cm แสดงเมนูตามสิทธิ์ -->
+            <!--<li><a href="restaurant-web/#/frontend/user_home"  >Home</a></li>-->
+          
+            <li><a href="restaurant-web/#/frontend/user_menu" ng-show="isFrontendLoggedIn">MENU</a></li>
+
+            <li><a href="restaurant-web/#/frontend/user_reserve" ng-show="isFrontendLoggedIn">จองโต๊ะ</a></li>
+
+            <li><a href="restaurant-web/#/frontend/user_payment" ng-show="isFrontendLoggedIn">ชำระเงิน</a></li>
+
+            <!--<li><a href="restaurant-web/#/backend/admin_food" ng-show="privacyAccess.indexOf('admin_food') != -1">อาหาร</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_drink" ng-show="privacyAccess.indexOf('admin_drink') != -1">เครื่องดื่ม <label ng-show="drinkNoti > 0" style="color: red;">(แจ้งเตือน)</label></a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_kind" ng-show="privacyAccess.indexOf('admin_kind') != -1">ประเภท</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_unit" ng-show="privacyAccess.indexOf('admin_unit,') != -1">หน่วยหลัก</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_unitdetail" ng-show="privacyAccess.indexOf('admin_unitdetail') != -1">การแปลงหน่วย</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_promotion" ng-show="privacyAccess.indexOf('admin_promotion') != -1">โปรโมชั่น</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_table" ng-show="privacyAccess.indexOf('admin_table') != -1">โต๊ะ</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_vendor" ng-show="privacyAccess.indexOf('admin_vendor') != -1">บริษัทคู่ค้า</a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_drink_po" ng-show="privacyAccess.indexOf('admin_drink_po,') != -1">รายการสั่งซื้อ <label ng-show="newDrinkPO > 0" style="color: red;">({{newDrinkPO}})</label></a></li>
+
+            <li><a href="restaurant-web/#/backend/admin_drink_po_receipt" ng-show="privacyAccess.indexOf('admin_drink_po_receipt') != -1">รายการรับ <label ng-show="newDrinkPOReceipt > 0" id="noti_receipt" style="color: red;">({{newDrinkPOReceipt}})</label></a></li>
+          </ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <!--cm แสดงเมนูเข้าสู่ระบบหากยังไม่ login -->
+            <li><a href="restaurant-web/#/backend/admin_login" ng-show="isFrontendLoggedIn == false">เข้าสู่ระบบ</a></li>
+            <!--cm แสดงเมนูออกจากระบบหากยัง login แล้ว -->
+            <li><a ng-click="frontendLogout()" ng-show="isFrontendLoggedIn">ออกจากระบบ</a></li>
+          </ul>
+        </div>
+  
+      </div>
+    </nav>
+
 
     <div ng-view></div>
 

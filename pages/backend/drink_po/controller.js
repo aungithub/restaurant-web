@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 
 angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 

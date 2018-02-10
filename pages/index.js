@@ -9,17 +9,25 @@ angular.module('RESTAURANT.index', ['ngRoute'])
 	$rootScope.loadCookies();
     //cm ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
 
+    $scope.isBackend = false; // เอาไว้เช็คว่าเป็น backend หรือเปล่า
+
+    if ($location.url().indexOf('backend') > -1) {
+        $scope.isBackend = true;
+    }
+
 	$scope.isLoggedIn = $rootScope.isLoggedIn;
 	$scope.privacyAccess = $rootScope.privacyAccess;
     $scope.empID = $rootScope.empID;
     $scope.empPosID = $rootScope.empPosID;
+
+    $scope.isFrontendLoggedIn = $rootScope.isFrontendLoggedIn;
 
     $scope.newDrinkPO = 0;
     $scope.newDrinkPOReceipt = 0;
     $scope.drinkNoti = 0;
 
     //cm function ใช้สำหรับออกจากระบบ
-	$scope.logout = function () {
+	$scope.backendLogout = function () {
         //cm noty ออกมาให้ confirm
 		noty({
             type : 'confirm',
@@ -71,10 +79,58 @@ angular.module('RESTAURANT.index', ['ngRoute'])
          });
 	};
 
+    //cm function ใช้สำหรับออกจากระบบ
+    $scope.frontendLogout = function () {
+        //cm noty ออกมาให้ confirm
+        noty({
+            type : 'confirm',
+            layout : 'top',
+            modal : true,
+            text: 'คุณต้องออกจากระบบใช่หรือไม่?',
+            buttons : [
+            {
+                addClass : 'btn btn-danger',//คลาสของbootstrap
+                text : 'ยกเลิก',
+                onClick : function () {
+                    $.noty.clearQueue(); $.noty.closeAll();
+                }
+            },
+            {
+                id : 'btn_confirm',
+                addClass: 'btn btn-primary',
+                text : 'ยืนยัน',
+                onClick : function () {
+                    $.noty.clearQueue(); $.noty.closeAll();
+
+                    noty({
+                        type : 'alert',
+                        layout : 'top',
+                        modal : true,
+                        text : 'กำลังออกจากระบบ...',
+                        timeout: 1000,
+                        callback: {
+                            afterClose: function () {
+                                //cm ทำการลบ cookies ออกจาก browser และล้างข้อมูลตัวแปรทั้งหมด
+                                $cookies.remove('isFrontendLoggedIn');
+                                $rootScope.resetAll(); //cm เรียกใช้ fuction ใน app.js เพื่อล้างข้อมูลทั้งหมด
+                                $scope.isFrontendLoggedIn = false;
+
+                                //cm ดีดกลับไปหน้า login
+                                $window.location.href = 'restaurant-web/#/frontend/user_login'; // หน้าแรกหลังจาก Logout
+                            }
+                        }
+                    });
+
+                }
+            }]
+         });
+    };
+
     //cm function ใช้สำหรับซ่อนเมนู login และแสดงเมนูต่างๆ
 	var hideLoginShowMenu = $rootScope.$on('IndexController.hideLoginShowMenu', function (event, data) {
         $timeout(function () {
             $scope.isLoggedIn = $rootScope.isLoggedIn; // ดึงค่าการ login จาก root
+            $scope.isFrontendLoggedIn = $rootScope.isFrontendLoggedIn; // ดึงค่าการ login จาก root
             $scope.empID = $rootScope.empID;
             $scope.empPosID = $rootScope.empPosID;
             if ($scope.privacyAccess == '') {
