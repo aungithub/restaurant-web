@@ -117,7 +117,8 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 			number : $("#number_"+food_id).val(),
 			comment : $("#comment_"+food_id).val(),
 			food_name : $("#food_name_"+food_id).text(),
-			food_price : $("#food_price_"+food_id).text()
+			food_price : $("#food_price_"+food_id).text(),
+			type : "food"
 		});
 	}
 	else{
@@ -141,6 +142,72 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 
 
 	}
+
+	$scope.saveFood = function() {
+		if ($scope.listOrderFoodObject.length > 0  ) {
+
+
+
+			MenuService.saveFood($scope.listOrderFoodObject).then(function (result) {
+				if (result.data.status == 200) {
+					noty({
+		                type : 'success',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : result.data.message,
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+
+		                		// ปิด modal
+		                		$("#close_modal_add").click()
+
+		                		// refresh หน้าจอ
+		                		//location.reload();
+		                		$scope.refreshList();
+
+		                	}
+		                }
+		            });
+				}
+				else {
+					noty({
+		                type : 'warning',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : result.data.message,
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+
+		                		// do something
+		                	}
+		                }
+		            });
+				}
+			});
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+                callback: {
+                	afterClose: function () {
+                		// ปิด noty
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
+		
 	$scope.refreshList = function() {
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
@@ -204,5 +271,14 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
         });
 	};
 
+	this.saveFood = function (food_list) {
+		return $http.post('http://localhost/restaurant-api/api_save_food.php', {
+            'food_list' : food_list, 
+            
+   
+        }, function(data, status) {
+            return data;
+        });
+	};
 	
 }]);
