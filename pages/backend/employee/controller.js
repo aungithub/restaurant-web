@@ -13,7 +13,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	$scope.selectedEmployeeObject = null;
 	$scope.selectedPositionObject = null;
 	$scope.listPositionsObject = null;
-
+	$scope.listTelephone = [];
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 	$rootScope.getAllNotification();
@@ -31,6 +31,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
         text : 'กำลังโหลด...',
         callback: {
         	afterShow: function () {
+
         		//cm เข้ามาหน้านี้ จะดึงข้อมูลพนักงานทั้งหมดมาแสดงใน list
 				EmployeeService.getAllEmployee().then(function (result) {
 					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
@@ -71,6 +72,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		$("#add_emp_confirm_password").val('');
 		$("#add_emp_position_id").val(999);
 		$scope.addEmployeeObject = [];
+		$scope.listTelephone = [];
 
 		noty({
 	        type : 'alert',
@@ -113,6 +115,53 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		});
 	};
 
+	$scope.AddTel = function(){
+		//emp_tel = $.trim($("#add_emp_tel").val());
+		if ($.trim($("#add_emp_tel").val()) != '' && $.trim($("#add_emp_tel").val()).length == 10) {
+			$scope.listTelephone.push($.trim($("#add_emp_tel").val()))
+
+			noty({
+	                type : 'success',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'successful ',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+
+		}
+		else{
+			noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'กรุณากรอกเบอร์โทรให้ครบ 10 หลัก ',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+
+		}
+
+
+		console.log($scope.listTelephone);
+
+	}
 	//cm function สำหรับดึงข้อมูลพนักงานอีกรอบ และ refresh list เพื่อแสดงข้อมูลพนักงาน ณ ปัจจุบัน
 	$scope.refreshList = function() {
 		noty({
@@ -205,7 +254,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 			}
 
 			//cm ถ้าผ่านมาถึงนี้จะโยนข้อมูลทั้งหมดไปยัง addEmployee ใน EmployeeService เพื่อเอาลง database
-			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(),  $("#add_emp_card_id").val(), $("#add_emp_username").val(), $("#add_emp_password").val(), $("#add_emp_tel").val(), $("#add_emp_position_id").val(), emp_status_id).then(function (result) {
+			EmployeeService.addEmployee($("#add_emp_firstname").val(), $("#add_emp_lastname").val(),  $("#add_emp_card_id").val(), $("#add_emp_username").val(), $("#add_emp_password").val(), $("#add_emp_tel").val(), $("#add_emp_position_id").val(), emp_status_id,$scope.listTelephone).then(function (result) {
 				//cm ถ้า status 200 คือเอาลง database ได้ ไม่มีปัญหา
 				if (result.data.status == 200) {
 					noty({
@@ -563,7 +612,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	};
 
 	//cm function สำหรับ add พนักงานที่ user กรอก ลงในฐานข้อมูล
-	this.addEmployee = function (emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_pos_id, emp_status_id) {
+	this.addEmployee = function (emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_pos_id, emp_status_id,listTelephone) {
 		//cm ใช้ http method pos ในการ post ข้อมูลไปยัง api เพื่อจะเอาลง database
 		return $http.post('http://localhost/restaurant-api/api_add_employee.php', {
             'firstname' : emp_firstname,
@@ -574,6 +623,8 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
             'tel' : emp_tel,
             'position' : emp_pos_id,
             'status' : emp_status_id,
+            'listTelephone' :listTelephone,
+
         }, function(data, status) {
             return data;
         });

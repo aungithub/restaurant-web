@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="obj in listDrinkPOObject" >
+          <tr ng-repeat="obj in listDrinkPOObject" ng-show="obj.dpd_number > 0">
               <th>{{$index+1}}</th>
               <td>{{obj.drink_name}}</td>
               <td>{{obj.dpd_number}}</td>

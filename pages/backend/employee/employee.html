@@ -41,7 +41,7 @@
 </div>
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog " role="document">
     <div class="modal-content">
 
       <!-- Header -->
@@ -55,90 +55,102 @@
         <div class="modal-body">
            <form class="form-horizontal">
 
-          <div class="row">
-            <div class="col-lg-3">
-              <p>ชื่อ</p>
-              <p>&nbsp;</p>
-              <p>นามสกุล</p>
-              <p>&nbsp;</p>
-             <p>รหัสบัตรประชาชน</p>
-               <p>&nbsp;</p>
-              <p> เบอร์โทรศัพท์</p>
-              <p>&nbsp;</p>
-              <p> Username</p>
-              <p>&nbsp;</p>
-              <p> Password</p>
-              <p>&nbsp;</p>
-              <p> Confirm password</p>
-              <p>&nbsp;</p>
-              <p>ตำแหน่งงาน</p>
-              <p>&nbsp;</p>
-              <p>สถานะ</p>
+            <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_emp_firstname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
             </div>
+          </div>
 
-            <div class="col-lg-9">
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="add_emp_firstname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+          <div class="form-group">
+            <label class="control-label col-sm-3">นามสกุล</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
               </div>
+            </div>
+          </div>
 
-              <p>&nbsp;</p>
-
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="add_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสบัตรประชาชน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
               </div>
+            </div>
+          </div>
 
-              <p>&nbsp;</p>
+          <div class="form-group">
+            <label class="control-label col-sm-3">เบอร์โทรศัพท์</label>
+            <div class="col-sm-4">
+
+              <input type="text" id="add_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+             
+
+               <div class="input-group input-group-sm fullwidth" ng-repeat="tel in listTelephone track by $index">
+                  <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{tel}}" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                   </div> <button type="Add" class="btn btn-success"  ng-click="AddTel()">Add</button>
+             
               
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="add_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+            </div>
+          </div>
+
+           <div class="form-group">
+            <label class="control-label col-sm-3">Username</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <input type="text" id="add_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
               </div>
+            </div>
+          </div>
 
-             <p>&nbsp;</p>
-
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="add_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <input type="password" id="add_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
               </div>
+            </div>
+          </div>
 
-              <p>&nbsp;</p>
-              
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="add_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+          <div class="form-group">
+            <label class="control-label col-sm-3">Confirm password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <input type="password" id="add_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
               </div>
+            </div>
+          </div>
 
-              <p>&nbsp;</p>
-
-              
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="password" id="add_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
-              </div>
-
-              <p>&nbsp;</p>
-
-              
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="password" id="add_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
-              </div>
-          
-             <p>&nbsp;</p>
-
-
-              <div class="btn-group" role="group">
-                <select class="form-control" id="add_emp_position_id">
+           <div class="form-group">
+            <label class="control-label col-sm-3">ตำแหน่งงาน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <select class="form-control" id="add_emp_position_id">
                   <option ng-repeat="obj in listPositionsObject" value="{{obj.pos_id}}">{{obj.pos_name}}</option>
                 </select>
               </div>
+            </div>
+          </div>
 
-               <p>&nbsp;</p>
-
-               <div class="btn-group" role="group">
-                <select class="form-control" id="add_emp_status_id">
+           <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <select class="form-control" id="add_emp_status_id">
                   <option value="999">เลือกสถานะ</option>
                   <option value="1">ใช้งาน</option>
                   <option value="2">ไม่ใช้งาน</option>
                 </select>
               </div>
+            </div>
           </div>
-        </div>
+
+          
+
+           
        </form>
        </div>
       
