@@ -71,6 +71,8 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		$("#add_emp_password").val('');
 		$("#add_emp_confirm_password").val('');
 		$("#add_emp_position_id").val(999);
+		$("#add_emp_tel").val('');
+		$("#edit_emp_tel").val('');
 		$scope.addEmployeeObject = [];
 		$scope.listTelephone = [];
 
@@ -200,7 +202,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	                layout : 'top',
 	                modal : true,
 	                timeout: 3000,
-	                text : 'successful ',
+	                text : 'กรุณากดแก้ไขข้อมูลพนักงาน เพื่อบันทึกลงฐานข้อมูล',
 	                callback: {
 	                	afterClose: function () {
 	                		// ปิด noty
@@ -260,6 +262,26 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	//cm ลบเบอร์โทร
 	$scope.DeleteTel = function(index){
 		$scope.listTelephone.splice(index, 1);
+	}
+
+	//cm ลบเบอร์โทร
+	$scope.DeleteTelEdit = function(index){
+		$scope.listTelephone.splice(index, 1);
+		noty({
+            type : 'success',
+            layout : 'top',
+            modal : true,
+            timeout: 3000,
+            text : 'กรุณากดแก้ไขข้อมูลพนักงาน เพื่อบันทึกลงฐานข้อมูล',
+            callback: {
+            	afterClose: function () {
+            		// ปิด noty
+            		$.noty.clearQueue(); $.noty.closeAll();
+
+            		// do something
+            	}
+            }
+        });
 	}
 
 	//cm function สำหรับดึงข้อมูลพนักงานอีกรอบ และ refresh list เพื่อแสดงข้อมูลพนักงาน ณ ปัจจุบัน
