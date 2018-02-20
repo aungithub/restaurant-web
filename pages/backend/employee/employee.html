@@ -85,13 +85,15 @@
           <div class="form-group">
             <label class="control-label col-sm-3">เบอร์โทรศัพท์</label>
             <div class="col-sm-4">
+              <div class="input-group">
+                <input type="text" id="add_emp_tel" ng-model="txtEmpTel" class="form-control" placeholder="" aria-describedby="sizing-addon3"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                <button type="Add" class="btn btn-success"  ng-click="AddTel()">Add</button>
+              </div>
 
-              <input type="text" id="add_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
-             
-
-               <div class="input-group input-group-sm fullwidth" ng-repeat="tel in listTelephone track by $index">
+              <div class="input-group" ng-repeat="tel in listTelephone track by $index">
                   <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{tel}}" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
-                   </div> <button type="Add" class="btn btn-success"  ng-click="AddTel()">Add</button>
+                  <button type="Delete" class="btn btn-danger"  ng-click="DeleteTel($index)">Delete</button>
+              </div>
              
               
             </div>

@@ -116,9 +116,13 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	};
 
 	$scope.AddTel = function(){
-		//emp_tel = $.trim($("#add_emp_tel").val());
-		if ($.trim($("#add_emp_tel").val()) != '' && $.trim($("#add_emp_tel").val()).length == 10) {
+		//cm ค้นหาเบอร์ที่กรอกมีในarray หรือยัง
+		var isExist = $scope.listTelephone.indexOf($.trim($("#add_emp_tel").val()));
+
+		if ($.trim($("#add_emp_tel").val()) != '' && $.trim($("#add_emp_tel").val()).length == 10 && isExist == -1) {
 			$scope.listTelephone.push($.trim($("#add_emp_tel").val()))
+
+			$("#add_emp_tel").val('')
 
 			noty({
 	                type : 'success',
@@ -138,7 +142,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 
 		}
-		else{
+		else if ($.trim($("#add_emp_tel").val()) == '' && $.trim($("#add_emp_tel").val()).length != 10) {
 			noty({
 	                type : 'warning',
 	                layout : 'top',
@@ -157,11 +161,36 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 
 		}
+		else if (isExist != -1) {
+			noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'เบอร์นี้มีการจัดเก็บแล้ว กรุณาเลือกเบอร์โทรอื่น',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+
+		}
 
 
 		console.log($scope.listTelephone);
 
 	}
+
+	//cm ลบเบอร์โทร
+	$scope.DeleteTel = function(index){
+		$scope.listTelephone.splice(index, 1);
+	}
+
 	//cm function สำหรับดึงข้อมูลพนักงานอีกรอบ และ refresh list เพื่อแสดงข้อมูลพนักงาน ณ ปัจจุบัน
 	$scope.refreshList = function() {
 		noty({
