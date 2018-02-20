@@ -142,7 +142,78 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 
 		}
-		else if ($.trim($("#add_emp_tel").val()) == '' && $.trim($("#add_emp_tel").val()).length != 10) {
+		else if ($.trim($("#add_emp_tel").val()) == '' || $.trim($("#add_emp_tel").val()).length != 10) {
+			noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'กรุณากรอกเบอร์โทรให้ครบ 10 หลัก ',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+
+		}
+		else if (isExist != -1) {
+			noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'เบอร์นี้มีการจัดเก็บแล้ว กรุณาเลือกเบอร์โทรอื่น',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+
+		}
+
+
+		console.log($scope.listTelephone);
+
+	}
+
+	$scope.AddTelEdit = function(){
+		//cm ค้นหาเบอร์ที่กรอกมีในarray หรือยัง
+		var isExist = $scope.listTelephone.indexOf($.trim($("#edit_emp_tel").val()));
+
+		if ($.trim($("#edit_emp_tel").val()) != '' && $.trim($("#edit_emp_tel").val()).length == 10 && isExist == -1) {
+			$scope.listTelephone.push($.trim($("#edit_emp_tel").val()))
+
+			$("#edit_emp_tel").val('')
+
+			noty({
+	                type : 'success',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'successful ',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
+
+		}
+		else if ($.trim($("#edit_emp_tel").val()) == '' || $.trim($("#edit_emp_tel").val()).length != 10) {
 			noty({
 	                type : 'warning',
 	                layout : 'top',
@@ -243,7 +314,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 			emp_status_id = $("#add_emp_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
 
 		//cm เช็คว่าถ้าพิมข้อมูลมาครบจะเข้าทำ if
-		if (emp_firstname != ''&& emp_lastname != '' && emp_card_id != '' && emp_username != '' && emp_password != ''  && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 ) {
+		if (emp_firstname != ''&& emp_lastname != '' && emp_card_id != '' && emp_username != '' && emp_password != ''  && $scope.listTelephone.length > 0 && emp_position_id != '' && emp_status_id != 999 ) {
 			//cm ถ้า password ไม่เหมือนกัน confirm password จะแจ้งเตือน
 			if (emp_password != emp_confirm_password) {
 				noty({
@@ -327,6 +398,21 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 				}
 			});
 		}
+		else if ($scope.listTelephone.length == 0) {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกเบอร์โทรศัพท์',
+                callback: {
+                	afterClose: function () {
+                		// ปิด noty
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
 		else {
 			noty({
                 type : 'warning',
@@ -350,6 +436,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 		$scope.selectedId = id; //cm เก็บ emp_id ใส่ตัวแปรไว้ เอาไปใช้ในอนาคต
 		$scope.selectedEmployeeObject = null;
 		$scope.selectedPositionObject = null;
+		$scope.listTelephone = [];
 		$('#edit_emp_tel').val('');
 
 		noty({
@@ -367,10 +454,13 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 
 							//cm เอาข้อมูลพนักงานคนนี้ใส่ตัวแปร เอาไว้ไปโชว์ใน view
 							$scope.selectedEmployeeObject = result.data.employees[0];
+
+							$scope.listTelephone = result.data.employees[0].telephone;
+
 							//cm ดึงข้อมูลตำแหน่งงานมาโชว์ใน select option
 							$scope.selectedPositionObject = result.data.position;
 							//cm กรอกเบอร์โทรลงในช่อง
-							$('#edit_emp_tel').val($scope.selectedEmployeeObject.emp_tel);
+							//$('#edit_emp_tel').val($scope.selectedEmployeeObject.emp_tel);
 
 							//cm เช็คสถานะพนักงาน และให้เลือกสถานะในตัวเลือกอัตโนมัติ
 							if ($scope.selectedEmployeeObject.emp_status_id == 1) {
@@ -425,7 +515,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 			emp_position_id = $("#edit_emp_position_id").val(),
 			emp_status_id = $("#edit_emp_status_id").val();
 
-		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_card_id != '' && emp_username != ''  && emp_tel != '' && emp_position_id != '' && emp_status_id != 999 && emp_position_id != null && emp_status_id != null) {
+		if (emp_id != '' && emp_firstname != '' && emp_lastname != '' && emp_card_id != '' && emp_username != ''  && $scope.listTelephone.length > 0 && emp_position_id != '' && emp_status_id != 999 && emp_position_id != null && emp_status_id != null) {
 			
 			if (emp_password != "" && $("#edit_emp_password").val() != $("#edit_emp_confirm_password").val()) {
 				noty({
@@ -463,7 +553,24 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	            return;
 			}
 
-			EmployeeService.updateEmployee(emp_id, $("#edit_emp_firstname").val(), $("#edit_emp_lastname").val(), $("#edit_emp_card_id").val(), $("#edit_emp_username").val(), $("#edit_emp_password").val(), $("#edit_emp_tel").val(), emp_position_id, emp_status_id).then(function (result) {
+			if ($scope.listTelephone.length == 0) {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : 'กรุณากรอกเบอร์โทรศัพท์',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+	                	}
+	                }
+	            });
+	            return;
+			}
+
+			EmployeeService.updateEmployee(emp_id, $("#edit_emp_firstname").val(), $("#edit_emp_lastname").val(), $("#edit_emp_card_id").val(), $("#edit_emp_username").val(), $("#edit_emp_password").val(), $("#edit_emp_tel").val(), emp_position_id, emp_status_id, $scope.listTelephone).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -670,7 +777,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	};
 
 	//cm function สำหรับใช้ update ข้อมูลพนักงาน
-	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_position_id, emp_status_id) {
+	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_position_id, emp_status_id,listTelephone) {
 		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
             'emp_id' : emp_id,
             'emp_firstname' : emp_firstname,
@@ -682,6 +789,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
             'emp_tel' : emp_tel,
             'emp_position_id' : emp_position_id,
             'emp_status_id' : emp_status_id,
+            'listTelephone' :listTelephone,
         }, function(data, status) {
             return data;
         });

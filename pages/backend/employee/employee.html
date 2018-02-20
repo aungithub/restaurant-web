@@ -149,9 +149,6 @@
               </div>
             </div>
           </div>
-
-          
-
            
        </form>
        </div>
@@ -187,89 +184,99 @@
       <div class="modal-body">
          <form class="form-horizontal">
 
-
-          <div class="row">
-
-            <!-- ฝั่งซ้าย -->
-            <div class="col-lg-3">
-              <p>รหัสพนักงาน</p>
-              <p>&nbsp;</p>
-              <p>ชื่อ</p>
-               <p>&nbsp;</p>
-              <p>นามสกุล</p>
-              <p>&nbsp;</p>
-              <p>รหัสบัตรประชาชน</p>
-               <p>&nbsp;</p>
-               <p>เบอร์โทรศัพท์</p>
-               <p>&nbsp;</p>
-              <p>Username</p>
-              <p>&nbsp;</p>
-              <p>Password</p>
-               <p>&nbsp;</p>
-              <p>Confirm password</p>
-              <p>&nbsp;</p>
-              <p>ตำแหน่งงาน</p>
-              <p>&nbsp;</p>
-              <p>สถานะ</p>
-            </div>
-            <!-- ฝั่งซ้าย -->
-
-            <!-- ฝั่งขวา -->
-            <div class="col-lg-9">
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="edit_emp_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'E' + selectedEmployeeObject.emp_char_id}}">
+         <div class="form-group">
+            <label class="control-label col-sm-3">รหัสพนักงาน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'E' + selectedEmployeeObject.emp_char_id}}">
                   <input type="hidden" id="edit_emp_pk_id" value="{{selectedEmployeeObject.emp_id}}"/>
               </div>
+            </div>
+          </div>
 
-              <p>&nbsp;</p>
-
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="edit_emp_firstname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_firstname}}">
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_firstname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_firstname}}">
               </div>
-              <p>&nbsp;</p>
+            </div>
+          </div>
 
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="edit_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_lastname}}">
+          <div class="form-group">
+            <label class="control-label col-sm-3">นามสกุล</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_lastname}}">
               </div>
+            </div>
+          </div>
 
-               <p>&nbsp;</p>
-
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="edit_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_idcard}}" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสบัตรประชาชน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_idcard}}" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
               </div>
-              <p>&nbsp;</p>
+            </div>
+          </div>
 
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="edit_emp_tel" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{(selectedEmployeeObject.emp_tel != '' ? selectedEmployeeObject.emp_tel : '')}}" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+          <div class="form-group">
+            <label class="control-label col-sm-3">เบอร์โทรศัพท์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_tel" ng-model="txtEmpTel" class="form-control" placeholder="" aria-describedby="sizing-addon3"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                <button type="Add" class="btn btn-success"  ng-click="AddTelEdit()">Add</button>
               </div>
-              <p>&nbsp;</p>
-
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="text" id="edit_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_user}}">
+              <div class="input-group" ng-repeat="tel in listTelephone track by $index">
+                  <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{tel}}" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                  <button type="Delete" class="btn btn-danger"  ng-click="DeleteTel($index)">Delete</button>
               </div>
-               <p>&nbsp;</p>
+            </div>
+          </div>
 
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="password" id="edit_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+          <div class="form-group">
+            <label class="control-label col-sm-3">Username</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_user}}">
               </div>
+            </div>
+          </div>
 
-               <p>&nbsp;</p>
-
-              <div class="input-group input-group-sm fullwidth">
-                  <input type="password" id="edit_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+          <div class="form-group">
+            <label class="control-label col-sm-3">Password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="password" id="edit_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
               </div>
+            </div>
+          </div>
 
-              <p>&nbsp;</p>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Confirm password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="password" id="edit_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
 
-              <div class="btn-group" role="group">
+          <div class="form-group">
+            <label class="control-label col-sm-3">ตำแหน่งงาน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
                 <select class="form-control" id="edit_emp_position_id">
                   <option ng-repeat="obj in selectedPositionObject" value="{{obj.pos_id}}">{{obj.pos_name}}</option>
                 </select>
               </div>
+            </div>
+          </div>
 
-               <p>&nbsp;</p>
-
-              <div class="btn-group" role="group">
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
                 <select class="form-control" id="edit_emp_status_id">
                   <option value="999">เลือกสถานะ</option>
                   <option value="1">ใช้งาน</option>
@@ -277,12 +284,11 @@
                 </select>
               </div>
             </div>
-            <!-- ฝั่งขวา -->
+          </div>
 
           </div>
 
          </form>
-       </div>
       
       <!-- Body -->
 
