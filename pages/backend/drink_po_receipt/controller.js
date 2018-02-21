@@ -136,7 +136,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	};
 
 	// Edit drink po
-	$scope.viewDrinkPO = function(id) {
+	$scope.viewDrinkPO = function(id, vendor_id) {
 		$scope.selectedId = id;
 		$scope.selectedDrinkPOReceiptObject = null;
 		$scope.selectedDrinkPOReceiptDetailObject = null;
@@ -149,7 +149,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
             text : 'กำลังดึงข้อมูลรายการสั่งซื้อ...',
             callback: {
             	afterShow: function () {
-            		DrinkPOReceiptService.getByID($scope.selectedId).then(function (result) {
+            		DrinkPOReceiptService.getByID($scope.selectedId, vendor_id).then(function (result) {
 						if (result.data.status == 200 && typeof result.data.drinkPODetails != 'undefined' && result.data.drinkPODetails.length > 0) {
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
@@ -305,8 +305,8 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
         });
 	};
 
-	this.getByID = function (id) {
-		var conditions = "?dp_id=" + id + "&dp_action=detail";
+	this.getByID = function (id, vendor_id) {
+		var conditions = "?dp_id=" + id + "&vendor_id=" + vendor_id + "&dp_action=detail";
 
 		return $http.get('http://localhost/restaurant-api/api_get_drink_po.php' + conditions, {
         }, function(data, status) {
