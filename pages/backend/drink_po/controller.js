@@ -705,8 +705,8 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	};
 
 	//cm เปิดหน้า print โดยกำหนด dp_id กับ vendor_id ไปทาง url
-	$scope.printDrinkPO = function (dp_id, vendor_id) {
-		window.open('restaurant-web/#/backend/admin_drink_po_print?dp_id=' + dp_id + '&vendor_id=' + vendor_id,'_blank');
+	$scope.printDrinkPO = function (dp_id, vendor_id, dpd_id) {
+		window.open('restaurant-web/#/backend/admin_drink_po_print?dp_id=' + dp_id + '&vendor_id=' + vendor_id + '&dpd_id=' + dpd_id,'_blank');
 	};
 
 }])
