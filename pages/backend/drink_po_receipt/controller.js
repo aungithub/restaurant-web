@@ -299,7 +299,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 .service('DrinkPOReceiptService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllDrinkPOReceipt = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_drink_po.php', {
+		return $http.get('http://localhost/restaurant-api/api_get_drink_po_receipt.php', {
         }, function(data, status) {
             return data;
         });
@@ -308,7 +308,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	this.getByID = function (id, vendor_id) {
 		var conditions = "?dp_id=" + id + "&vendor_id=" + vendor_id + "&dp_action=detail";
 
-		return $http.get('http://localhost/restaurant-api/api_get_drink_po.php' + conditions, {
+		return $http.get('http://localhost/restaurant-api/api_get_drink_po_receipt.php' + conditions, {
         }, function(data, status) {
             return data;
         });
