@@ -117,6 +117,17 @@
           </div>
 
           <div class="form-group">
+            <label class="control-label col-sm-3">หน่วยสั่งซื้อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="add_drink_unitdetail_id">
+                  <option ng-repeat="obj in listUnitDetailObject" value="{{obj.unitdetail_id}}">{{obj.unitdetail_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="control-label col-sm-3">จำนวน</label>
             <div class="col-sm-9">
               <div class="input-group">
@@ -287,6 +298,17 @@
               <div class="input-group">
                 <select class="form-control" id="edit_drink_unit_id">
                   <option ng-repeat="obj in selectedUnitObject" value="{{obj.unit_id}}">{{obj.unit_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">หน่วยสั่งซื้อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="edit_drink_unitdetail_id">
+                  <option ng-repeat="obj in listUnitDetailObject" value="{{obj.unitdetail_id}}">{{obj.unitdetail_name}}</option>
                 </select>
               </div>
             </div>
