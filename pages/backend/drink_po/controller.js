@@ -82,6 +82,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	//cm function ที่ใช้เมื่อมีการเลือกเครื่องดื่ม จะทำการดึงบริษัทที่ผูกกับเครื่องดื่มนั้นๆ
 	$scope.selectDrink = function () {
+		$scope.vendor = null;
 		var _drinkID = $.trim($('#add_drink_id').val());
 
 		if (_drinkID > 0) {
@@ -591,6 +592,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		$("#add_unit_number").val('');
 		$("#add_unit_price").val('');
 		$scope.isEditingItem = false;
+		$scope.addVendorId = 0;
 	};
 
 	//cm function สำหรับเพิ่ม drink ลงในตัวแปร
