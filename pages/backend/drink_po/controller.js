@@ -150,12 +150,14 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	// clear textbox value
 	$scope.loadAddDrinkPOForm = function() {
-		$("#add_drink_id").val('');
+		$("#add_drink_id").val(0);
 		$("#add_unit_id").val('');
 		$("#add_vendor_id").val('');
 		$("#add_unit_number").val('');
 		$("#add_unit_price").val('');
 		$scope.addPOObject = [];
+		$scope.totalPrice = 0;
+		$scope.totalPriceList = 0;
 
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
@@ -593,12 +595,29 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	//cm function สำหรับเพิ่ม drink ลงในตัวแปร
 	$scope.addItem = function () {
+		if ($('#add_drink_id').val() == '' || $('#add_vendor_id').val() == '' || $('#add_unit_id').val() == '' || $('#add_unit_number').val() == '' || $('#add_unit_price').val() == '') {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                callback: {
+                	afterClose: function () {
+                		// ปิด noty
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+            return;
+		}
+
 		var drink_index = $scope.drink.findIndex(x => x.drink_id==$("#add_drink_id").val()),//หาindexของเครื่องดื่มที่เลือกเพื่อจะนำไปหาชื่อเครื่องดื่ม
 			unit_index = $scope.unit.findIndex(x => x.unitdetail_id==$("#add_unit_id").val()),
 			vendor_index = $scope.vendor.findIndex(x => x.vendor_id==$("#add_vendor_id").val());
 
 			//เพื่อนำไปใช้เป็นlistname
-		if (drink_index != 'undefined' && unit_index != 'undefined' && vendor_index !='undefined' && $("#add_unit_number").val() != '' && $("#add_unit_price").val() != '') {
+		if (drink_index != 'undefined' && drink_index != -1 && unit_index != 'undefined' && unit_index != -1 && vendor_index !='undefined' && vendor_index != -1 && $("#add_unit_number").val() != '' && $("#add_unit_price").val() != '') {
 			var drink_index_obj = $scope.addPOObject.findIndex(x => x.drink_id==$("#add_drink_id").val()),
 				vendor_index_obj = $scope.addPOObject.findIndex(x => x.vendor_id==$("#add_vendor_id").val());
 
