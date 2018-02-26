@@ -23,6 +23,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	$scope.isEditingItem = false;
 	$scope.editingItemIndex = -1;
 	$scope.isManager = false;
+	$scope.selectedDrinkUnitID = 0;
 
 	$scope.poStatus = -1;
 
@@ -94,6 +95,12 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 		        callback: {
 		        	afterShow: function () {
 		        		//cm ดึงบริษัทที่ผูกกับเครื่องดื่มนี้
+		        		var drink_index = $scope.drink.findIndex(x => x.drink_id==$("#add_drink_id").val())
+
+		        		$scope.selectedDrinkUnitID = $scope.drink[drink_index].drink_unit_id;;
+
+		        		console.log($scope.selectedDrinkUnitID)
+
 						DrinkPOService.getVendorByDrinkID(_drinkID).then(function (result) {
 							$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
