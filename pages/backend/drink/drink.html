@@ -92,6 +92,18 @@
             <div class="col-sm-9">
               <div class="input-group">
                 <input type="text" id="add_drink_price" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                <button type="button" class="btn btn-primary" ng-click="addVendorDrink()">เพิ่ม</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="listVendorDrink.length > 0">
+            <label class="control-label col-sm-3">บริษัทและราคารับซื้อ</label>
+            <div class="col-sm-9">
+              <div class="input-group" ng-repeat="obj in listVendorDrink">
+                <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{obj.vendor_name}}" disabled="disabled" />
+                <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" ng-model="obj.price" value="{{obj.price}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                <button type="button" class="btn btn-danger" ng-click="removeVendorDrink($index)">ลบ</button>
               </div>
             </div>
           </div>

@@ -19,6 +19,8 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	$scope.selectedVendorDrinkObject = null;
 	$scope.selectedDrinkVendorListObject = null;
 
+	$scope.listVendorDrink = [];
+
 	$scope.addDrinkObject = [];
 	$scope.drinkName = "";
 	$scope.drinkNumber = "";
@@ -78,6 +80,56 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 			}
 		}
 	});
+
+	$scope.addVendorDrink = function () {
+		var add_drink_vendor_id = $("#add_drink_vendor_id").val();
+		var add_drink_price = $("#add_drink_price").val();
+
+		if (add_drink_vendor_id != '' && add_drink_price != '') {
+			var idx = $scope.listVendorDrink.findIndex(x => (x.vendor_id==add_drink_vendor_id));
+			var idxAddDrinkObject = $scope.addDrinkObject.findIndex(x => (x.vendor_id==add_drink_vendor_id));
+
+			if (idx == -1 && idxAddDrinkObject == -1) {
+				$scope.listVendorDrink.push({
+					vendor_id: add_drink_vendor_id,
+					vendor_name: $("#add_drink_vendor_id option:selected").text(),
+					price: add_drink_price
+				});
+			}
+			else {
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000, // 3 seconds
+	                text : 'บริษัทนี้มีในตัวเลือกแล้ว',
+	                callback: {
+	                	afterClose: function () {
+	                		$.noty.clearQueue(); $.noty.closeAll();
+	                	}
+	                }
+	            });
+			}
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000, // 3 seconds
+                text : 'กรุณาเลือกบริษัทและกรอกราคารับซื้อให้ครบถ้วนก่อนเพิ่มบริษัทลงในลิสต์',
+                callback: {
+                	afterClose: function () {
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
+
+	$scope.removeVendorDrink = function (index) {
+		$scope.listVendorDrink.splice(index, 1);
+	};
 
 	// clear textbox value และ ดึงข้อมูลต่างๆ
 	$scope.loadAddDrinkForm = function() {
@@ -680,7 +732,24 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 			vendor_index = $scope.vendor.findIndex(x => x.vendor_id==$("#add_drink_vendor_id").val());
 
 			//เพื่อนำไปใช้เป็นlistname
-		if (unit_index != 'undefined' && vendor_index !='undefined' && $("#add_drink_number").val() != '' && $("#add_drink_price").val() != '' && $("#add_drink_name").val() != '' && $("#add_drink_order_point").val() != '' && $("#add_drink_status_id").val() != '') {
+		
+		if ($scope.listVendorDrink.length > 0 && unit_index != 'undefined' && $("#add_drink_number").val() != '' && $("#add_drink_name").val() != '' && $("#add_drink_order_point").val() != '' && $("#add_drink_status_id").val() != '' ) {
+			for (var i=0; i < $scope.listVendorDrink.length; i++) {
+				$scope.addDrinkObject.push({
+					vendor_id: $scope.listVendorDrink[i].vendor_id,
+					vendor_name: $scope.listVendorDrink[i].vendor_name,
+					drink_number: $("#add_drink_number").val(),
+					drink_price: $scope.listVendorDrink[i].price,
+					drink_status_id: $("#add_drink_status_id").val()
+				});
+
+				if (i == ($scope.listVendorDrink.length -1)) {
+					$scope.listVendorDrink = [];
+					$scope.resetItem();
+				}
+			}
+		}
+		else if (unit_index != 'undefined' && vendor_index !='undefined' && $("#add_drink_number").val() != '' && $("#add_drink_price").val() != '' && $("#add_drink_name").val() != '' && $("#add_drink_order_point").val() != '' && $("#add_drink_status_id").val() != '') {
 			var vendor_index_obj = $scope.addDrinkObject.findIndex(x => x.vendor_id==$("#add_drink_vendor_id").val());
 
 			if (vendor_index_obj != -1) {
