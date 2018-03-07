@@ -27,7 +27,8 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.user_home',
 	'RESTAURANT.user_menu',
 	'RESTAURANT.user_reserve',
-	'RESTAURANT.user_payment'
+	'RESTAURANT.user_payment',
+	'RESTAURANT.user_cookmenu'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
@@ -160,6 +161,12 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$routeProvider.when('/frontend/user_payment', {
 		templateUrl: 'restaurant-web/pages/frontend/payment/payment.html',
 		controller: 'PaymentController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_cookmenu', {
+		templateUrl: 'restaurant-web/pages/frontend/cookmenu/cookmenu.html',
+		controller: 'CookmenuController',
 		cache: false //cm ไม่เก็บ cache
 	});
 
