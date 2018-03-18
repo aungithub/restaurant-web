@@ -939,7 +939,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm ดึงหน่วยทั้งหมด
 	this.getAllUnit = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_unit.php', {
+		return $http.get('restaurant-api/api_get_unit.php', {
         }, function(data, status) {
             return data;
         });
@@ -947,7 +947,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm ดึงบริษัทคู่ค้าทั้งหมด
 	this.getAllVendor = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_vendor.php', {
+		return $http.get('restaurant-api/api_get_vendor.php', {
         }, function(data, status) {
             return data;
         });
@@ -955,7 +955,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm ดึงเครื่องดื่มทั้งหมด
 	this.getAllDrink = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_drink.php', {
+		return $http.get('restaurant-api/api_get_drink.php', {
         }, function(data, status) {
             return data;
         });
@@ -963,7 +963,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm เพิ่มเครื่องดื่ม
 	this.addDrink = function (drink_name, add_drink_object, drink_order_point, drink_number, drink_unit_id, drink_unit_price, drink_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_drink.php', {
+		return $http.post('restaurant-api/api_add_drink.php', {
             'drink_name' : drink_name,
             'add_drink_object' : add_drink_object,
             'drink_unit_id' : drink_unit_id,
@@ -982,7 +982,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?drink_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_drink.php' + conditions, {
+		return $http.get('restaurant-api/api_get_drink.php' + conditions, {
         }, function(data, status) {
             return data;
         });
@@ -990,7 +990,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm อัพเดทเครื่องดื่ม
 	this.updateDrink = function (drink_id, drink_name, edit_drink_object, drink_number, drink_order_point, drink_unit_id, drink_unit_price, drink_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_drink.php', {
+		return $http.post('restaurant-api/api_update_drink.php', {
             'drink_id' : drink_id,
             'drink_name' : drink_name,
             'edit_drink_object' : edit_drink_object,
@@ -1007,7 +1007,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm ลบเครื่องดื่ม
 	this.deleteDrink = function (drink_id, drink_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_drink.php', {
+		return $http.post('restaurant-api/api_delete_drink.php', {
             'drink_id' : drink_id,
             'drink_status_id' : drink_status_id,
         }, function(data, status) {
@@ -1017,7 +1017,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm function สำหรับดึงการแจ้งเตือนเครื่องดื่มเหลือน้อย
 	this.getDrinkNoti = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_drink_noti.php', {
+		return $http.get('restaurant-api/api_get_drink_noti.php', {
         }, function(data, status) {
             return data;
         });
@@ -1025,7 +1025,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm function ดึงตัวเลือกต่างๆของการสั่งซื้อ
 	this.getAllPOSelection = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_po_selection.php', {
+		return $http.get('restaurant-api/api_get_po_selection.php', {
         }, function(data, status) {
             return data;
         });
@@ -1033,7 +1033,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm function สำหรับใช้ดึงการสั่งซื้อล่าสุด ของเครื่องดื่มนี้
 	this.getOldDrinkPO = function (drink_id) {
-		return $http.post('http://localhost/restaurant-api/api_get_old_drink_po.php', {
+		return $http.post('restaurant-api/api_get_old_drink_po.php', {
             'drink_id' : drink_id
         }, function(data, status) {
             return data;
@@ -1042,7 +1042,7 @@ angular.module('RESTAURANT.admin_drink', ['ngRoute'])
 
 	//cm function ใช้สำหรับ add ใบสั่งซื้อ
 	this.addDrinkPO = function (emp_id, drinkPOObject) {
-		return $http.post('http://localhost/restaurant-api/api_add_drink_po.php', {
+		return $http.post('restaurant-api/api_add_drink_po.php', {
             'emp_id' : emp_id,
             'drinkPOObject' : drinkPOObject
         }, function(data, status) {

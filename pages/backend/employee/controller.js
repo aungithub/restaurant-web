@@ -754,7 +754,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	//cm function สำหรับดึงข้อมูลตำแหน่งงานทั้งหมดจากฐานข้อมูล โดยยิงไปขอที่ API
 	this.getAllPositions = function () {
 		//cm ใช้ http method get ในการดึง 
-		return $http.get('http://localhost/restaurant-api/api_get_position.php', {
+		return $http.get('restaurant-api/api_get_position.php', {
         }, function(data, status) {
             return data;
         });
@@ -763,7 +763,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	//cm function สำหรับดึงข้อมูลพนักงานทั้งหมด
 	this.getAllEmployee = function () {
 		//cm ใช้ http method get ในการดึง
-		return $http.get('http://localhost/restaurant-api/api_get_employee.php', {
+		return $http.get('restaurant-api/api_get_employee.php', {
         }, function(data, status) {
             return data;
         });
@@ -772,7 +772,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	//cm function สำหรับ add พนักงานที่ user กรอก ลงในฐานข้อมูล
 	this.addEmployee = function (emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_pos_id, emp_status_id,listTelephone) {
 		//cm ใช้ http method pos ในการ post ข้อมูลไปยัง api เพื่อจะเอาลง database
-		return $http.post('http://localhost/restaurant-api/api_add_employee.php', {
+		return $http.post('restaurant-api/api_add_employee.php', {
             'firstname' : emp_firstname,
             'lastname' : emp_lastname,
              'idc' : emp_card_id,
@@ -792,7 +792,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?emp_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_employee.php' + conditions, {
+		return $http.get('restaurant-api/api_get_employee.php' + conditions, {
         }, function(data, status) {
             return data;
         });
@@ -800,7 +800,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 
 	//cm function สำหรับใช้ update ข้อมูลพนักงาน
 	this.updateEmployee = function (emp_id, emp_firstname, emp_lastname, emp_card_id, emp_username, emp_password, emp_tel, emp_position_id, emp_status_id,listTelephone) {
-		return $http.post('http://localhost/restaurant-api/api_update_employee.php', {
+		return $http.post('restaurant-api/api_update_employee.php', {
             'emp_id' : emp_id,
             'emp_firstname' : emp_firstname,
             'emp_lastname' : emp_lastname,
@@ -819,7 +819,7 @@ angular.module('RESTAURANT.admin_employee', ['ngRoute'])
 
 	//cm function สำหรับใช้ลบพนักงาน โดยส่ง emp_id ไปเป็นเงื่อนไขว่าจะลบคนนี้
 	this.deleteEmployee = function (emp_id,  emp_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_employee.php', {
+		return $http.post('restaurant-api/api_delete_employee.php', {
             'emp_id' : emp_id,
            
             'emp_status_id' : emp_status_id,

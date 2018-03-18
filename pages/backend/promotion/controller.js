@@ -438,14 +438,14 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 .service('PromotionService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllpromotion = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_promotion.php', {
+		return $http.get('restaurant-api/api_get_promotion.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addPromotion = function (pro_name, pro_discount, pro_start, pro_end, pro_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_promotion.php', {
+		return $http.post('restaurant-api/api_add_promotion.php', {
             'name' : pro_name,
             'discount' : pro_discount,
             'start' : pro_start,
@@ -459,14 +459,14 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?pro_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_promotion.php' + conditions, {
+		return $http.get('restaurant-api/api_get_promotion.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updatePromotion = function (pro_id, pro_name, pro_discount,pro_start,pro_end, pro_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_promotion.php', {
+		return $http.post('restaurant-api/api_update_promotion.php', {
             'pro_id' : pro_id,
             'pro_name' : pro_name,
             'pro_discount' : pro_discount,
@@ -479,7 +479,7 @@ angular.module('RESTAURANT.admin_promotion', ['ngRoute'])
 	};
 
 	this.deletepromotion = function (pro_id, pro_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_promotion.php', {
+		return $http.post('restaurant-api/api_delete_promotion.php', {
             'pro_id' : pro_id,
             'pro_status_id' : pro_status_id,
         }, function(data, status) {

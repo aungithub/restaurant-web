@@ -88,7 +88,7 @@ angular.module('RESTAURANT.admin_drink_po_print', ['ngRoute'])
 .service('DrinkPOPrintService', ['$http', '$q',function ($http, $q) {
 
 	this.getDrinkPOPrint = function (dp_id, vendor_id) {
-		return $http.post('http://localhost/restaurant-api/api_get_drink_po_print.php', {
+		return $http.post('restaurant-api/api_get_drink_po_print.php', {
             'dp_id' : dp_id,
             'vendor_id' : vendor_id
         }, function(data, status) {

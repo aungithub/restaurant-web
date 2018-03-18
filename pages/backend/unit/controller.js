@@ -418,14 +418,14 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 .service('UnitService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllUnit = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_unit.php', {
+		return $http.get('restaurant-api/api_get_unit.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addUnit = function (unit_name, unit_number, unit_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_unit.php', {
+		return $http.post('restaurant-api/api_add_unit.php', {
             'name' : unit_name,
             'number' : unit_number,
             'status' : unit_status_id,
@@ -437,14 +437,14 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?unit_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_unit.php' + conditions, {
+		return $http.get('restaurant-api/api_get_unit.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updateUnit = function (unit_id, unit_name, unit_number, unit_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_unit.php', {
+		return $http.post('restaurant-api/api_update_unit.php', {
             'unit_id' : unit_id,
             'unit_name' : unit_name,
             'unit_number' : unit_number,
@@ -455,7 +455,7 @@ angular.module('RESTAURANT.admin_unit', ['ngRoute'])
 	};
 
 	this.deleteUnit = function (unit_id, unit_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_unit.php', {
+		return $http.post('restaurant-api/api_delete_unit.php', {
             'unit_id' : unit_id,
             'unit_status_id' : unit_status_id,
         }, function(data, status) {

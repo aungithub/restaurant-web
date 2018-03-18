@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('RESTAURANT.user_cookmenu', ['ngRoute'])
+angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 
-.controller('CookmenuController', ['$rootScope', '$scope', '$location', 'CookmenuService', function($rootScope, $scope, $location, CookmenuService) {
-	var route = 'user_cookmenu';
+.controller('DrinkmenuController', ['$rootScope', '$scope', '$location', 'DrinkmenuService', function($rootScope, $scope, $location, DrinkmenuService) {
+	var route = 'user_drinkmenu';
 
 
 
-	$scope.listOrderFoodObject = [];
+	$scope.listOrderDrinkObject = [];
 	$scope.autoRefreshTimer = null;
 
 	noty({
@@ -17,13 +17,14 @@ angular.module('RESTAURANT.user_cookmenu', ['ngRoute'])
         text : 'กำลังโหลด...',
         callback: {
         	afterShow: function () {
-				CookmenuService.getAllOrderFood().then(function (result) {
+				DrinkmenuService.getAllOrderDrink().then(function (result) {
 					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
 					if (result.data.status == 200) {
-						$scope.listOrderFoodObject = result.data.orderfood;
+						$scope.listOrderDrinkObject = result.data.orderdrink;
 						clearInterval($scope.autoRefreshTimer);
 						$scope.autorefresh();
+						 console.log($scope.listOrderDrinkObject);
 					}
 					else {
 						noty({
@@ -52,22 +53,22 @@ angular.module('RESTAURANT.user_cookmenu', ['ngRoute'])
 
 	$scope.autorefresh = function(){
 		$scope.autoRefreshTimer = setInterval(function(){
-			CookmenuService.getAllOrderFood().then(function (result) {
+			DrinkmenuService.getAllOrderDrink().then(function (result) {
 				if (result.data.status == 200) {
-					$scope.listOrderFoodObject = result.data.orderfood;
+					$scope.listOrderDrinkObject = result.data.orderdrink;
 				}
 			});
 		},5000);//5 วินาที*1000
 	}
 
-	$scope.cook = function(status,id, id_food){
+	$scope.cook = function(status,id, drink_id){
 		var order_id = id,
 			status = status,
-			food_id = id_food;
+			drink_id = drink_id;
 			
 
 		if (order_id != '' ) {
-			CookmenuService.updateOrderFood(status ,order_id,food_id).then(function (result) {
+			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -124,14 +125,14 @@ angular.module('RESTAURANT.user_cookmenu', ['ngRoute'])
 		}
 	};
 
-	$scope.cookfinish = function(status,id, id_food){
+	$scope.cookfinish = function(status,id, drink_id){
 		var order_id = id,
 			status = status,
-			food_id = id_food;
+			drink_id = drink_id;
 			
 
 		if (order_id != '' ) {
-			CookmenuService.updateOrderFood(status ,order_id,food_id).then(function (result) {
+			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -189,19 +190,19 @@ angular.module('RESTAURANT.user_cookmenu', ['ngRoute'])
 	};
 
 
-$scope.cancel = function(status,id, id_food){
+$scope.cancel = function(status,id, drink_id){
 var order_id = id,
 status = status,
-food_id = id_food,
-food_status_id = 2,
+drink_id = drink_id,
+drink_status_id = 2,
 action ='cancel';
 
 if (order_id != '' ) {
-CookmenuService.updateOrderFood(status ,order_id,food_id).then(function (result) {
+DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (result) {
 	if (result.data.status == 200) {
 		
 
-            CookmenuService.deleteFood(food_id, food_status_id,action).then(function (result) {
+            DrinkmenuService.deleteDrink(drink_id, drink_status_id,action).then(function (result) {
             	$.noty.clearQueue(); $.noty.closeAll();
 
 				if (result.data.status == 200) {
@@ -234,7 +235,7 @@ CookmenuService.updateOrderFood(status ,order_id,food_id).then(function (result)
 	                            callback : {
 	                                afterShow : function () {
 
-                                CookmenuService.deleteFood(food_id, food_status_id,action).then(function (result) {
+                                DrinkmenuService.deleteDrink(drink_id, drink_status_id,action).then(function (result) {
                                 	$.noty.clearQueue(); $.noty.closeAll();
 
 									if (result.data.status == 200) {
@@ -527,6 +528,7 @@ noty({
 		});
 	};*/
 
+
 	$scope.refreshList = function() {
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
@@ -535,12 +537,13 @@ noty({
 	        text : 'กำลังโหลด...',
 	        callback: {
 	        	afterShow: function () {
-					CookmenuService.getAllOrderFood().then(function (result) {
+					DrinkmenuService.getAllOrderDrink().then(function (result) {
 						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
 						if (result.data.status == 200) {
-							$scope.listOrderFoodObject = result.data.orderfood;
-							$scope.apply();
+							$scope.listOrderDrinkObject = result.data.orderdrink;
+							//$scope.apply();
+							$scope.refreshList();
 									}
 						else {
 							noty({
@@ -853,29 +856,29 @@ noty({
 	};*/
 	// END Delete Unit
 }])
-.service('CookmenuService', ['$http', '$q',function ($http, $q) {
+.service('DrinkmenuService', ['$http', '$q',function ($http, $q) {
 
-	this.getAllKind = function () {
-		return $http.get('restaurant-api/api_get_kind.php', {
+	this.getAllUnit = function () {
+		return $http.get('restaurant-api/api_get_unitdetail.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.getAllFood = function () {
-		return $http.get('restaurant-api/api_get_food.php', {
+	this.getAllDrink = function () {
+		return $http.get('restaurant-api/api_get_drink.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.addFood = function (food_name, food_kind_id, food_price, food_status_id) {
-		return $http.post('restaurant-api/api_add_food.php', {
-            'food_name' : food_name, 
-            'food_kind_id' : food_kind_id,
-            'food_price' : food_price,
+	this.addDrink = function (drink_name, drink_unit_id, drink_price, drink_status_id) {
+		return $http.post('restaurant-api/api_add_drink.php', {
+            'drink_name' : drink_name, 
+            'drink_unit_id' : drink_unit_id,
+            'drink_price' : drink_price,
    
-            'food_status_id' : food_status_id,
+            'drink_status_id' : drink_status_id,
         }, function(data, status) {
             return data;
         });
@@ -884,35 +887,34 @@ noty({
 	this.getByID = function (id) {
 		var conditions = "?food_id=" + id;
 
-		return $http.get('restaurant-api/api_get_food.php' + conditions, {
+		return $http.get('restaurant-api/api_get_drink.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.updateOrderFood = function (status,id, id_food) {
-		return $http.post('restaurant-api/api_update_order_food.php', {
+	this.updateOrderDrink = function (status,id, drink_id) {
+		return $http.post('restaurant-api/api_update_order_drink.php', {
             'order_id' : id,
             'status' : status,
-            'food_id' : id_food, 
-           
+            'drink_id' : drink_id, 
+            
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deleteFood = function (food_id, food_status_id,action) {
-		return $http.post('restaurant-api/api_update_food.php', {
-            'food_id' : food_id,
-            'food_status_id' : food_status_id,
-            'action' : action,
+	this.deleteDrink = function (drink_id, drink_status_id) {
+		return $http.post('restaurant-api/api_delete_drink.php', {
+            'drink_id' : drink_id,
+            'drink_status_id' : drink_status_id,
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.getAllOrderFood = function () {
-		return $http.get('restaurant-api/api_get_order_food.php', {
+	this.getAllOrderDrink = function () {
+		return $http.get('restaurant-api/api_get_order_drink.php', {
         }, function(data, status) {
             return data;
         });

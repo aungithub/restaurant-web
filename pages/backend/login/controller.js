@@ -96,7 +96,7 @@ angular.module('RESTAURANT.admin_login', ['ngRoute'])
 	this.login = function (username, password) {
 		$http.defaults.headers.common = { 'Content-type' : 'application/json'};
 
-		return $http.post('http://localhost/restaurant-api/api_login.php', {
+		return $http.post('restaurant-api/api_login.php', {
             'username' : username,
             'password' : password
         }, function(data, status) {

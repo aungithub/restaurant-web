@@ -299,7 +299,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 .service('DrinkPOReceiptService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllDrinkPOReceipt = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_drink_po_receipt.php', {
+		return $http.get('restaurant-api/api_get_drink_po_receipt.php', {
         }, function(data, status) {
             return data;
         });
@@ -308,14 +308,14 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 	this.getByID = function (id, vendor_id) {
 		var conditions = "?dp_id=" + id + "&vendor_id=" + vendor_id + "&dp_action=detail";
 
-		return $http.get('http://localhost/restaurant-api/api_get_drink_po_receipt.php' + conditions, {
+		return $http.get('restaurant-api/api_get_drink_po_receipt.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.saveDrinkPOReceipt = function (emp_id, drink_po_receipt) {
-		return $http.post('http://localhost/restaurant-api/api_save_drink_po_receipt.php', {
+		return $http.post('restaurant-api/api_save_drink_po_receipt.php', {
             'emp_id' : emp_id,
             'drink_po_receipt' : drink_po_receipt
         }, function(data, status) {
@@ -325,7 +325,7 @@ angular.module('RESTAURANT.admin_drink_po_receipt', ['ngRoute'])
 
 	//cm function สำหรับดึงการแจ้งเตือนการสั่งซื้อได้รับอนุมัติ
 	this.getAllDrinkPOReceiptNumber = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_new_drink_po_receipt.php', {
+		return $http.get('restaurant-api/api_get_new_drink_po_receipt.php', {
         }, function(data, status) {
             return data;
         });

@@ -1,0 +1,308 @@
+ 
+
+  <div class="panel panel-default" align="center"> 
+  <!-- Default panel contents -->
+  <div class="panel-heading " >สิทธิการใช้งาน</div>
+
+  <!-- Table -->
+  <div class="table-responsive">
+  <table class="table table-striped table-bordered " >
+
+    <thead>
+    <tr>
+        <th style="width: 15%;">รหัส</th>
+        <th style="width: 40%;">ชื่อสิทธิ</th>
+        <th style="width: 29%;">สถานะ</th>
+        <th style="width: 8%;">แก้ไข</th>
+        <th style="width: 8%;">ลบ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="obj in listRoleObject">
+        <th >{{'R' + obj.role_char_id}}</th>
+        <td>{{obj.role_name}}</td>
+        <td>{{(obj.role_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
+        <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editRole(obj.role_id)">Edit</button></td>
+        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteRole(obj.role_id)">Delete</button></td>
+    </tr>
+    
+    </tbody>
+</table>
+</div>
+</div>
+
+<div class="btn-group" role="group" aria-label="..." >
+  <button type="Add" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddRoleForm()">Add</button>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="addModalLabel">เพิ่มรายละเอียดสิทธิการใช้งาน</h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <form class="form-horizontal">
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อสิทธิ์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_role_name" class="form-control" placeholder="" aria-describedby="sizing-addon3">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Back Office</label>
+            <div class="col-sm-9">
+              <div class="input-group roles_back">
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" disabled="disabled" checked="checked" value="admin_employee">พนักงาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_position">ตำแหน่งงาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_role">สิทธิ์การใช้งาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_food">อาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_kind">ประเภทอาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_drink">เครื่องดื่ม</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_promotion">โปรโมชั่น</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_unit">หน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_unitdetail">การแปลงหน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_table">ข้อมูลโต๊ะ</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_drink_po">รายการสั่งซื้อ</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_drink_po_print">ออกใบเสนอซื้อ</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_back_pages[]" value="admin_drink_po_receipt">รายการรับ</label>
+                </div>
+
+                <div class="form-group">
+            
+                 <label class="control-label col-sm-3">Front Office</label>
+                <div class="col-sm-9">
+              <div class="input-group roles_front">
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_front_pages[]" value="user_menu">Menu</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_front_pages[]" value="user_reserve">จองโต๊ะ</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_front_pages[]" value="user_payment">ชำระเงิน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_front_pages[]" value="user_cookmenu">รายการอาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" name="role_front_pages[]" value="user_drink">รายการเครื่องดื่ม</label>
+                </div>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="add_role_status_id">
+                  <option value="999">เลือกสถานะ</option>
+                  <option value="1">ใช้งาน</option>
+                  <option value="2">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <!-- Body -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" ng-click="addRole()">เพิ่ม</button>
+      </div>
+      <!-- Footer -->
+
+    </div>
+  </div>
+</div>
+<!-- Add Unit Modal -->
+
+<!-- Edit Unit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดสิทธิการใช้งาน</h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <form class="form-horizontal">
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสสิทธิ์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_role_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{'R' + selectedroleObject.role_char_id}}">
+                <input type="hidden" id="edit_role_pk_id" value="{{selectedroleObject.role_id}}"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อสิทธิ์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_role_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedroleObject.role_name}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Back Office</label>
+            <div class="col-sm-9">
+              <div class="input-group edit_roles_back">
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_employee" name="edit_role_back_pages[]" disabled="disabled" checked="checked" value="admin_employee">พนักงาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_position" name="edit_role_back_pages[]" value="admin_position">ตำแหน่งงาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_role" name="edit_role_back_pages[]" value="admin_role">สิทธิ์การใช้งาน</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_food" name="edit_role_back_pages[]" value="admin_food">อาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_kind" name="edit_role_back_pages[]" value="admin_kind">ประเภทอาหาร</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_drink" name="edit_role_back_pages[]" value="admin_drink">เครื่องดื่ม</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_promotion" name="edit_role_back_pages[]" value="admin_promotion">โปรโมชั่น</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_unit" name="edit_role_back_pages[]" value="admin_unit">หน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_unitdetail" name="edit_role_back_pages[]" value="admin_unitdetail">การแปลงหน่วย</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_table" name="edit_role_back_pages[]" value="admin_table">ข้อมูลโต๊ะ</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_drink_po" name="edit_role_back_pages[]" value="admin_drink_po">รายการสั่งซื้อ</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_drink_po_print" name="edit_role_back_pages[]" value="admin_drink_po_print">ออกใบเสนอซื้อ</label>
+                </div>
+
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_drink_po_receipt" name="edit_role_back_pages[]" value="admin_drink_po_receipt">รายการรับ</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" class="role_checkbox role_admin_account" name="edit_role_back_pages[]" value="admin_account">ACCOUNT</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="edit_role_status_id">
+                  <option value="999">เลือกสถานะ</option>
+                  <option value="1">ใช้งาน</option>
+                  <option value="2">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <!-- Body -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+          <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" ng-click="updateRole()">แก้ไข</button>
+      </div>
+      <!-- Footer -->
+      
+    </div>
+  </div>
+</div>
+</div>
+<!-- Edit Unit Modal -->
+
+

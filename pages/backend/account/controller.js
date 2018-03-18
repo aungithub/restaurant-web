@@ -542,35 +542,35 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 }])
 .service('AccountService', ['$http', '$q',function ($http, $q) {
 	this.getAccountID = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_account_id.php', {
+		return $http.get('restaurant-api/api_get_account_id.php', {
 	    }, function(data, status) {
 	        return data;
 	    });
 	};
 
 	this.getAccount = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_account.php', {
+		return $http.get('restaurant-api/api_get_account.php', {
 	    }, function(data, status) {
 	        return data;
 	    });
 	};
 
 	this.getAccountByID = function (Account_ID) {
-		return $http.get('http://localhost/restaurant-api/api_get_account_by_id.php?Account_ID=' + Account_ID, {
+		return $http.get('restaurant-api/api_get_account_by_id.php?Account_ID=' + Account_ID, {
 	    }, function(data, status) {
 	        return data;
 	    });
 	};
 
 	this.search = function (search) {
-		return $http.get('http://localhost/restaurant-api/api_get_account.php?search=' + search, {
+		return $http.get('restaurant-api/api_get_account.php?search=' + search, {
 	    }, function(data, status) {
 	        return data;
 	    });
 	};
 
 	this.delete = function (Account_ID) {
-		return $http.post('http://localhost/restaurant-api/api_delete_account.php', {
+		return $http.post('restaurant-api/api_delete_account.php', {
 			'Account_ID': Account_ID
 	    }, function(data, status) {
 	        return data;
@@ -578,7 +578,7 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	};
 
 	this.checkusername = function (username) {
-		return $http.post('http://localhost/restaurant-api/api_check_account_username.php', {
+		return $http.post('restaurant-api/api_check_account_username.php', {
 			'username': username
 	    }, function(data, status) {
 	        return data;
@@ -586,13 +586,13 @@ angular.module('RESTAURANT.admin_account', ['ngRoute'])
 	};
 
 	this.addAccount = function (data) {
-		return $http.post('http://localhost/restaurant-api/api_add_account.php', data, function(data, status) {
+		return $http.post('restaurant-api/api_add_account.php', data, function(data, status) {
 	        return data;
 	    });
 	};
 
 	this.updateAccount = function (data) {
-		return $http.post('http://localhost/restaurant-api/api_update_account.php', data, function(data, status) {
+		return $http.post('restaurant-api/api_update_account.php', data, function(data, status) {
 	        return data;
 	    });
 	};

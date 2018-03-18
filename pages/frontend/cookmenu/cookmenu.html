@@ -5,33 +5,37 @@
 <div class="panel-heading " >รายการการสั่งอาหาร</div>
 
 <!-- Table -->
-<table class="table table-striped table-bordered " >
+<div class="table-responsive">
+<table class="table table-striped table-bordered table-responsive" >
 
   <thead>
   <tr >
-      <th style="width: 10%;">โต๊ะ</th>
-       <th style="width: 25%;">รายการ</th>
-      <th style="width: 10%;">จำนวน</th>
-      <th style="width: 25%;">หมายเหตุ</th>
-       <th style="width: 10%;">ทำ</th>
-      <th style="width: 10%;">เสร็จ</th>
-      <th style="width: 10%;">ยกเลิก</th>
+      <th >โต๊ะ</th>
+       <th >รายการ</th>
+      <th >จำนวน</th>
+      <th >หมายเหตุ</th>
+      <th >เวลา</th>
+       <th>ทำ</th>
+      <th >เสร็จ</th>
+      <th >ยกเลิก</th>
   </tr>
   </thead>
  <tbody>
-  <tr ng-repeat="obj in listOrderFoodObject">
+  <tr ng-repeat="obj in listOrderFoodObject" ng-show="obj.status == null || obj.status == 2">
       <td>T01</td>
       <td>{{obj.food_name}}</td>
       <td> {{obj.number}}</td>
       <td>{{obj.comment}}</td>
-      <td> <button type="button" class="btn btn-sm btn-info full-width"  ng-click="cook(2,obj.order_id,obj.food_id)" ng-disabled="obj.status != null">ปรุงอาหาร</button></td>
-      <td> <button type="button" class="btn btn-sm btn-info full-width" ng-click="cookfinish(1,obj.order_id,obj.food_id)" ng-disabled="obj.status != 2 ">เสร็จ</button></td>
-      <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="cancel(0,obj.order_id,obj.food_id)" ng-disabled="obj.status == 1">ยกเลิก</button></td>
+      <td>{{obj.order_datetime}}</td>
+      <td> <button type="button" class="btn btn-sm btn-info full-width"  ng-click="cook(2,obj.order_id,obj.food_id,obj.food_status_id)" ng-disabled="obj.status != null">ปรุงอาหาร</button></td>
+      <td> <button type="button" class="btn btn-sm btn-info full-width" ng-click="cookfinish(1,obj.order_id,obj.food_id,obj.food_status_id)" ng-disabled="obj.status != 2 ">เสร็จ</button></td>
+      <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="cancel(0,obj.order_id,obj.food_id,obj.food_status_id)" ng-disabled="obj.status == 1">ยกเลิก</button></td>
   </tr>
  
  
   
   </tbody>
 </table>
+</div>
 </div>
 

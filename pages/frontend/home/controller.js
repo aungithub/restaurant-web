@@ -10,10 +10,11 @@ angular.module('RESTAURANT.user_home', ['ngRoute'])
 
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
+
 	//$rootScope.getAllNotification();
 
 	// เช็คสิทธิ์
-	if ($rootScope.isFrontendLoggedIn == false) {
+	if ($rootScope.isFrontendLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
 		$location.path('/frontend/user_login');
 	}
 

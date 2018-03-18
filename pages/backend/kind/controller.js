@@ -380,14 +380,14 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 .service('KindService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllKind = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_kind.php', {
+		return $http.get('restaurant-api/api_get_kind.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addKind = function (kind_name, kind_status) {
-		return $http.post('http://localhost/restaurant-api/api_add_kind.php', {
+		return $http.post('restaurant-api/api_add_kind.php', {
             'name' : kind_name,
             'status' : kind_status,
         }, function(data, status) {
@@ -398,14 +398,14 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?kind_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_kind.php' + conditions, {
+		return $http.get('restaurant-api/api_get_kind.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updateKind = function (kind_id, kind_name, kind_status) {
-		return $http.post('http://localhost/restaurant-api/api_update_kind.php', {
+		return $http.post('restaurant-api/api_update_kind.php', {
             'kind_id' : kind_id,
             'kind_name' : kind_name,
             'kind_status' : kind_status,
@@ -415,7 +415,7 @@ angular.module('RESTAURANT.admin_kind', ['ngRoute'])
 	};
 
 	this.deleteKind = function (kind_id, kind_status) {
-		return $http.post('http://localhost/restaurant-api/api_delete_kind.php', {
+		return $http.post('restaurant-api/api_delete_kind.php', {
             'kind_id' : kind_id,
             'kind_status' : kind_status,
         }, function(data, status) {

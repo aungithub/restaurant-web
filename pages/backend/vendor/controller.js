@@ -387,14 +387,14 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
 .service('VendorService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllVendor = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_vendor.php', {
+		return $http.get('restaurant-api/api_get_vendor.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addVendor = function (vendor_name, vendor_tel, vendor_address, vendor_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_vendor.php', {
+		return $http.post('restaurant-api/api_add_vendor.php', {
             'name' : vendor_name,
             'tel' : vendor_tel,
             'address' : vendor_address,
@@ -407,14 +407,14 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?vendor_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_vendor.php' + conditions, {
+		return $http.get('restaurant-api/api_get_vendor.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updateVendor = function (vendor_id, vendor_name, vendor_tel, vendor_address, vendor_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_vendor.php', {
+		return $http.post('restaurant-api/api_update_vendor.php', {
             'id' : vendor_id,
             'name' : vendor_name,
             'tel' : vendor_tel,
@@ -426,7 +426,7 @@ angular.module('RESTAURANT.admin_vendor', ['ngRoute'])
 	};
 
 	this.deleteVendor = function (vendor_id,vendor_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_vendor.php', {
+		return $http.post('restaurant-api/api_delete_vendor.php', {
             'vendor_id' : vendor_id,
             'vendor_status_id' : vendor_status_id,
         }, function(data, status) {

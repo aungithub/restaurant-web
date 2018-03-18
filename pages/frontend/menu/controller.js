@@ -7,17 +7,22 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	$rootScope.loadCookies();
 
 	$scope.listFoodObject = null;
+	$scope.listDrinkObject = null;
 	$scope.selectedId = "";
 	$scope.selectedFoodObject = null;
 	$scope.selectedKindObject = null;
 	$scope.listKindObject = null;
 	$scope.listOrderFoodObject = [];
+	$scope.listOrderDrinkObject = [];
 	$scope.totalprice = 0;
 	$scope.menuSelect =0;
 	$scope.menuFoodType =0;
+	$scope.orderObject =  false;
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 	$rootScope.getAllNotification();
+	 $scope.table_id = 10;
+	 $scope.listFoodObject = null;
 
 	// เช็คสิทธิ์
 	/*if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
@@ -38,8 +43,13 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 					if (result.data.status == 200) {
 						$scope.listFoodObject = result.data.food;
 
-						MenuService.getAllKind().then(function (result) {
-							$scope.listKindObject = result.data.kind;
+						MenuService.getAllDrink().then(function (result) {
+
+							$scope.listDrinkObject = result.data.drink;
+
+							MenuService.getAllKind().then(function (result) {
+								$scope.listKindObject = result.data.kind;
+							});
 						});
 					}
 					else {
@@ -60,6 +70,65 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 			}
 		}
 	});
+
+	
+
+	$scope.saveTable = function(table_id){
+
+  $scope.table_id = table_id ; 
+
+MenuService.saveTable(table_id).then(function (result) {
+				//cm ถ้า status 200 คือเอาลง database ได้ ไม่มีปัญหา
+				if (result.data.status == 200) {
+					noty({
+		                type : 'success',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : result.data.message,
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+
+		                		// ปิด modal
+		                		$("#close_modal_add").click()
+
+		                		// refresh หน้าจอ
+		                		//location.reload();
+		                		$scope.refreshList();
+
+		                	}
+		                }
+		            });
+				}
+				else {
+					noty({
+		                type : 'warning',
+		                layout : 'top',
+		                modal : true,
+		                timeout: 3000,
+		                text : result.data.message,
+		                callback: {
+		                	afterClose: function () {
+		                		// ปิด noty
+		                		$.noty.clearQueue(); $.noty.closeAll();
+
+		                		// do something
+		                	}
+		                }
+		            });
+				}
+			});
+
+}
+
+$scope.search = function () {
+		$scope.listFoodObject = false;
+		MenuService.search($('#search').val()).then(function (result) {
+			$scope.listFoodObject = result.data.food;
+		});
+	};
 
 	// clear textbox value
 	$scope.loadAddFoodForm = function() {
@@ -135,6 +204,32 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 		console.log($scope.listOrderFoodObject);
 	}
 
+	$scope.orderdrink = function(drink_id) {
+
+		var idx = $scope.listOrderDrinkObject.findIndex(obj => obj.drink_id==drink_id);
+
+			//alert(food_id);
+			//alert($("#comment_"+food_id).val());
+			//alert(idx);
+
+		if (idx == -1) {
+			$scope.listOrderDrinkObject.push({
+				drink_id : drink_id,
+				number : $("#number_"+drink_id).val(),
+				comment : $("#comment_"+drink_id).val(),
+				drink_name : $("#drink_name_"+drink_id).text(),
+				drink_price : $("#drink_price_"+drink_id).text(),
+				type : "drink"
+			});
+		}
+		else{
+			$scope.listOrderDrinkObject[idx].number = parseInt($scope.listOrderDrinkObject[idx].number) + parseInt($("#number_"+drink_id).val());
+			console.log($scope.listOrderDrinkObject[idx]);
+		}
+		$scope.calculatetotalprice();
+		console.log($scope.listOrderDrinkObject);
+	}
+
 	$scope.calculatetotalprice = function(){
 		if ($scope.listOrderFoodObject.length > 0) {
 			$scope.totalprice = 0;
@@ -146,12 +241,25 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 
 		}
 
+		if ($scope.listOrderDrinkObject.length > 0) {
+			if ($scope.listOrderFoodObject.length == 0) {
+				$scope.totalprice = 0;
+			}
+			
+			for (var i = 0; i < $scope.listOrderDrinkObject.length; i++) {
+				$scope.totalprice = $scope.totalprice + $scope.listOrderDrinkObject[i].number*$scope.listOrderDrinkObject[i].drink_price;
+
+			}
+
+
+		}
+
 
 
 	}
 
 	$scope.saveFood = function() {
-		if ($scope.listOrderFoodObject.length > 0  ) {
+		if ($scope.listOrderFoodObject.length > 0  || $scope.listOrderDrinkObject.length > 0 ) {
 
 			noty({
                 type : 'confirm',
@@ -181,8 +289,8 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
                             text : 'กำลังบันทึกข้อมูล...',
                             callback : {
                                 afterShow : function () {
-
-			MenuService.saveFood($scope.listOrderFoodObject).then(function (result) {
+                                $.noty.clearQueue(); $.noty.closeAll();
+			MenuService.saveFood($scope.listOrderFoodObject, $scope.listOrderDrinkObject).then(function (result) {
 				$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -197,10 +305,12 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 								                		// ปิด noty
 								                		$.noty.clearQueue(); $.noty.closeAll();
 								                		$scope.listOrderFoodObject = [];
+								                		$scope.listOrderDrinkObject = [];
 								                		$scope.totalprice = 0;
 								                		// refresh หน้าจอ
 								                		//location.reload();
 								                		$scope.refreshList();
+								                		console.log($scope.listOrderDrinkObject)
 								                	}
 								                }
 								            });
@@ -305,14 +415,21 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 .service('MenuService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllKind = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_kind.php', {
+		return $http.get('restaurant-api/api_get_kind.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getAllFood = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_food.php', {
+		return $http.get('restaurant-api/api_get_food.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getAllDrink= function () {
+		return $http.get('restaurant-api/api_get_drink.php', {
         }, function(data, status) {
             return data;
         });
@@ -322,20 +439,36 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?food_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_food.php' + conditions, {
+		return $http.get('restaurant-api/api_get_food.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.saveFood = function (food_list) {
-		return $http.post('http://localhost/restaurant-api/api_save_food.php', {
+	this.saveFood = function (food_list, drink_list) {
+		return $http.post('restaurant-api/api_save_food.php', {
             'food_list' : food_list, 
-            
+            'drink_list' : drink_list, 
+   
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.saveTable = function (table_id) {
+		return $http.post('restaurant-api/api_save_food.php', {
+            'table_id' : table_id, 
    
         }, function(data, status) {
             return data;
         });
 	};
 	
+	this.search = function (search) {
+		return $http.get('restaurant-api/api_get_food.php?search=' + search, {
+	    }, function(data, status) {
+	        return data;
+	    });
+	};
+
 }]);

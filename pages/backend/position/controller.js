@@ -427,21 +427,21 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 .service('PositionService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllRoles = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_role.php', {
+		return $http.get('restaurant-api/api_get_role.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getAllPosition = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_position.php', {
+		return $http.get('restaurant-api/api_get_position.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addPosition = function (pos_name, pos_role_id, pos_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_position.php', {
+		return $http.post('restaurant-api/api_add_position.php', {
             'name' : pos_name,
             'role' : pos_role_id,
             'status' : pos_status_id,
@@ -453,14 +453,14 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?pos_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_position.php' + conditions, {
+		return $http.get('restaurant-api/api_get_position.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updatePosition = function (pos_id, pos_name, pos_role_id, pos_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_position.php', {
+		return $http.post('restaurant-api/api_update_position.php', {
             'pos_id' : pos_id,
             'pos_name' : pos_name,
             'pos_role_id' : pos_role_id,
@@ -471,7 +471,7 @@ angular.module('RESTAURANT.admin_position', ['ngRoute'])
 	};
 
 	this.deletePosition = function (pos_id, pos_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_position.php', {
+		return $http.post('restaurant-api/api_delete_position.php', {
             'pos_id' : pos_id,
             'pos_status_id' : pos_status_id,
         }, function(data, status) {

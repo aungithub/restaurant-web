@@ -466,21 +466,21 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 .service('UnitdetailService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllUnit = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_unit.php', {
+		return $http.get('restaurant-api/api_get_unit.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getAllUnitdetail = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_unitdetail.php', {
+		return $http.get('restaurant-api/api_get_unitdetail.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addUnitdetail = function (primary_unit_id, secondary_unit_id, primary_unit_number, secondary_unit_number, unitdetail_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_unitdetail.php', {
+		return $http.post('restaurant-api/api_add_unitdetail.php', {
             'primary_unit_id' : primary_unit_id,
             'secondary_unit_id' : secondary_unit_id,
             'primary_unit_number' : primary_unit_number,
@@ -494,14 +494,14 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?unitdetail_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_unitdetail.php' + conditions, {
+		return $http.get('restaurant-api/api_get_unitdetail.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updateUnitdetail = function (unitdetail_id, primary_unit_id, secondary_unit_id, primary_unit_number, secondary_unit_number, unitdetail_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_unitdetail.php', {
+		return $http.post('restaurant-api/api_update_unitdetail.php', {
 			'unitdetail_id' : unitdetail_id,
             'primary_unit_id' : primary_unit_id,
             'secondary_unit_id' : secondary_unit_id,
@@ -514,7 +514,7 @@ angular.module('RESTAURANT.admin_unitdetail', ['ngRoute'])
 	};
 
 	this.deleteUnitdetail = function (unitdetail_id, unitdetail_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_unitdetail.php', {
+		return $http.post('restaurant-api/api_delete_unitdetail.php', {
             'unitdetail_id' : unitdetail_id,
             'unitdetail_status_id' : unitdetail_status_id,
         }, function(data, status) {

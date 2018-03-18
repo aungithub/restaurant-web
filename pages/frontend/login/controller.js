@@ -12,9 +12,11 @@ angular.module('RESTAURANT.user_login', ['ngRoute'])
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 
 	// ถ้า login อยู่แล้ว
-	if ($rootScope.isFrontendLoggedIn != false) {
+	
+	if ($rootScope.isFrontendLoggedIn == true) {
 		// ไปหน้าแรก
 		$window.location.href = $rootScope.userFirstPage;
+		console.log($rootScope.isFrontendLoggedIn)
 	}
 
 	//cm function ที่จะเข้ามาทำ หลังจากปุ่ม login ถูก click หรือ enter 
@@ -59,9 +61,13 @@ angular.module('RESTAURANT.user_login', ['ngRoute'])
 
                 				// ทำให้รู้ว่า login แล้ว
                 				$rootScope.isFrontendLoggedIn = true;
+
+                				// เก็บสิทธิ์ไว้ที่ตัวแปรเพื่อเอาไปใช้ในทุกๆหน้า
+                				$rootScope.privacyAccess = result.data.roles;
                 				
                 				//cm ทำการเก็บ ข้อมูลต่างๆลง cookies บน browser
                 				$cookies.put('isFrontendLoggedIn', true);
+                				$cookies.put('privacyAccess', $rootScope.privacyAccess);
                 				$cookies.put('empID', result.data.emp_id);
                 				$cookies.put('empPosID', result.data.emp_pos_id);
 
@@ -88,11 +94,12 @@ angular.module('RESTAURANT.user_login', ['ngRoute'])
 		}
 	};
 }])
-.service('UserLogin', ['$http', '$q',function ($http, $q) {
+.service('UserLogin', ['$http', '$q', function ($http, $q) {
 	this.login = function (username, password) {
+
 		$http.defaults.headers.common = { 'Content-type' : 'application/json'};
 
-		return $http.post('http://localhost/restaurant-api/api_login.php', {
+		return $http.post('restaurant-api/api_login.php', {
             'username' : username,
             'password' : password
         }, function(data, status) {

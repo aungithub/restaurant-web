@@ -6,24 +6,20 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	var route = 'user_payment';
 	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
-	/*$rootScope.loadCookies();
+	$scope.orderObject = [];
+	$scope.listOrderObject = [];
+	$scope.autoRefreshTimer = null;
+	$scope.totalprice = 0;
+	$scope.totalpromotion = 0;
+	$scope.promotion = 0;
+	$scope.promotionlist = 0;
+	$scope.discountPercent = 0;
+	$scope.discount = 0;
+	$scope.tatal = 0;
+	$scope.changeprice = 0;
+	$scope.numberprice = null;
+	$scope.order_id = 0;
 
-	$scope.listFoodObject = null;
-	$scope.selectedId = "";
-	$scope.selectedFoodObject = null;
-	$scope.selectedKindObject = null;
-	$scope.listKindObject = null;
-
-	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
-	$rootScope.$emit('IndexController.hideLoginShowMenu');
-	$rootScope.getAllNotification();
-
-	// เช็คสิทธิ์
-	if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
-		$location.path('/backend/admin_login');
-	}
-
-	// โหลดข้อมูล unit ทั้งหมดมาแสดงที่ตาราง
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
         layout : 'top',
@@ -31,11 +27,15 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
         text : 'กำลังโหลด...',
         callback: {
         	afterShow: function () {
-				FoodService.getAllFood().then(function (result) {
+				PaymentService.getAllOrder().then(function (result) {
 					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
 					if (result.data.status == 200) {
-						$scope.listFoodObject = result.data.food;
+						$scope.orderObject = result.data.orderlist;
+
+						if (result.data.promotionlist.length > 0) {
+							$scope.discountPercent = result.data.promotionlist[0].pro_discount;
+						}
 					}
 					else {
 						noty({
@@ -56,96 +56,45 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 		}
 	});
 
-	// clear textbox value
-	$scope.loadAddFoodForm = function() {
-		$("#add_food_name").val('');
-		$("#add_food_kind_id").val('');
-		$("#add_food_price").val('');
-		$("#add_food_status_id").val(999);
-	
-		
-	noty({
-	        type : 'alert',
-	        layout : 'top',
-	        modal : true,
-	        text : 'กำลังโหลด...',
-	        callback: {
-	        	afterShow: function () {
-					FoodService.getAllKind().then(function (result) {
-						if (result.data.status == 200 && result.data.kind.length > 0) {
-							// ปิด noty
-							$.noty.clearQueue(); $.noty.closeAll();
 
-							$scope.listKindObject = result.data.kind;
-						}
-						else {
-							// ปิด noty
-							$.noty.clearQueue(); $.noty.closeAll();
 
-							noty({
-				                type : 'warning',
-				                layout : 'top',
-				                modal : true,
-				                timeout: 3000,
-				                text : 'ไม่พบข้อมูลหน่วย...',
-				                callback: {
-				                	afterClose: function () {
-				                		// ปิด noty
-				                		$.noty.clearQueue(); $.noty.closeAll();
-				                	}
-				                }
-				            });
-						}
-					});
-				}
+$scope.savePrice = function() {
+
+		var 
+			order_id = $scope.order_id, // ตตัดspacebarทั้งหมด
+			totalprice = $("#total1").val(), // ตตัดspacebarทั้งหมด
+			promotion = $("#total2").val(), // ตตัดspacebarทั้งหมด
+			
+			discount = $("#total3").val(), // ตตัดspacebarทั้งหมด
+			total = $("#total4").val(), 
+			price = $("#numberprice").val(),//ดึงค่าจากselectมาไว้ในตัแปล
+			changeprice = $("#changeprice").val();//ดึงค่าจากselectมาไว้ในตัแปล
+
+		if (price == '') {
+			//cm ถ้า password ไม่เหมือนกัน confirm password จะแจ้งเตือน
+			
+				noty({
+	                type : 'warning',
+	                layout : 'top',
+	                modal : true,
+	                timeout: 3000,
+	                text : ' กรุณาตรวจสอบ',
+	                callback: {
+	                	afterClose: function () {
+	                		// ปิด noty
+	                		$.noty.clearQueue(); $.noty.closeAll();
+
+	                		// do something
+	                	}
+	                }
+	            });
+	            return;
 			}
-		});
-	};
+			
 
-	$scope.refreshList = function() {
-		noty({
-	        type : 'alert', // alert, success, warning, error, confirm
-	        layout : 'top',
-	        modal : true,
-	        text : 'กำลังโหลด...',
-	        callback: {
-	        	afterShow: function () {
-					FoodService.getAllFood().then(function (result) {
-						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
-
-						if (result.data.status == 200) {
-							$scope.listFoodObject = result.data.food;
-							$scope.apply();
-									}
-						else {
-							noty({
-				                type : 'warning',
-				                layout : 'top',
-				                modal : true,
-				                timeout: 3000, // 3 seconds
-				                text : result.data.message,
-				                callback: {
-				                	afterClose: function () {
-				                		$.noty.clearQueue(); $.noty.closeAll();
-				                	}
-				                }
-				            });
-						}
-					});
-				}
-			}
-		});
-	}
-
-	// Add Unit
-	$scope.addFood = function() {
-		var food_name = $.trim($("#add_food_name").val()), // ตตัดspacebarทั้งหมด
-			food_kind_id = $("#add_food_kind_id").val(),
-			food_price = $("#add_food_price").val(),
-			food_status_id = $("#add_food_status_id").val();//ดึงค่าจากselectมาไว้ในตัแปล
-
-		if (food_name != '' && food_kind_id != '' && food_price != ''  && food_status_id != 999 ) {
-			FoodService.addFood($("#add_food_name").val(), food_kind_id, food_price , food_status_id).then(function (result) {
+			//cm ถ้าผ่านมาถึงนี้จะโยนข้อมูลทั้งหมดไปยัง addEmployee ใน EmployeeService เพื่อเอาลง database
+			PaymentService.savePrice(order_id, totalprice,  promotion, discount, total, price, changeprice).then(function (result) {
+				//cm ถ้า status 200 คือเอาลง database ได้ ไม่มีปัญหา
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -188,263 +137,170 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 				}
 			});
 		}
-		else {
-			noty({
-                type : 'warning',
-                layout : 'top',
-                modal : true,
-                timeout: 3000,
-                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
-                callback: {
-                	afterClose: function () {
-                		// ปิด noty
-                		$.noty.clearQueue(); $.noty.closeAll();
-                	}
-                }
-            });
+
+		
+	$scope.calculatetotalpricechange = function(){
+var  numberprice = $("#numberprice").val();
+$scope.changeprice = numberprice - $scope.tatal;
+
+	}
+
+	$scope.calculatetotalprice = function(){
+
+		if ($scope.listOrderObject.length > 0) {
+
+			$scope.totalprice = 0;
+			$scope.promotion = 0;
+			$scope.promotionlist = 0;
+			$scope.discount = 0;
+			$scope.tatal = 0;
+			$scope.changeprice = 0;
+			$scope.numberprice = null;  
+			for (var i = 0; i < $scope.listOrderObject.length; i++) {
+
+				$scope.totalprice = $scope.totalprice + $scope.listOrderObject[i].number*$scope.listOrderObject[i].price;	
+				$scope.promotion = $scope.totalprice + ($scope.totalprice * 0.07);
+				
+				if (i == $scope.listOrderObject.length-1) {
+					$scope.tatal = $scope.promotion;
+					if ($scope.discountPercent > 0) {
+
+						//$scope.promotionlist = $scope.promotion * ($scope.listOrderObject[i].pro_discount / 100);
+						$scope.discount = $scope.promotion * $scope.discountPercent / 100;
+						$scope.tatal = $scope.tatal - $scope.discount ;
+						
+					}
+						
+				}
+				
+			}
+
+
 		}
-	};
-	// END Add Unit
 
-	// Edit Unit
-	$scope.editFood = function(id) {
-		$scope.selectedId = id;
-		$scope.selectedFoodObject = null;
-		$scope.selectedKindObject = null;
 
+
+	}
+
+	$scope.calculatetotalpromotion = function(){
+		if ($scope.listOrderObject.length > 0) {
+			$scope.totalpromotion = 0;
+			$scope.promotion = 0;
+			$scope.promotionlist = 0;
+			for (var i = 0; i < $scope.listOrderObject.length; i++) {
+				$scope.totalpromotion = $scope.totalpromotion + $scope.listOrderObject[i].number*$scope.listOrderObject[i].price;	
+				$scope.promotion = $scope.totalpromotion + ($scope.totalpromotion * 0.07);
+				$scope.promotionlist = $scope.promotion * ($scope.listOrderObject[i].pro_discount / 100);
+			}
+
+
+		}
+
+
+
+	}
+
+
+
+	$scope.listOrder = function(order_id) {
+		$scope.order_id = order_id;
+		PaymentService.getAllOrder(order_id).then(function (result) {
+			if (result.data.status == 200) {
+				$scope.listOrderObject = result.data.orderlist;
+				$scope.calculatetotalprice();
+				$scope.calculatetotalpromotion();
+			}
+		});
+
+
+	}
+
+	$scope.orderfood = function(food_id) {
+
+	var idx = $scope.listOrderFoodObject.findIndex(obj => obj.food_id==food_id);
+
+
+
+		//alert(food_id);
+		//alert($("#comment_"+food_id).val());
+		//alert(idx);
+
+	if (idx == -1) {
+		$scope.listOrderFoodObject.push({
+			food_id : food_id,
+			number : $("#number_"+food_id).val(),
+			comment : $("#comment_"+food_id).val(),
+			food_name : $("#food_name_"+food_id).text(),
+			food_price : $("#food_price_"+food_id).text(),
+			type : "food"
+		});
+	}
+	else{
+		$scope.listOrderFoodObject[idx].number = parseInt($scope.listOrderFoodObject[idx].number) + parseInt($("#number_"+food_id).val());
+		console.log($scope.listOrderFoodObject[idx]);
+	}
+		$scope.calculatetotalprice();
+		console.log($scope.listOrderFoodObject);
+	}
+
+	
+
+	$scope.refreshList = function() {
 		noty({
-            type : 'alert',
-            layout : 'top',
-            modal : true,
-            text : 'กำลังดึงข้อมูลหน่วย...',
-            callback: {
-            	afterShow: function () {
-            		FoodService.getByID($scope.selectedId).then(function (result) {
-						if (result.data.status == 200 && result.data.food.length > 0) {
-							// ปิด noty
-							$.noty.clearQueue(); $.noty.closeAll();
+	        type : 'alert', // alert, success, warning, error, confirm
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					PaymentService.getAllOrderFood().then(function (result) {
+						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
-							$scope.selectedFoodObject = result.data.food[0];
-							$scope.selectedKindObject = result.data.kind;
-					
-							if ($scope.selectedFoodObject.food_status_id == 1) {
-								$("#edit_food_status_id").val(1);
-							} else if ($scope.selectedFoodObject.food_status_id == 2) {
-								$("#edit_food_status_id").val(2);
-							} else {
-								$("#edit_food_status_id").val(0);	
-							}
-						setTimeout(function() {
-								$("#edit_food_kind_id").val($scope.selectedFoodObject.food_kind_id);
-							}, 100);
-						}
+						if (result.data.status == 200) {
+							$scope.listOrderFoodObject = result.data.orderfood;
+							//$scope.apply();
+									}
 						else {
-							// ปิด noty
-							$.noty.clearQueue(); $.noty.closeAll();
-
 							noty({
 				                type : 'warning',
 				                layout : 'top',
 				                modal : true,
-				                timeout: 3000,
-				                text : 'ไม่พบข้อมูลหน่วย...',
+				                timeout: 3000, // 3 seconds
+				                text : result.data.message,
 				                callback: {
 				                	afterClose: function () {
-				                		// ปิด noty
 				                		$.noty.clearQueue(); $.noty.closeAll();
 				                	}
 				                }
 				            });
 						}
 					});
-            	}
-            }
-        });
-	};
-	// END Edit Unit
-
-	// Update Unit
-	$scope.updateFood = function(id) {
-		var food_id = $.trim($("#edit_food_pk_id").val()),
-			food_name = $.trim($("#edit_food_name").val()),
-			food_kind_id = $("#edit_food_kind_id").val(),
-			food_price = $("#edit_food_price").val(),
-			food_status_id = $("#edit_food_status_id").val();
-
-		if (food_id != '' && food_name != '' && food_kind_id != '' && food_price != ''  && food_status_id != 999) {
-			FoodService.updateFood(food_id, food_name, food_kind_id, food_price, food_status_id ).then(function (result) {
-				if (result.data.status == 200) {
-					noty({
-		                type : 'success',
-		                layout : 'top',
-		                modal : true,
-		                timeout: 3000,
-		                text : 'อัพเดทข้อมูลสำเร็จ...',
-		                callback: {
-		                	afterClose: function () {
-		                		// ปิด noty
-		                		$.noty.clearQueue(); $.noty.closeAll();
-
-		                		// ปิด modal
-		                		$("#close_modal_edit").click()
-
-		                		// refresh หน้าจอ
-		                		//location.reload();
-		                		$scope.refreshList();
-		                	}
-		                }
-		            });
 				}
-				else {
-					// กรณีไม่ใช่200
-					noty({
-		                type : 'error',
-		                layout : 'top',
-		                modal : true,
-		                timeout: 3000,
-		                text : 'อัพเดทข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
-		                callback: {
-		                	afterClose: function () {
-		                		// ปิด noty
-		                		$.noty.clearQueue(); $.noty.closeAll();
-		                	}
-		                }
-		            });
-				}
-			});
-		}
-		else {
-			noty({
-                type : 'warning',
-                layout : 'top',
-                modal : true,
-                timeout: 3000,
-                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
-                callback: {
-                	afterClose: function () {
-                		$.noty.clearQueue(); $.noty.closeAll();
-                	}
-                }
-            });
-		}
-	};
-	// END Update Unit
+			}
+		});
+	}
+	
 
-	// Delete Unit
-	$scope.deleteFood = function(id) {
-		var food_id = id,
-			food_status_id = 2;
-
-		if (food_id != '') {
-			noty({
-                type : 'confirm',
-                layout : 'top',
-                modal : true,
-                text: 'คุณต้องการลบข้อมูลอาหารนี้ใช่หรือไม่?',
-                buttons : [
-                {
-                    addClass : 'btn btn-danger',//คลาสของbootstrap
-                    text : 'ยกเลิก',
-                    onClick : function () {
-                        $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
-                    }
-                },
-                {
-                	id : 'btn_confirm',
-                    addClass: 'btn btn-primary',
-                    text : 'ยืนยัน',
-                    onClick : function () {
-                        $.noty.clearQueue(); $.noty.closeAll();
-            
-                        noty({
-                            type : 'alert',
-                            layout : 'top',
-                            modal : true,
-                            closeWith : [],
-                            text : 'กำลังลบข้อมูลอาหาร...',
-                            callback : {
-                                afterShow : function () {
-
-                                    FoodService.deleteFood(food_id, food_status_id).then(function (result) {
-                                    	$.noty.clearQueue(); $.noty.closeAll();
-
-										if (result.data.status == 200) {
-											noty({
-								                type : result.data.noty_type,
-								                layout : 'top',
-								                modal : true,
-								                timeout: 3000,
-								                text : result.data.message,
-								                callback: {
-								                	afterClose: function () {
-								                		// ปิด noty
-								                		$.noty.clearQueue(); $.noty.closeAll();
-
-								                		// refresh หน้าจอ
-								                		//location.reload();
-								                		$scope.refreshList();
-								                	}
-								                }
-								            });
-										}
-										else {
-											noty({
-								                type : 'error',
-								                layout : 'top',
-								                modal : true,
-								                timeout: 3000,
-								                text : 'ลบข้อมูลอาหารไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
-								                callback: {
-								                	afterClose: function () {
-								                		// ปิด noty
-								                		$.noty.clearQueue(); $.noty.closeAll();
-								                	}
-								                }
-								            });
-										}
-									});
-                                }
-                            }
-                        });
-                    }
-                }]
-            });
-		}
-		else {
-			noty({
-                type : 'warning',
-                layout : 'top',
-                modal : true,
-                timeout: 3000,
-                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
-                callback: {
-                	afterClose: function () {
-                		$.noty.clearQueue(); $.noty.closeAll();
-                	}
-                }
-            });
-		}
-	};
 	// END Delete Unit
 }])
-.service('FoodService', ['$http', '$q',function ($http, $q) {
+.service('PaymentService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllKind = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_kind.php', {
+		return $http.get('restaurant-api/api_get_kind.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getAllFood = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_food.php', {
+		return $http.get('restaurant-api/api_get_food.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addFood = function (food_name, food_kind_id, food_price, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_food.php', {
+		return $http.post('restaurant-api/api_add_food.php', {
             'food_name' : food_name, 
             'food_kind_id' : food_kind_id,
             'food_price' : food_price,
@@ -458,31 +314,61 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?food_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_food.php' + conditions, {
+		return $http.get('restaurant-api/api_get_food.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.updateFood = function (food_id, food_name, food_kind_id, food_price, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_food.php', {
-            'food_id' : food_id,
-            'food_name' : food_name, 
-            'food_kind_id' : food_kind_id,
-            'food_price' : food_price,
+	this.updateOrderFood = function (status,id, id_food) {
+		return $http.post('restaurant-api/api_update_order_food.php', {
+            'order_id' : id,
+            'status' : status,
+            'food_id' : id_food, 
            
-            'food_status_id' : food_status_id,
         }, function(data, status) {
             return data;
         });
 	};
 
-	this.deleteFood = function (food_id, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_food.php', {
+	this.deleteFood = function (food_id, food_status_id,action) {
+		return $http.post('restaurant-api/api_update_food.php', {
             'food_id' : food_id,
             'food_status_id' : food_status_id,
+            'action' : action,
         }, function(data, status) {
             return data;
         });
-	};*/
+	};
+
+	this.getAllOrderFood = function () {
+		return $http.get('restaurant-api/api_get_order_food.php', {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getAllOrder = function (order_id) {
+		return $http.get('restaurant-api/api_get_order_list.php?order_id='+order_id, {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.savePrice = function (order_id, totalprice,  promotion, discount, total, price, changeprice) {
+		return $http.post('restaurant-api/api_save_price.php', {
+   			'order_id' : order_id,
+            'totalprice' : totalprice,
+            'promotion' : promotion,
+            'discount' : discount,
+            'total' : total,
+            'price' : price,
+            'changeprice' : changeprice,
+            
+   
+        }, function(data, status) {
+            return data;
+        });
+	};
+	
 }]);

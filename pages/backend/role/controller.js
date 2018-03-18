@@ -418,14 +418,14 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 .service('RoleService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllrole = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_role.php', {
+		return $http.get('restaurant-api/api_get_role.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addrole = function (role_name, role_back_pages_string, role_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_role.php', {
+		return $http.post('restaurant-api/api_add_role.php', {
             'name' : role_name,
             'role_back_pages_string' : role_back_pages_string,
             'status' : role_status_id,
@@ -437,14 +437,14 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?role_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_role.php' + conditions, {
+		return $http.get('restaurant-api/api_get_role.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updateRole = function (role_id, role_name, role_back_pages_string, role_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_role.php', {
+		return $http.post('restaurant-api/api_update_role.php', {
             'role_id' : role_id,
             'role_name' : role_name,
             //'role_front' : role_front,
@@ -456,7 +456,7 @@ angular.module('RESTAURANT.admin_role', ['ngRoute'])
 	};
 
 	this.deleteRole = function (role_id, role_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_role.php', {
+		return $http.post('restaurant-api/api_delete_role.php', {
             'role_id' : role_id,
             'role_status_id' : role_status_id,
         }, function(data, status) {

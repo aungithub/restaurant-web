@@ -14,7 +14,7 @@ angular.module('RESTAURANT.index', ['ngRoute'])
     if ($location.url().indexOf('backend') > -1) {
         $scope.isBackend = true;
     }
-
+    //console.log($location.absUrl().split('?')[0])
 	$scope.isLoggedIn = $rootScope.isLoggedIn;
 	$scope.privacyAccess = $rootScope.privacyAccess;
     $scope.empID = $rootScope.empID;

@@ -28,7 +28,8 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.user_menu',
 	'RESTAURANT.user_reserve',
 	'RESTAURANT.user_payment',
-	'RESTAURANT.user_cookmenu'
+	'RESTAURANT.user_cookmenu',
+	'RESTAURANT.user_drinkmenu'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
@@ -170,6 +171,12 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		cache: false //cm ไม่เก็บ cache
 	});
 
+	$routeProvider.when('/frontend/user_drinkmenu', {
+		templateUrl: 'restaurant-web/pages/frontend/drinkmenu/drinkmenu.html',
+		controller: 'DrinkmenuController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
 	//cm เพื่อลบเครื่องหมาย ! ออกไป เพราะพบปัญหา angular ต้องใส่ #! ใน url
 	$locationProvider.hashPrefix('');
 	$locationProvider.html5Mode({
@@ -199,12 +206,13 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$rootScope.loadCookies = function () {
 		//cm เช็คว่ามี cookie isLoggedIn เก็บอยู่มั้ย (เอาไว้บอกว่าเคย login แล้ว)
 		if ($cookies.get('isLoggedIn') != 'undefined' && $cookies.get('isLoggedIn') != undefined) {
-	    	$rootScope.isLoggedIn = $cookies.get('isLoggedIn');
+	    	$rootScope.isLoggedIn = $cookies.get('isLoggedIn') === 'true';
 	    }
 
 	    //cm เช็คว่ามี cookie isFrontendLoggedIn เก็บอยู่มั้ย (เอาไว้บอกว่าเคย login แล้ว)
 		if ($cookies.get('isFrontendLoggedIn') != 'undefined' && $cookies.get('isFrontendLoggedIn') != undefined) {
-	    	$rootScope.isFrontendLoggedIn = $cookies.get('isFrontendLoggedIn');
+	    	$rootScope.isFrontendLoggedIn = $cookies.get('isFrontendLoggedIn') === 'true';
+	    	console.log(typeof $rootScope.isFrontendLoggedIn)
 	    }
 
 	    //cm เช็คว่ามี cookie privacyAccess เก็บอยู่มั้ย (สิทธิ์ต่างๆ)

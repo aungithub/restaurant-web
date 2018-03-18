@@ -430,21 +430,21 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 .service('FoodService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllKind = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_kind.php', {
+		return $http.get('restaurant-api/api_get_kind.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getAllFood = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_food.php', {
+		return $http.get('restaurant-api/api_get_food.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addFood = function (food_name, food_kind_id, food_price, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_add_food.php', {
+		return $http.post('restaurant-api/api_add_food.php', {
             'food_name' : food_name, 
             'food_kind_id' : food_kind_id,
             'food_price' : food_price,
@@ -458,14 +458,14 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?food_id=" + id;
 
-		return $http.get('http://localhost/restaurant-api/api_get_food.php' + conditions, {
+		return $http.get('restaurant-api/api_get_food.php' + conditions, {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.updateFood = function (food_id, food_name, food_kind_id, food_price, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_update_food.php', {
+		return $http.post('restaurant-api/api_update_food.php', {
             'food_id' : food_id,
             'food_name' : food_name, 
             'food_kind_id' : food_kind_id,
@@ -478,7 +478,7 @@ angular.module('RESTAURANT.admin_food', ['ngRoute'])
 	};
 
 	this.deleteFood = function (food_id, food_status_id) {
-		return $http.post('http://localhost/restaurant-api/api_delete_food.php', {
+		return $http.post('restaurant-api/api_delete_food.php', {
             'food_id' : food_id,
             'food_status_id' : food_status_id,
         }, function(data, status) {

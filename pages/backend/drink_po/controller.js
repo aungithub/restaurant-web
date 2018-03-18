@@ -741,7 +741,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 .service('DrinkPOService', ['$http', '$q',function ($http, $q) {
 
 	this.getAllDrinkPO = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_drink_po.php', {
+		return $http.get('restaurant-api/api_get_drink_po.php', {
         }, function(data, status) {
             return data;
         });
@@ -750,7 +750,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 	this.getByID = function (id) {
 		var conditions = "?dp_id=" + id + "&dp_action=detail";
 
-		return $http.get('http://localhost/restaurant-api/api_get_drink_po.php' + conditions, {
+		return $http.get('restaurant-api/api_get_drink_po.php' + conditions, {
         }, function(data, status) {
             return data;
         });
@@ -758,7 +758,7 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	//cm อนุมัติการสั่งซื้อ
 	this.approveDrinkPO = function (id, drink_pos, approval, empID) {
-		return $http.post('http://localhost/restaurant-api/api_approve_drink_po.php', {
+		return $http.post('restaurant-api/api_approve_drink_po.php', {
             'id' : id,
             'drink_pos' : drink_pos,
             'approval_status': approval,
@@ -770,14 +770,14 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	//cm get ตัวเลือกต่างๆสำหรับหน้าสั่งซื้อ
 	this.getAllPOSelection = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_po_selection.php', {
+		return $http.get('restaurant-api/api_get_po_selection.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.addDrinkPO = function (emp_id, drinkPOObject) {
-		return $http.post('http://localhost/restaurant-api/api_add_drink_po.php', {
+		return $http.post('restaurant-api/api_add_drink_po.php', {
             'emp_id' : emp_id,
             'drinkPOObject' : drinkPOObject
         }, function(data, status) {
@@ -787,14 +787,14 @@ angular.module('RESTAURANT.admin_drink_po', ['ngRoute'])
 
 	//cm function สำหรับดึงการแจ้งเตือนการสั่งซื้อใหม่ๆ
 	this.getAllDrinkPONumber = function () {
-		return $http.get('http://localhost/restaurant-api/api_get_new_drink_po.php', {
+		return $http.get('restaurant-api/api_get_new_drink_po.php', {
         }, function(data, status) {
             return data;
         });
 	};
 
 	this.getVendorByDrinkID = function (drinkID) {
-		return $http.get('http://localhost/restaurant-api/api_get_vendor_by_drink.php?drink_id=' + drinkID, {
+		return $http.get('restaurant-api/api_get_vendor_by_drink.php?drink_id=' + drinkID, {
         }, function(data, status) {
             return data;
         });
