@@ -23,8 +23,10 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 					if (result.data.status == 200) {
 						$scope.listOrderDrinkObject = result.data.orderdrink;
 						clearInterval($scope.autoRefreshTimer);
+						console.log($scope.listOrderDrinkObject )
 						$scope.autorefresh();
-						 console.log($scope.listOrderDrinkObject);
+						
+						console.log($scope.listOrderDrinkObject )
 					}
 					else {
 						noty({
@@ -61,14 +63,16 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 		},5000);//5 วินาที*1000
 	}
 
-	$scope.cook = function(status,id, drink_id){
+	$scope.cook = function(status,id, drink_id,drink_status_id,number){
 		var order_id = id,
 			status = status,
+			number = number,
+			drink_status_id = drink_status_id,
 			drink_id = drink_id;
 			
 
 		if (order_id != '' ) {
-			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (result) {
+			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id,drink_status_id,number).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -125,14 +129,17 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 		}
 	};
 
-	$scope.cookfinish = function(status,id, drink_id){
+	$scope.cookfinish = function(status,id, drink_id,drink_status_id,number){
 		var order_id = id,
 			status = status,
+			drink_status_id = drink_status_id,
+			number = number,
+			
 			drink_id = drink_id;
 			
 
 		if (order_id != '' ) {
-			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (result) {
+			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id,drink_status_id,number).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -893,10 +900,12 @@ noty({
         });
 	};
 
-	this.updateOrderDrink = function (status,id, drink_id) {
+	this.updateOrderDrink = function (status,id, drink_id,drink_status_id,number) {
 		return $http.post('restaurant-api/api_update_order_drink.php', {
             'order_id' : id,
             'status' : status,
+            'drink_status_id' : drink_status_id,
+            'number' : number,
             'drink_id' : drink_id, 
             
         }, function(data, status) {
@@ -914,7 +923,7 @@ noty({
 	};
 
 	this.getAllOrderDrink = function () {
-		return $http.get('restaurant-api/api_get_order_drink.php', {
+		return $http.get('restaurant-api/api_get_order_drink_new.php', {
         }, function(data, status) {
             return data;
         });

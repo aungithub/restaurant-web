@@ -27,8 +27,8 @@
       <td>{{obj.number}}</td>
       <td>{{obj.comment}}</td>
        <td>{{obj.order_datetime}}</td>
-      <td> <button type="button" class="btn btn-sm btn-info full-width" ng-click="cook(2,obj.order_id,obj.drink_id,obj.drink_status_id)" ng-disabled="obj.status != null">กำลังจัดเตรียม</button></td>
-      <td> <button type="button" class="btn btn-sm btn-info full-width" ng-click="cookfinish(1,obj.order_id,obj.drink_id,obj.drink_status_id)" ng-disabled="obj.status != 2 ">เสิร์ฟ</button></td>
+      <td> <button type="button" class="btn btn-sm btn-info full-width" ng-click="cook(2,obj.order_id,obj.drink_id,obj.drink_status_id,obj.number)" ng-disabled="obj.status != null">กำลังจัดเตรียม</button></td>
+      <td> <button type="button" class="btn btn-sm btn-info full-width" ng-click="cookfinish(1,obj.order_id,obj.drink_id,obj.drink_status_id,obj.number)" ng-disabled="obj.status != 2 ">เสิร์ฟ</button></td>
       <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="cancel(0,obj.order_id,obj.drink_id,obj.drink_status_id)" ng-disabled="obj.status == 1">ยกเลิก</button></td>
   </tr>
   

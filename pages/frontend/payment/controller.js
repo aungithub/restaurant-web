@@ -14,11 +14,19 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	$scope.promotion = 0;
 	$scope.promotionlist = 0;
 	$scope.discountPercent = 0;
+	$scope.discountPercentdrink = 0;
 	$scope.discount = 0;
 	$scope.tatal = 0;
 	$scope.changeprice = 0;
 	$scope.numberprice = null;
 	$scope.order_id = 0;
+	$scope.totalpricedrink = 0;
+	$scope.promotiondrink = 0;
+	$scope.promotiondrinklist = 0;
+	$scope.discountdrink = 0;
+	$scope.tataldrink = 0;
+	$scope.changepricedrink = 0;
+	$scope.numberpricedrink = null;  
 
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
@@ -33,9 +41,16 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 					if (result.data.status == 200) {
 						$scope.orderObject = result.data.orderlist;
 
+						
+
 						if (result.data.promotionlist.length > 0) {
 							$scope.discountPercent = result.data.promotionlist[0].pro_discount;
-						}
+							}
+
+							PaymentService.getAllOrderDrink().then(function (result) {
+							$scope.listOrderDrinkObject = result.data.orderdrink;
+						
+						});
 					}
 					else {
 						noty({
@@ -178,6 +193,37 @@ $scope.changeprice = numberprice - $scope.tatal;
 
 		}
 
+		if ($scope.listOrderDrinkObject.length > 0) {
+
+			$scope.totalpricedrink = 0;
+			$scope.promotiondrink = 0;
+			$scope.promotiondrinklist = 0;
+			$scope.discountdrink = 0;
+			$scope.tataldrink = 0;
+			$scope.changepricedrink = 0;
+			$scope.numberpricedrink = null;  
+			for (var i = 0; i < $scope.listOrderDrinkObject.length; i++) {
+
+				$scope.totalpricedrink = $scope.totalpricedrink + $scope.listOrderDrinkObject[i].number*$scope.listOrderDrinkObject[i].price;	
+				$scope.promotiondrink = $scope.totalpricedrink + ($scope.totalpricedrink * 0.07);
+				
+				if (i == $scope.listOrderDrinkObject.length-1) {
+					$scope.tataldrink = $scope.promotiondrink;
+					if ($scope.discountPercentdrink > 0) {
+
+						//$scope.promotionlist = $scope.promotion * ($scope.listOrderObject[i].pro_discount / 100);
+						$scope.discountdrink = $scope.promotiondrink * $scope.discountPercentdrink / 100;
+						$scope.tataldrink = $scope.tataldrink - $scope.discountdrink;
+						
+					}
+						
+				}
+				
+			}
+
+
+		}
+
 
 
 	}
@@ -196,6 +242,19 @@ $scope.changeprice = numberprice - $scope.tatal;
 
 		}
 
+		if ($scope.listOrderDrinkObject.length > 0) {
+			$scope.totalpromotiondrink = 0;
+			$scope.promotiondrink = 0;
+			$scope.promotiondrinklist = 0;
+			for (var i = 0; i < $scope.listOrderDrinkObject.length; i++) {
+				$scope.totalpromotiondrink = $scope.totalpromotiondrink + $scope.listOrderDrinkObject[i].number*$scope.listOrderDrinkObject[i].price;	
+				$scope.promotiondrink = $scope.totalpromotiondrink + ($scope.totalpromotiondrink * 0.07);
+				$scope.promotionlistdrink = $scope.promotiondrink * ($scope.listOrderDrinkObject[i].pro_discountdrink / 100);
+			}
+
+
+		}
+
 
 
 	}
@@ -207,6 +266,7 @@ $scope.changeprice = numberprice - $scope.tatal;
 		PaymentService.getAllOrder(order_id).then(function (result) {
 			if (result.data.status == 200) {
 				$scope.listOrderObject = result.data.orderlist;
+				$scope.listDrinkObject = result.data.drink;
 				$scope.calculatetotalprice();
 				$scope.calculatetotalpromotion();
 			}
@@ -215,7 +275,7 @@ $scope.changeprice = numberprice - $scope.tatal;
 
 	}
 
-	$scope.orderfood = function(food_id) {
+	/*$scope.orderfood = function(food_id) {
 
 	var idx = $scope.listOrderFoodObject.findIndex(obj => obj.food_id==food_id);
 
@@ -243,7 +303,36 @@ $scope.changeprice = numberprice - $scope.tatal;
 		console.log($scope.listOrderFoodObject);
 	}
 
-	
+
+$scope.orderdrink = function(drink_id) {
+
+	var idx = $scope.listOrderDrinkObject.findIndex(obj => obj.drink_id==drink_id);
+
+
+
+		//alert(food_id);
+		//alert($("#comment_"+food_id).val());
+		//alert(idx);
+
+	if (idx == -1) {
+		$scope.listOrderDrinkObject.push({
+			drink_id : drink_id,
+			number : $("#number_"+drink_id).val(),
+			comment : $("#comment_"+drink_id).val(),
+			drink_name : $("#drink_name_"+drink_id).text(),
+			drink_price : $("#drink_price_"+drink_id).text(),
+			type : "drink"
+		});
+	}
+	else{
+		$scope.listOrderDrinkObject[idx].number = parseInt($scope.listOrderDrinkObject[idx].number) + parseInt($("#number_"+drink_id).val());
+		console.log($scope.listOrderDrinkObject[idx]);
+	}
+		$scope.calculatetotalprice();
+		console.log($scope.listOrderDrinkObject);
+	}
+
+	*/
 
 	$scope.refreshList = function() {
 		noty({
@@ -258,6 +347,7 @@ $scope.changeprice = numberprice - $scope.tatal;
 
 						if (result.data.status == 200) {
 							$scope.listOrderFoodObject = result.data.orderfood;
+							$scope.listOrderDrinkObject = result.data.orderdrink;
 							//$scope.apply();
 									}
 						else {
@@ -350,6 +440,13 @@ $scope.changeprice = numberprice - $scope.tatal;
 
 	this.getAllOrder = function (order_id) {
 		return $http.get('restaurant-api/api_get_order_list.php?order_id='+order_id, {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getAllOrderDrink= function (order_id) {
+		return $http.get('restaurant-api/api_get_order_drink.php?order_id='+order_id, {
         }, function(data, status) {
             return data;
         });

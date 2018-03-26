@@ -10,27 +10,30 @@
 
   <thead>
   <tr>
-      <th style="width: 30%;">โต๊ะ</th>
-       <th style="width: 30%;">สถานะ</th>
-      <th style="width: 20%;">แก้ไข</th>
+      <th style="width: 15%;">โต๊ะ</th>
+       <th style="width: 40%;">รายการ</th>
+      <th style="width: 35%;">สถานะ</th>
       <th style="width: 20%;">ลบ</th>
   </tr>
   </thead>
- <tbody>
-  <tr >
+  <tbody ng-show="OrderFoodObject.length > 0 ">
+  <tr ng-repeat="obj in OrderFoodObject">
       <td>T01</td>
-      <td>กำลังทำรายการ</td>
-      <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal">Edit</button></td>
+      <td>{{obj.food_name}}</td>
+      <td>{{obj.status}} </td>
       <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
   </tr>
 
-  <tr >
+  </tbody>
+
+  <tbody ng-show="OrderDrinkObject.length > 0 ">
+  <tr ng-repeat="obj in OrderDrinkObject">
       <td>T01</td>
-      <td>กำลังทำรายการ</td>
-      <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal">Edit</button></td>
+      <td>{{obj.drink_name}}</td>
+      <td>{{obj.status}}  </td>
       <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
   </tr>
-  
+
   </tbody>
 </table>
 </div>
@@ -38,8 +41,11 @@
 
 <div class="btn-group" role="group" aria-label="..." >
 <button type="Add" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddFoodForm()">สั่งอาหารและเครื่องดื่ม</button>
-</div>
 
+</div>
+<div class="btn-group" role="group" aria-label="..." >
+<button type="edit" class="btn btn-sm btn-info " data-toggle="modal" data-target="#editModal" ng-click="">แก้ไขรายการอาหารและเครื่องดื่ม</button>
+</div>
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
 <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
@@ -122,7 +128,7 @@
             <br>
             
             <form action="demo_form.asp">
-              <input type="number" name="quantity" min="1" max="5" id="number_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+              <input type="number" name="quantity" min="1" max="500" id="number_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
               <button class="btn btn-primary" type="button" ng-click="orderfood(obj.food_id)" ng-disabled="obj.food_status_id == 2">สั่งอาหาร</button>
             </div>
           </form>
@@ -151,7 +157,7 @@
           <br>
           
           <form action="demo_form.asp">
-            <input type="number" name="quantity" min="1" max="5" id="number_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+            <input type="number" name="quantity" min="1" max="500" id="number_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
             <button class="btn btn-primary" type="button" ng-click="orderdrink(obj.drink_id)">สั่งเครื่องดื่ม</button>
           </div>
         </form>
@@ -190,7 +196,7 @@
       <td style="width: 15%;">{{$index+1}}</td>
       <td style="width: 25%;">{{obj.food_name}}</td>
       <td style="width: 20%;"> <form action="demo_form.asp">
-        <input type="number" name="quantity" min="0" max="5" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
+        <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
         <td style="width: 20%;">{{obj.food_price}}</td>
         <td style="width: 20%;">{{obj.food_price*obj.number}}</td>
       </tr>
@@ -201,7 +207,7 @@
       <td style="width: 15%;">{{$index+1}}</td>
       <td style="width: 25%;">{{obj.drink_name}}</td>
       <td style="width: 20%;"> <form action="demo_form.asp">
-        <input type="number" name="quantity" min="0" max="5" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
+        <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
         <td style="width: 20%;">{{obj.drink_price}}</td>
         <td style="width: 20%;">{{obj.drink_price*obj.number}}</td>
       </tr>
@@ -264,24 +270,38 @@
 
 <!-- edit Unit Modal -->
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
 <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
-
 <br>
-<p style="text-align: center;">
-  <button type="button" class="btn btn-default btn-lg">T01</button>
-  <button type="button" class="btn btn-default btn-lg">T02</button>
-  <button type="button" class="btn btn-default btn-lg">T03</button>
-  <button type="button" class="btn btn-default btn-lg">T04</button>
-</p>
-<p style="text-align: center;">
-  <button type="button" class="btn btn-default btn-lg">T01</button>
-  <button type="button" class="btn btn-default btn-lg">T02</button>
-  <button type="button" class="btn btn-default btn-lg">T03</button>
-  <button type="button" class="btn btn-default btn-lg">T04</button>
-</p>
+<br>
 
+<p style="text-align: center;">
+  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1000 && {'background-color': '#FC7D61'}"  ng-click="selectTable(1000)">T01</button>
+  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1001 && {'background-color': '#FC7D61'}" ng-click="selectTable(1001)">T02</button>
+  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1002 && {'background-color': '#FC7D61'}" ng-click="selectTable(1002)">T03</button>
+  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1003 && {'background-color': '#FC7D61'}"  ng-click="selectTable(1003)">T04</button>
+</p>
+<p style="text-align: center;">
+  <button type="button" class="btn btn-default btn-lg">T01</button>
+  <button type="button" class="btn btn-default btn-lg">T02</button>
+  <button type="button" class="btn btn-default btn-lg">T03</button>
+  <button type="button" class="btn btn-default btn-lg">T04</button>
+</p>
+<br> 
+
+<div class="row">
+   <div class="col-sm-7">
+  </div>
+  <div class="col-lg-5">
+    <div class="input-group">
+      <input type="text" class="form-control" id="search" placeholder="Search">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" id="buttonsearch" ng-click="search()">Search</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
 <br>
 <div class="row">
   <div class="col-sm-7">
@@ -290,12 +310,12 @@
     <form class="form-inline">
       <div>
     <label> แสดงรายการประเภท: </label>
-    <select class="form-control" id="menuSelect" ng-model="menuSelect" ng-change="showMenuSelect()">
+    <select class="form-control" id="editMenuSelect" ng-model="menuSelect" ng-change="showMenuSelect()">
       <option selected="selected" value="0">ทั้งหมด</option>
       <option value="1">อาหาร</option>
       <option value="2">เครื่องดื่ม</option>
     </select>
-    <select class="form-control" id="menuFoodType" ng-show="menuSelect == 1" ng-model="menuFoodType" ng-change="showFoodTypeSelect()">
+    <select class="form-control" id="editMenuFoodType" ng-show="menuSelect == 1" ng-model="menuFoodType" ng-change="showFoodTypeSelect()">
       <option selected="selected" value="0">ทั้งหมด</option>
       <option ng-repeat="obj in listKindObject" value="{{obj.kind_id}}">{{obj.kind_name}}</option>
     </select>
@@ -322,16 +342,18 @@
           <td>
             <font id="food_name_{{obj.food_id}}">{{obj.food_name}}</font>
             <br>
-          <font id="food_price_{{obj.food_id}}">{{obj.food_price}}</font> บาท </td>
-          
+          <font id="food_price_{{obj.food_id}}">{{obj.food_price}}</font> บาท 
+          <br>
+          <font ng-show="obj.food_status_id == 2" style="color: red; font-weight: bold;">วัตถุดิบหมด</font> 
+        </td>
           
           <td>
             <textarea class="form-control" rows="3" id="comment_{{obj.food_id}}" placeholder="หมายเหตุ"></textarea>
             <br>
             
             <form action="demo_form.asp">
-              <input type="number" name="quantity" min="1" max="5" id="number_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
-              <button class="btn btn-primary" type="button" ng-click="orderfood(obj.food_id)">สั่งอาหาร</button>
+              <input type="number" name="quantity" min="1" max="500" id="number_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+              <button class="btn btn-primary" type="button" ng-click="orderfood(obj.food_id)" ng-disabled="obj.food_status_id == 2">สั่งอาหาร</button>
             </div>
           </form>
         </td>
@@ -345,7 +367,7 @@
     
     
   </tbody>
-  <tbody ng-show="menuSelect == 0 || menuSelect == 2">
+   <tbody ng-show="menuSelect == 0 || menuSelect != 1">
     <tr ng-repeat="obj in listDrinkObject">
       <div class="input-group">
         <td>
@@ -359,8 +381,8 @@
           <br>
           
           <form action="demo_form.asp">
-            <input type="number" name="quantity" min="1" max="5" id="number_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
-            <button class="btn btn-primary" type="button" ng-click="orderdrink(obj.drink_id)">สั่งอาหาร</button>
+            <input type="number" name="quantity" min="1" max="500" id="number_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+            <button class="btn btn-primary" type="button" ng-click="orderdrink(obj.drink_id)">สั่งเครื่องดื่ม</button>
           </div>
         </form>
       </td>
@@ -377,7 +399,7 @@
 </table>
 </div>
 <form >
-<div class="form-group ">
+<div class="form-group " >
 <label class="control-label col-sm-12" style="text-align: left; text-decoration: underline;margin-left: 15px;"><h4>รายการที่สั่ง</h4></label>
 <label class="control-label col-sm-16"></label>
 </div>
@@ -398,22 +420,23 @@
       <td style="width: 15%;">{{$index+1}}</td>
       <td style="width: 25%;">{{obj.food_name}}</td>
       <td style="width: 20%;"> <form action="demo_form.asp">
-        <input type="number" name="quantity" min="0" max="5" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-value="{{obj.number}}"></form></td>
+        <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
         <td style="width: 20%;">{{obj.food_price}}</td>
         <td style="width: 20%;">{{obj.food_price*obj.number}}</td>
       </tr>
     </tbody>
-
+    
     <tbody ng-show="listOrderDrinkObject.length > 0">
       <tr ng-repeat="obj in listOrderDrinkObject">
       <td style="width: 15%;">{{$index+1}}</td>
       <td style="width: 25%;">{{obj.drink_name}}</td>
       <td style="width: 20%;"> <form action="demo_form.asp">
-        <input type="number" name="quantity" min="0" max="5" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-value="{{obj.number}}"></form></td>
+        <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
         <td style="width: 20%;">{{obj.drink_price}}</td>
         <td style="width: 20%;">{{obj.drink_price*obj.number}}</td>
       </tr>
     </tbody>
+  </table>
   </table>
 </div>
 <div class="form-group">
@@ -424,11 +447,12 @@
 <!-- Body -->
 <!-- Footer -->
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" ng-click="saveFood()">สั่งอาหาร</button>
-<button type="button"  class="btn btn-danger" >ยกเลิก</button>
+<button type="button" class="btn btn-primary" ng-click="updateFood()">แกไขรายการ</button>
+<button type="button"  class="btn btn-danger" id="closemodal" data-dismiss="modal">ยกเลิก</button>
 
 </div>
 <!-- Footer -->
+
 
 <!--<div class="col-sm-12 col-md-8">
 <div class="media">
