@@ -6,8 +6,9 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	var route = 'user_payment';
 	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
-	$scope.orderObject = [];
 	$scope.listOrderObject = [];
+	$scope.OrderObject = [];
+	$scope.listOrderDrinkObject = [];
 	$scope.autoRefreshTimer = null;
 	$scope.totalprice = 0;
 	$scope.totalpromotion = 0;
@@ -35,22 +36,26 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
         text : 'กำลังโหลด...',
         callback: {
         	afterShow: function () {
-				PaymentService.getAllOrder().then(function (result) {
+				PaymentService.getAllOrder2().then(function (result) {
 					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
 					if (result.data.status == 200) {
-						$scope.orderObject = result.data.orderlist;
-
+						$scope.listOrderObject = result.data.orderlist;
+						$scope.OrderObject = result.data.orderlist;
 						
 
 						if (result.data.promotionlist.length > 0) {
 							$scope.discountPercent = result.data.promotionlist[0].pro_discount;
+							$scope.discountPercentdrink = result.data.promotionlist[0].pro_discount;
 							}
 
 							PaymentService.getAllOrderDrink().then(function (result) {
-							$scope.listOrderDrinkObject = result.data.orderdrink;
-						
-						});
+								$scope.listOrderDrinkObject = result.data.orderdrink;
+
+							  });
+
+
+
 					}
 					else {
 						noty({
@@ -70,7 +75,6 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 			}
 		}
 	});
-
 
 
 $scope.savePrice = function() {
@@ -156,7 +160,7 @@ $scope.savePrice = function() {
 		
 	$scope.calculatetotalpricechange = function(){
 var  numberprice = $("#numberprice").val();
-$scope.changeprice = numberprice - $scope.tatal;
+$scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 
 	}
 
@@ -200,7 +204,7 @@ $scope.changeprice = numberprice - $scope.tatal;
 			$scope.promotiondrinklist = 0;
 			$scope.discountdrink = 0;
 			$scope.tataldrink = 0;
-			$scope.changepricedrink = 0;
+			$scope.changeprice = 0;
 			$scope.numberpricedrink = null;  
 			for (var i = 0; i < $scope.listOrderDrinkObject.length; i++) {
 
@@ -249,7 +253,7 @@ $scope.changeprice = numberprice - $scope.tatal;
 			for (var i = 0; i < $scope.listOrderDrinkObject.length; i++) {
 				$scope.totalpromotiondrink = $scope.totalpromotiondrink + $scope.listOrderDrinkObject[i].number*$scope.listOrderDrinkObject[i].price;	
 				$scope.promotiondrink = $scope.totalpromotiondrink + ($scope.totalpromotiondrink * 0.07);
-				$scope.promotionlistdrink = $scope.promotiondrink * ($scope.listOrderDrinkObject[i].pro_discountdrink / 100);
+				$scope.promotionlist = $scope.promotiondrink * ($scope.listOrderDrinkObject[i].pro_discount / 100);
 			}
 
 
@@ -266,14 +270,21 @@ $scope.changeprice = numberprice - $scope.tatal;
 		PaymentService.getAllOrder(order_id).then(function (result) {
 			if (result.data.status == 200) {
 				$scope.listOrderObject = result.data.orderlist;
-				$scope.listDrinkObject = result.data.drink;
 				$scope.calculatetotalprice();
 				$scope.calculatetotalpromotion();
+			PaymentService.getAllOrderDrink(order_id).then(function (result) {
+			if (result.data.status == 200) {
+				$scope.listOrderDrinkObject = result.data.orderdrink;
+				}
+		});
 			}
 		});
-
+		console.log($scope.listOrderObject)
+		console.log($scope.listOrderDrinkObject)
 
 	}
+
+
 
 	/*$scope.orderfood = function(food_id) {
 
@@ -440,6 +451,13 @@ $scope.orderdrink = function(drink_id) {
 
 	this.getAllOrder = function (order_id) {
 		return $http.get('restaurant-api/api_get_order_list.php?order_id='+order_id, {
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getAllOrder2 = function (order_id) {
+		return $http.get('restaurant-api/api_get_order_list2.php?order_id='+order_id, {
         }, function(data, status) {
             return data;
         });

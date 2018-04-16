@@ -29,7 +29,11 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.user_reserve',
 	'RESTAURANT.user_payment',
 	'RESTAURANT.user_cookmenu',
-	'RESTAURANT.user_drinkmenu'
+	'RESTAURANT.user_drinkmenu',
+	'RESTAURANT.user_report',
+	'RESTAURANT.user_report_time',
+	'RESTAURANT.user_report_year',
+	'RESTAURANT.user_report_expense'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
@@ -174,6 +178,30 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$routeProvider.when('/frontend/user_drinkmenu', {
 		templateUrl: 'restaurant-web/pages/frontend/drinkmenu/drinkmenu.html',
 		controller: 'DrinkmenuController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_report', {
+		templateUrl: 'restaurant-web/pages/frontend/report/report.html',
+		controller: 'ReportController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_report_time', {
+		templateUrl: 'restaurant-web/pages/frontend/report_time/report_time.html',
+		controller: 'ReporttimeController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_report_year', {
+		templateUrl: 'restaurant-web/pages/frontend/report_year/report_year.html',
+		controller: 'ReportyearController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
+	$routeProvider.when('/frontend/user_report_expense', {
+		templateUrl: 'restaurant-web/pages/frontend/report_expense/report_expense.html',
+		controller: 'ReportexpenseController',
 		cache: false //cm ไม่เก็บ cache
 	});
 

@@ -17,33 +17,19 @@
     </tr>
     </thead>
     <tbody>
-    <tr ">
-        <th >T01</th>
-        <td>จอง</td>
-        <td>09.00 น.</td>
-        <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" >Edit</button></td>
+    <tr ng-repeat="obj in listTableZoneReserve">
+        <th >{{obj.r_table}}</th>
+        <td>{{obj.service_name}}</td>
+        <td>{{obj.reserve_datetime}}</td>
+        <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editReserve(obj.reserve_id)">Edit</button></td>
         <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
     </tr>
-     <tr ">
-        <th >T02</th>
-        <td>walkin</td>
-        <td>11.00 น.</td>
-        <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" >Edit</button></td>
-        <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
-    </tr>
-     <tr ">
-        <th >T03</th>
-        <td>walkin</td>
-        <td>11.00 น.</td>
-        <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" >Edit</button></td>
-        <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
-    </tr>
-    
+   
     </tbody>
 </table>
 </div>
 <div class="btn-group" role="group" aria-label="..." >
-  <button type="reserve" class="btn btn-success"  data-toggle="modal" data-target="#addModal">จองโต๊ะ</button>
+  <button type="reserve" class="btn btn-success"  data-toggle="modal" data-target="#addModal" ng-click="getTable()">จองโต๊ะ</button>
 </div>
 
 <!-- หน้าจอการจอง -->
@@ -57,51 +43,73 @@
       <!-- Header -->
 
       <!-- Body -->
+
       <div class="modal-body">
+        <button class="btn btn-info" type="button" ng-style="table_status_id == 1 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(1)">จองโต๊ะ</button>
+          <button class="btn btn-info" type="button" ng-style="table_status_id == 2 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(2)">Walk in</button>
+          <button class="btn btn-info" type="button" ng-style="table_status_id == 3 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(3)">รวมโต๊ะ</button><br>
         <div class="row">
-          <div class="col-lg-10">
-           <h4>โซน A</h4>
-  <p style="text-align: center;">
-    <button type="button" class="btn btn-default btn-lg" id="tab" value="1000" ng-style="table_id == 1000 && {'background-color': '#FC7D61'}"  ng-click="table(1000)">T01</button>
-    <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1001 && {'background-color': '#FC7D61'}" ng-click="table(1001)">T02</button>
-    <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1002 && {'background-color': '#FC7D61'}" ng-click="table(1002)">T03</button>
-    <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1003 && {'background-color': '#FC7D61'}"  ng-click="table(1003)">T04</button>
-  </p>
-  <p style="text-align: center;">
-    <button type="button" class="btn btn-default btn-lg">T01</button>
-    <button type="button" class="btn btn-default btn-lg">T02</button>
-    <button type="button" class="btn btn-default btn-lg">T03</button>
-    <button type="button" class="btn btn-default btn-lg">T04</button>
-  </p>
-  <br>
-  <h4>โซน B</h4>
-  <p style="text-align: center;">
-    <button type="button" class="btn btn-default btn-lg">T01</button>
-    <button type="button" class="btn btn-default btn-lg">T02</button>
-    <button type="button" class="btn btn-default btn-lg">T03</button>
-    <button type="button" class="btn btn-default btn-lg">T04</button>
-  </p>
-  <p style="text-align: center;">
-    <button type="button" class="btn btn-default btn-lg">T01</button>
-    <button type="button" class="btn btn-default btn-lg">T02</button>
-    <button type="button" class="btn btn-default btn-lg">T03</button>
-    <button type="button" class="btn btn-default btn-lg">T04</button>
-  </p>
+          <div class="col-lg-10" ng-repeat="obj in listTableZone">
+            <h4>โซน {{obj.zone_name}}</h4>
+            <p style="text-align: center;">
+              <!--
+                ng-disabled="obj_table.table_status != null"
+              -->
+            <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง" ng-disabled="table_status_id == 0 || obj_table.table_reserve == true" type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="(table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'} || obj_table.table_reserve == true && {'background-color': 'red'})"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}}</button>
           </div>
+        
           
           </div>
 <br>
-          <textarea class="form-control" rows="5"  placeholder="รายละเอียด"></textarea><br>
-          <button class="btn btn-info" type="button" >จองโต๊ะ</button>
-          <button class="btn btn-info" type="button" >Walk in</button>
-          <button class="btn btn-info" type="button" >รวมโต๊ะ</button>
+         <textarea class="form-control" rows="3" id="detail" placeholder="รายละเอียด"></textarea><br>
+          
           <!--<button class="btn btn-info" type="button" >ย้ายโต๊ะ</button>-->
         </div> 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" >บันทึก</button>
+<button type="button" class="btn btn-primary" ng-click="saveTable()">บันทึก</button>
 <button type="button"  class="btn btn-danger">ยกเลิก</button>
 </div>
       </div>
+    </div>
+  </div>
+    
+
+    <!-- Edit  Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดการจองโต๊ะ</h3>
       </div>
+      <!-- Header -->
+
+      <!-- Body -->
+
+      <div class="modal-body">
+        <button class="btn btn-info" type="button" ng-style="table_status_id == 1 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(1)" >จองโต๊ะ</button>
+          <button class="btn btn-info" type="button" ng-style="table_status_id == 2 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(2)">Walk in</button>
+          <button class="btn btn-info" type="button" ng-style="table_status_id == 3 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(3)">รวมโต๊ะ</button>
+          <button class="btn btn-info" type="button" ng-style="table_status_id == 4 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(4)">ย้ายโต๊ะ</button><br>
+        <div class="row">
+          <div class="col-lg-10" ng-repeat="obj in listTableZoneEdit">
+            <h4>โซน {{obj.zone_name}}</h4>
+            <p style="text-align: center;">
+              <!--
+                ng-disabled="obj_table.table_status != null"
+              -->
+            <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง" type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'}"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}}</button>
+          </div>
+        </div>
+<br>
+         <textarea class="form-control" rows="3" id="detail_edit" placeholder="รายละเอียด">{{comment_reserve}}</textarea><br>
+          
+          <!--<button class="btn btn-info" type="button" >ย้ายโต๊ะ</button>-->
+        </div> 
+<div class="modal-footer">
+<button type="button" class="btn btn-primary" ng-click="updateReserve()">บันทึก</button>
+<button type="button"  class="btn btn-danger">ยกเลิก</button>
+</div>
       </div>
-     
+    </div>
+  </div>

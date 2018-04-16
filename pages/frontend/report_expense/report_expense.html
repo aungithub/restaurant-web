@@ -1,0 +1,79 @@
+
+
+
+<!-- Default panel contents -->
+
+<div class="row">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-9">
+    <form class="form-inline">
+      <div>
+    <label> แสดงรายงานประจำเดือน: </label>
+     <select id = "month" class="form-control" >
+      <option selected="selected" value="0">ทั้งหมด</option>
+      <option value="01">มกราคม</option>
+      <option value="02">กุมภาพันธ์</option>
+      <option value="03">มีนาคม</option>
+      <option value="04">เมษายน</option>
+      <option value="05">พฤษภาคม</option>
+      <option value="06">มิถุนายน</option>
+      <option value="07">กรกฏาคม</option>
+      <option value="08">สิงหาคม</option>
+      <option value="09">กันยายน</option>
+      <option value="10">ตุลาคม</option>
+      <option value="11">พฤศจิกายน</option>
+      <option value="12">ธันวาคม</option>
+    </select>
+
+    
+
+<div class="btn-group" role="group" aria-label="..." >
+  <button type="Report" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddReportForm()">ออกรายงาน</button>
+</div>
+</div> 
+</div>
+  </form>
+  </div>
+</div>
+<br>
+<br>
+<div class="panel panel-default" align="center"> 
+<div class="panel-heading " >รายงาน</div>
+
+<!-- Table -->
+ 
+
+<div class="table-responsive">
+  
+<table class="table table-striped table-bordered table-responsive" >
+
+  <thead>
+  <tr >
+      <th >ลำดับ</th>
+       <th>รายการ</th>
+        <th>วันที่</th>
+      <th >ร้านค้า</th>
+      <th >จำนวนเงิน</th>
+      
+  </tr>
+  </thead>
+ <tbody >
+
+  <tr ng-repeat="obj in reportOrderObject">
+      <td>{{$index+1}}</td>
+      <td>{{obj.drink_name}}</td>
+       <td>{{obj.dp_date}}</td>
+      <td>{{obj.vendor_name}}</td>
+      <td>{{obj.dpd_total_price}}</td>
+     
+  </tr>
+ 
+  </tbody>
+
+ 
+ 
+</table>
+</div>
+</div>
+

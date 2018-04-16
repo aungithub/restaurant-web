@@ -1,0 +1,27 @@
+"zone":[
+		{
+			"zone_id":"1",
+			"zone_name":"A",
+			"table":
+				[
+					{"table_id":"1","table_number":"4"},
+					{"table_id":"2","table_number":"4"},
+					{"table_id":"3","table_number":"2"},
+					{"table_id":"4","table_number":"8"},
+					{"table_id":"5","table_number":"4"},
+					{"table_id":"6","table_number":"4"}
+				]
+		},
+
+		{
+			"zone_id":"2",
+			"zone_name":"B",
+			"table":
+				[
+					{"table_id":"7","table_number":"4"},
+					{"table_id":"8","table_number":"4"},
+					{"table_id":"9","table_number":"4"},
+					{"table_id":"10","table_number":"4"}
+				]
+			}
+		]

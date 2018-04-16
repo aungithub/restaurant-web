@@ -540,7 +540,7 @@ noty({
 
 						if (result.data.status == 200) {
 							$scope.listOrderFoodObject = result.data.orderfood;
-							$scope.apply();
+							//$scope.apply();
 									}
 						else {
 							noty({

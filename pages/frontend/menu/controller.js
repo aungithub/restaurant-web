@@ -22,12 +22,13 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 	$rootScope.getAllNotification();
-	 $scope.table_id = 10;
+	 $scope.table_id = 0;
 	 $scope.listFoodObject = null;
 	 $scope.OrderFoodObject = [];
 	$scope.OrderDrinkObject = [];
 	$scope.selectFoodObject = null;
 	$scope.selectDrinkObject = null;
+	$scope.listTableZone = [];
 
 	$scope.order_id = 0;
 
@@ -58,7 +59,6 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 
 							MenuService.getAllKind().then(function (result) {
 								$scope.listKindObject = result.data.kind;
-
 
 
 								MenuService.getAllOrderFood().then(function (result) {
@@ -94,10 +94,67 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 		}
 	});
 
-		$scope.editmenu = function(id) {
-		$scope.selectedId = id;
-		$scope.selectedFoodObject = null;
-		$scope.selectedDrinkObject = null;
+	$scope.getTable = function(){
+	noty({
+        type : 'alert', // alert, success, warning, error, confirm
+        layout : 'top',
+        modal : true,
+        text : 'กำลังโหลด...',
+        callback: {
+        	afterShow: function () {
+					MenuService.getAllTableMenu().then(function (result) {
+						$.noty.clearQueue(); $.noty.closeAll();
+
+						if (result.data.status == 200) {
+						$scope.listTableZone = result.data.zone;
+
+									console.log($scope.listTableZone)
+
+					}
+
+					else {
+						noty({
+			                type : 'warning',
+			                layout : 'top',
+			                modal : true,
+			                timeout: 3000, // 3 seconds
+			                text : result.data.message,
+			                callback: {
+			                	afterClose: function () {
+			                		$.noty.clearQueue(); $.noty.closeAll();
+			                	}
+			                }
+			            });
+					}
+					
+				});
+
+
+			}
+		}
+	});
+}
+$scope.table = function(table_id){
+
+	if($scope.table_status_id == 3){
+		var idx = $scope.table_id.findIndex(obj => obj==table_id);
+
+		if(idx == -1){
+			$scope.table_id.push(table_id);
+		}
+	}
+	else {
+		$scope.table_id = [];
+		$scope.table_id.push(table_id);
+	}
+	
+  
+	}
+
+$scope.editmenu = function(id) {
+	$scope.selectedId = id;
+	$scope.selectedFoodObject = null;
+	$scope.selectedDrinkObject = null;
 
 		noty({
             type : 'alert',
@@ -141,7 +198,7 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	};
 	//
 
-	$scope.saveTable = function(table_id){
+$scope.saveTable = function(table_id){
 
   $scope.table_id = table_id ; 
 
@@ -149,65 +206,64 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 }
 
 $scope.selectTable = function(table_id){
-$scope.listOrderFoodObject = [];
-$scope.listOrderDrinkObject = [];
-  $scope.table_id = table_id ; 
+	$scope.listOrderFoodObject = [];
+	$scope.listOrderDrinkObject = [];
+  	$scope.table_id = table_id ; 
 
-MenuService.getAllTable($scope.table_id).then(function (result) {
-	$scope.selectFoodObject = result.data.orderfood;
-	$scope.selectDrinkObject = result.data.orderdrink;
+		MenuService.getAllTable($scope.table_id).then(function (result) {
+			$scope.selectFoodObject = result.data.orderfood;
+			$scope.selectDrinkObject = result.data.orderdrink;
 
-	console.log($scope.selectDrinkObject )
-	console.log($scope.selectFoodObject )
-
-
-if ($scope.selectFoodObject.length > 0) {
-
-for (var i = 0; i < $scope.selectFoodObject.length; i++) {
-
-	$scope.order_id =$scope.selectFoodObject[i].order_id;
-	
-	$scope.listOrderFoodObject.push({
-			order_id : $scope.selectFoodObject[i].order_id,
-			food_id : $scope.selectFoodObject[i].food_id,
-			number : $scope.selectFoodObject[i].number,
-			comment : $scope.selectFoodObject[i].comment,
-			food_name :$scope.selectFoodObject[i].food_name,
-			food_price : $scope.selectFoodObject[i].price,
-			type : "food"
-		});
-}
-
-}
-
-if ($scope.selectDrinkObject.length > 0) {
-
-for (var i = 0; i < $scope.selectDrinkObject.length; i++) {
-
-	$scope.order_id =$scope.selectDrinkObject[i].order_id;
-	
-	$scope.listOrderDrinkObject.push({
-			order_id : $scope.selectDrinkObject[i].order_id,
-			drink_id : $scope.selectDrinkObject[i].drink_id,
-			number : $scope.selectDrinkObject[i].number,
-			comment : $scope.selectDrinkObject[i].comment,
-			drink_name :$scope.selectDrinkObject[i].drink_name,
-			drink_price : $scope.selectDrinkObject[i].price,
-			type : "drink"
-		});
-
-}
+			
 
 
-}
+			if ($scope.selectFoodObject.length > 0) {
+
+				for (var i = 0; i < $scope.selectFoodObject.length; i++) {
+
+						$scope.order_id =$scope.selectFoodObject[i].order_id;
+					
+							$scope.listOrderFoodObject.push({
+								order_id : $scope.selectFoodObject[i].order_id,
+								food_id : $scope.selectFoodObject[i].food_id,
+								number : $scope.selectFoodObject[i].number,
+								comment : $scope.selectFoodObject[i].comment,
+								food_name :$scope.selectFoodObject[i].food_name,
+								food_price : $scope.selectFoodObject[i].price,
+								type : "food"
+					});
+				}
+
+			}
+
+			if ($scope.selectDrinkObject.length > 0) {
+
+				for (var i = 0; i < $scope.selectDrinkObject.length; i++) {
+
+						$scope.order_id =$scope.selectDrinkObject[i].order_id;
+						
+							$scope.listOrderDrinkObject.push({
+									order_id : $scope.selectDrinkObject[i].order_id,
+									drink_id : $scope.selectDrinkObject[i].drink_id,
+									number : $scope.selectDrinkObject[i].number,
+									comment : $scope.selectDrinkObject[i].comment,
+									drink_name :$scope.selectDrinkObject[i].drink_name,
+									drink_price : $scope.selectDrinkObject[i].price,
+									type : "drink"
+								});
+
+						}
+
+
+					}
 $scope.calculatetotalprice();
 
 });
 }
 
 $scope.search = function () {
-		$scope.listFoodObject = false;
-		$scope.listDrinkObject = false;
+	$scope.listFoodObject = false;
+	$scope.listDrinkObject = false;
 		MenuService.searchFood($('#search').val()).then(function (result) {
 			$scope.listFoodObject = result.data.food;
 
@@ -291,7 +347,7 @@ $scope.search = function () {
 		console.log($scope.listOrderFoodObject);
 	}
 
-	$scope.orderdrink = function(drink_id) {
+$scope.orderdrink = function(drink_id) {
 
 		var idx = $scope.listOrderDrinkObject.findIndex(obj => obj.drink_id==drink_id);
 
@@ -317,9 +373,9 @@ $scope.search = function () {
 		console.log($scope.listOrderDrinkObject);
 	}
 
-	$scope.calculatetotalprice = function(){
-		if ($scope.listOrderFoodObject.length > 0) {
-			$scope.totalprice = 0;
+$scope.calculatetotalprice = function(){
+	if ($scope.listOrderFoodObject.length > 0) {
+		$scope.totalprice = 0;
 			for (var i = 0; i < $scope.listOrderFoodObject.length; i++) {
 				$scope.totalprice = $scope.totalprice + $scope.listOrderFoodObject[i].number*$scope.listOrderFoodObject[i].food_price;
 
@@ -346,8 +402,8 @@ $scope.search = function () {
 	}
 
 
-		$scope.updateFood = function() {
-		if ($scope.listOrderFoodObject.length > 0  || $scope.listOrderDrinkObject.length > 0 ) {
+$scope.updateFood = function() {
+	if ($scope.listOrderFoodObject.length > 0  || $scope.listOrderDrinkObject.length > 0 ) {
 
 			noty({
                 type : 'confirm',
@@ -443,8 +499,8 @@ $scope.search = function () {
 		}
 	};
 
-	$scope.saveFood = function() {
-		if ($scope.listOrderFoodObject.length > 0  || $scope.listOrderDrinkObject.length > 0 ) {
+$scope.saveFood = function() {
+	if ($scope.listOrderFoodObject.length > 0  || $scope.listOrderDrinkObject.length > 0 ) {
 
 			noty({
                 type : 'confirm',
@@ -475,7 +531,7 @@ $scope.search = function () {
                             callback : {
                                 afterShow : function () {
                                 $.noty.clearQueue(); $.noty.closeAll();
-			MenuService.saveFood($scope.listOrderFoodObject, $scope.listOrderDrinkObject).then(function (result) {
+			MenuService.saveFood($scope.listOrderFoodObject, $scope.listOrderDrinkObject,$scope.table_id).then(function (result) {
 				$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -711,4 +767,12 @@ this.getAllOrderDrink = function () {
             return data;
         });
 	};
+
+	this.getAllTableMenu = function (id) {
+		return $http.get('restaurant-api/api_get_all_table_menu.php',{
+        }, function(data, status) {
+            return data;
+        });
+	};
+
 }]);

@@ -18,7 +18,7 @@
   </thead>
   <tbody ng-show="OrderFoodObject.length > 0 ">
   <tr ng-repeat="obj in OrderFoodObject">
-      <td>T01</td>
+      <td>{{obj.table_name}}</td>
       <td>{{obj.food_name}}</td>
       <td>{{obj.status}} </td>
       <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
@@ -26,15 +26,7 @@
 
   </tbody>
 
-  <tbody ng-show="OrderDrinkObject.length > 0 ">
-  <tr ng-repeat="obj in OrderDrinkObject">
-      <td>T01</td>
-      <td>{{obj.drink_name}}</td>
-      <td>{{obj.status}}  </td>
-      <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
-  </tr>
-
-  </tbody>
+ 
 </table>
 </div>
 </div>
@@ -52,18 +44,17 @@
 <br>
 <br>
 
-<p style="text-align: center;">
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1000 && {'background-color': '#FC7D61'}"  ng-click="saveTable(1000)">T01</button>
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1001 && {'background-color': '#FC7D61'}" ng-click="saveTable(1001)">T02</button>
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1002 && {'background-color': '#FC7D61'}" ng-click="saveTable(1002)">T03</button>
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1003 && {'background-color': '#FC7D61'}"  ng-click="saveTable(1003)">T04</button>
-</p>
-<p style="text-align: center;">
-  <button type="button" class="btn btn-default btn-lg">T01</button>
-  <button type="button" class="btn btn-default btn-lg">T02</button>
-  <button type="button" class="btn btn-default btn-lg">T03</button>
-  <button type="button" class="btn btn-default btn-lg">T04</button>
-</p>
+ <div class="row">
+    <div class="col-lg-10" ng-repeat="obj in listTableZone">
+      <h4>โซน {{obj.zone_name}}</h4>
+      <p style="text-align: center;">2222222
+        <!--
+          ng-disabled="obj_table.table_status != null"
+        -->
+      <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง" ng-disabled="table_status_id == 0 || obj_table.table_reserve == true" type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="(table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'} || obj_table.table_reserve == true && {'background-color': 'red'})"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}}</button>
+    </div>     
+  </div>
+
 <br> 
 
 <div class="row">

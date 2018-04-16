@@ -15,12 +15,15 @@
       <th style="width: 30%;">ชำระเงิน</th>
   </tr>
   </thead>
- <tbody>
-  <tr ng-repeat="obj in orderObject">
+ <tbody >
+  <tr ng-repeat="obj in OrderObject">
       <td>T01</td>
       <td>{{obj.order_datetime}}</td>
-      <td><button type="Add" class="btn btn-success full-width" data-toggle="modal" data-target="#addModal" ng-click="listOrder(obj.order_id)" ng-disabled="(obj.food_not_finish > 0 || obj.drink_not_finish > 0)">ชำระเงิน</button></td>
+      <td><button type="Add" class="btn btn-success full-width" data-toggle="modal" data-target="#addModal" ng-click="listOrder(obj.order_id)" >ชำระเงิน</button></td>
   </tr>
+  
+  </tbody>
+
   
   </tbody>
 </table>
@@ -40,30 +43,35 @@
   <table class="table table-striped table-bordered">
     <thead>
       <tr > 
-        <th style="width: 15%;">ลำดับ</th>
-        <th style="width: 25%;">รายการ</th>
-        <th style="width: 20%;">จำนวน</th>
-        <th style="width: 20%;">ราคาต่อหน่วย</th>
-        <th style="width: 20%;">ราคารวม</th>
+        <th style="width: 8%;">ลำดับ</th>
+        <th style="width: 20%;">รายการ</th>
+        <th style="width: 15%;">จำนวน</th>
+        <th style="width: 15%;">ราคาต่อหน่วย</th>
+        <th style="width: 15%;">ราคารวม</th>
+        <th style="width: 15%;">สถานะ</th>
+        <th style="width: 10%;">Delete</th>
       </tr>
     </thead>
     <tbody ng-show="listOrderObject.length > 0 ">
       <tr ng-repeat="obj in listOrderObject">
-        <td style="width: 15%;">{{$index+1}}</td>
-      <td style="width: 25%;">{{obj.food_name}}</td>
-      <td style="width: 20%;">{{obj.number}}</td>
-      <td style="width: 20%;">{{obj.price}}</td>
-      <td style="width: 20%;">{{obj.price*obj.number}}</td>
-
+        <td style="width: 8%;">{{$index+1}}</td>
+      <td style="width: 20%;">{{obj.food_name}}</td>
+      <td style="width: 15%;">{{obj.number}}</td>
+      <td style="width: 15%;">{{obj.price}}</td>
+      <td style="width: 15%;">{{obj.price*obj.number}}</td>
+      <td style="width: 15%;">{{obj.status}}</td>
+       <td style="width: 10%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteFood(0,obj.order_id,obj.food_id)">Delete</button></td>
       </tr>
  </tbody>
     <tbody ng-show="listOrderDrinkObject.length > 0 ">
       <tr ng-repeat="obj in listOrderDrinkObject">
-        <td style="width: 15%;">{{$index+1}}</td>
-      <td style="width: 25%;">{{obj.drink_name}}</td>
-      <td style="width: 20%;">{{obj.number}}</td>
-      <td style="width: 20%;">{{obj.price}}</td>
-      <td style="width: 20%;">{{obj.price*obj.number}}</td>
+       <td style="width: 8%;">{{$index+1}}</td>
+      <td style="width: 20%;">{{obj.drink_name}}</td>
+      <td style="width: 15%;">{{obj.number}}</td>
+      <td style="width: 15%;">{{obj.price}}</td>
+      <td style="width: 15%;">{{obj.price*obj.number}}</td>
+       <td style="width: 15%;">{{obj.status}}</td>
+        <td style="width: 10%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="delete(0,obj.order_id,obj.drink_id)">Delete</button></td>
 
       </tr>
      
@@ -115,7 +123,7 @@
   <label class="control-label col-sm-3">จำนวนเงิน : </label>
   <div class="col-sm-9">
     <div class="input-group">
-      <input type="text" id="numberprice" class="form-control" placeholder="" aria-describedby="sizing-addon3" ng-keyup="calculatetotalpricechange()" value="{{(numberprice + numberpricedrink)}}">
+      <input type="text" id="numberprice" class="form-control" placeholder="" aria-describedby="sizing-addon3" ng-keyup="calculatetotalpricechange()" value="{{(numberprice)}}">
     </div>
   </div>
 </div>
@@ -124,7 +132,7 @@
   <label class="control-label col-sm-3">เงินทอน : </label>
   <div class="col-sm-9">
     <div class="input-group">
-      <input type="text" id="changeprice" class="form-control" placeholder="" disabled="disabled" aria-describedby="sizing-addon3" value="{{(changeprice + changepricedrink)}}">
+      <input type="text" id="changeprice" class="form-control" placeholder="" disabled="disabled" aria-describedby="sizing-addon3" value="{{(changeprice)}}">
     </div>
   </div>
 </div>

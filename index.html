@@ -70,6 +70,10 @@
   <script src="restaurant-web/pages/frontend/payment/controller.js?ts=2555555"></script>
   <script src="restaurant-web/pages/frontend/cookmenu/controller.js?ts=2555555"></script>
   <script src="restaurant-web/pages/frontend/drinkmenu/controller.js?ts=2555555"></script>
+   <script src="restaurant-web/pages/frontend/report/controller.js?ts=2555555"></script>
+     <script src="restaurant-web/pages/frontend/report_time/controller.js?ts=2555555"></script>
+      <script src="restaurant-web/pages/frontend/report_year/controller.js?ts=2555555"></script>
+       <script src="restaurant-web/pages/frontend/report_expense/controller.js?ts=2555555"></script>
   <!-- App -->
 
   </head>
@@ -168,6 +172,17 @@
             <li><a href="restaurant-web/#/frontend/user_cookmenu" ng-show="isFrontendLoggedIn && privacyAccess.indexOf('user_cookmenu') != -1">รายการอาหาร</a></li>
 
              <li><a href="restaurant-web/#/frontend/user_drinkmenu" ng-show="isFrontendLoggedIn && privacyAccess.indexOf('user_drinkmenu') != -1">รายการเครื่องดื่ม</a></li>
+
+            <li><a href="restaurant-web/#/frontend/user_report" ng-show="isFrontendLoggedIn && privacyAccess.indexOf('user_report') != -1">รายงานยอดขายทั้งหมด</a></li>
+
+             <li><a href="restaurant-web/#/frontend/user_report_time" ng-show="isFrontendLoggedIn && privacyAccess.indexOf('user_report_time') != -1">รายงานยอดขายอาหาร</a></li>
+
+              <li><a href="restaurant-web/#/frontend/user_report_year" ng-show="isFrontendLoggedIn && privacyAccess.indexOf('user_report_year') != -1">รายงานยอดขายประจำปี</a></li>
+
+               <li><a href="restaurant-web/#/frontend/user_report_expense" ng-show="isFrontendLoggedIn && privacyAccess.indexOf('user_report_expense') != -1">รายงานรายจ่าย</a></li>
+
+            
+
             <!--<li><a href="restaurant-web/#/backend/admin_food" ng-show="privacyAccess.indexOf('admin_food') != -1">อาหาร</a></li>
 
             <li><a href="restaurant-web/#/backend/admin_drink" ng-show="privacyAccess.indexOf('admin_drink') != -1">เครื่องดื่ม <label ng-show="drinkNoti > 0" style="color: red;">(แจ้งเตือน)</label></a></li>
