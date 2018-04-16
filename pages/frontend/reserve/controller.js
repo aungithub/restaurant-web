@@ -14,6 +14,7 @@ $scope.selectedReserveObject = null;
 $scope.listTableZoneReserve = [];
 $scope.listTableZoneEdit = [];
 $scope.comment_reserve = "";
+$scope.autoRefreshTimer = null;
 
 
 noty({
@@ -27,6 +28,7 @@ noty({
 									$.noty.clearQueue(); $.noty.closeAll();
 
 									if (result.data.status == 200) {
+										$scope.autocheckreserve();
 									$scope.listTableZoneReserve = result.data.reserve;
 
 									
@@ -54,6 +56,17 @@ noty({
 			}
 		}
 	}); 
+
+$scope.autocheckreserve = function(){
+		$scope.autoRefreshTimer = setInterval(function(){
+			ReserveService.getCancelReserve().then(function (result) {
+				if (result.data.status == 200) {
+					console.log("check success");
+				}
+			});
+		},1800000);//5 วินาที*1000 => 1800000 = 30 นาที
+	}
+
 
 $scope.getTable = function(){
 	noty({
@@ -364,4 +377,11 @@ $scope.editReserve = function(id) {
         });
 	};
 	
+	this.getCancelReserve = function () {
+	return $http.post('restaurant-api/api_cancel_reserve.php', {
+           
+        }, function(data, status) {
+            return data;
+        });
+	};
 }]);

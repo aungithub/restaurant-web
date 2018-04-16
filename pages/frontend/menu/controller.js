@@ -29,6 +29,7 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	$scope.selectFoodObject = null;
 	$scope.selectDrinkObject = null;
 	$scope.listTableZone = [];
+	$scope.listTableZoneEdit = [];
 
 	$scope.order_id = 0;
 
@@ -49,6 +50,7 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 					$.noty.clearQueue(); $.noty.closeAll(); // clear noty
 
 					if (result.data.status == 200) {
+					
 						$scope.listFoodObject = result.data.food;
 						$scope.selectFoodObject = result.data.orderfood;
 						$scope.selectDrinkObject = result.data.orderdrink;
@@ -108,7 +110,7 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 						if (result.data.status == 200) {
 						$scope.listTableZone = result.data.zone;
 
-									console.log($scope.listTableZone)
+									
 
 					}
 
@@ -134,20 +136,61 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 		}
 	});
 }
+
+$scope.getTableEdit = function(){
+	noty({
+        type : 'alert', // alert, success, warning, error, confirm
+        layout : 'top',
+        modal : true,
+        text : 'กำลังโหลด...',
+        callback: {
+        	afterShow: function () {
+					MenuService.getAllTableMenuEdit().then(function (result) {
+						$.noty.clearQueue(); $.noty.closeAll();
+
+						if (result.data.status == 200) {
+							$scope.listTableZoneEdit = result.data.zone;
+									
+
+					}
+
+					else {
+						noty({
+			                type : 'warning',
+			                layout : 'top',
+			                modal : true,
+			                timeout: 3000, // 3 seconds
+			                text : result.data.message,
+			                callback: {
+			                	afterClose: function () {
+			                		$.noty.clearQueue(); $.noty.closeAll();
+			                	}
+			                }
+			            });
+					}
+					
+				});
+
+
+			}
+		}
+	});
+}
+
+
 $scope.table = function(table_id){
 
-	if($scope.table_status_id == 3){
-		var idx = $scope.table_id.findIndex(obj => obj==table_id);
-
-		if(idx == -1){
-			$scope.table_id.push(table_id);
-		}
-	}
-	else {
-		$scope.table_id = [];
-		$scope.table_id.push(table_id);
-	}
 	
+		$scope.table_id = table_id;
+		
+  
+	}
+
+	$scope.tableEdit = function(table_id){
+
+	
+		$scope.table_id = table_id;
+		
   
 	}
 
@@ -155,7 +198,7 @@ $scope.editmenu = function(id) {
 	$scope.selectedId = id;
 	$scope.selectedFoodObject = null;
 	$scope.selectedDrinkObject = null;
-
+	
 		noty({
             type : 'alert',
             layout : 'top',
@@ -170,8 +213,8 @@ $scope.editmenu = function(id) {
 
 							$scope.selectedFoodObject = result.data.orderfood[0];
 							$scope.selectedDrinkObject = result.data.orderdrink;
+									
 					
-				
 						}
 						else {
 							// ปิด noty
@@ -294,6 +337,9 @@ $scope.search = function () {
 							$.noty.clearQueue(); $.noty.closeAll();
 
 							$scope.listKindObject = result.data.kind;
+							$scope.getTable();
+							$scope.getTableEdit();
+
 						}
 						else {
 							// ปิด noty
@@ -770,6 +816,13 @@ this.getAllOrderDrink = function () {
 
 	this.getAllTableMenu = function (id) {
 		return $http.get('restaurant-api/api_get_all_table_menu.php',{
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getAllTableMenuEdit = function (id) {
+		return $http.get('restaurant-api/api_get_all_table_menuedit.php',{
         }, function(data, status) {
             return data;
         });

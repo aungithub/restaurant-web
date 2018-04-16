@@ -36,7 +36,7 @@
 
 </div>
 <div class="btn-group" role="group" aria-label="..." >
-<button type="edit" class="btn btn-sm btn-info " data-toggle="modal" data-target="#editModal" ng-click="">แก้ไขรายการอาหารและเครื่องดื่ม</button>
+<button type="edit" class="btn btn-sm btn-info " data-toggle="modal" data-target="#editModal" ng-click="loadAddFoodForm()">แก้ไขรายการอาหารและเครื่องดื่ม</button>
 </div>
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
 <div class="modal-dialog modal-lg" role="document">
@@ -47,11 +47,11 @@
  <div class="row">
     <div class="col-lg-10" ng-repeat="obj in listTableZone">
       <h4>โซน {{obj.zone_name}}</h4>
-      <p style="text-align: center;">2222222
+      <p style="text-align: center;">
         <!--
           ng-disabled="obj_table.table_status != null"
         -->
-      <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง" ng-disabled="table_status_id == 0 || obj_table.table_reserve == true" type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="(table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'} || obj_table.table_reserve == true && {'background-color': 'red'})"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}}</button>
+     <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง"  type="button" class="btn btn-default btn-lg" id="tab" ng-disabled="obj_table.table_reserve == false" value="{{obj_table.table_id}}" ng-style="(table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'} )"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}} {{(obj_table.table_reserve_merge != false ? 'รวมโต๊ะ ('+ obj_table.table_reserve_merge +')': '')}}</button>
     </div>     
   </div>
 
@@ -267,18 +267,16 @@
 <br>
 <br>
 
-<p style="text-align: center;">
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1000 && {'background-color': '#FC7D61'}"  ng-click="selectTable(1000)">T01</button>
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1001 && {'background-color': '#FC7D61'}" ng-click="selectTable(1001)">T02</button>
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1002 && {'background-color': '#FC7D61'}" ng-click="selectTable(1002)">T03</button>
-  <button type="button" class="btn btn-default btn-lg" ng-style="table_id == 1003 && {'background-color': '#FC7D61'}"  ng-click="selectTable(1003)">T04</button>
-</p>
-<p style="text-align: center;">
-  <button type="button" class="btn btn-default btn-lg">T01</button>
-  <button type="button" class="btn btn-default btn-lg">T02</button>
-  <button type="button" class="btn btn-default btn-lg">T03</button>
-  <button type="button" class="btn btn-default btn-lg">T04</button>
-</p>
+ <div class="row">
+          <div class="col-lg-10" ng-repeat="obj in listTableZoneEdit">
+            <h4>โซน {{obj.zone_name}}</h4>
+            <p style="text-align: center;">
+              <!--
+                ng-disabled="obj_table.table_status != null"
+              -->
+            <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง" type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'}"  ng-click="tableEdit(obj_table.table_id)">T{{obj_table.table_id}} {{(obj_table.table_reserve_merge != false ? 'รวมโต๊ะ ('+ obj_table.table_reserve_merge +')': '')}}</button>
+          </div>
+        </div>
 <br> 
 
 <div class="row">

@@ -11,6 +11,8 @@ angular.module('RESTAURANT.user_login', ['ngRoute'])
 	// เอาไว้เรียกใช้งาน function ใน index เืพ่อซ่อนเมนู
 	$rootScope.$emit('IndexController.hideLoginShowMenu');
 
+	
+
 	// ถ้า login อยู่แล้ว
 	
 	if ($rootScope.isFrontendLoggedIn == true) {
@@ -18,6 +20,8 @@ angular.module('RESTAURANT.user_login', ['ngRoute'])
 		$window.location.href = $rootScope.userFirstPage;
 		console.log($rootScope.isFrontendLoggedIn)
 	}
+
+	
 
 	//cm function ที่จะเข้ามาทำ หลังจากปุ่ม login ถูก click หรือ enter 
 	$scope.loginClicked = function () {
@@ -57,6 +61,9 @@ angular.module('RESTAURANT.user_login', ['ngRoute'])
 					            });
                 			}
                 			else if (result.data.status == 200) {
+                				
+
+
                 				$.noty.clearQueue(); $.noty.closeAll(); // เคลียร์ noty ทั้งหมด
 
                 				// ทำให้รู้ว่า login แล้ว
@@ -106,4 +113,6 @@ angular.module('RESTAURANT.user_login', ['ngRoute'])
             return data;
         });
 	};
+
+
 }]);
