@@ -10,18 +10,31 @@
 
   <thead>
   <tr>
-      <th style="width: 15%;">โต๊ะ</th>
-       <th style="width: 40%;">รายการ</th>
-      <th style="width: 35%;">สถานะ</th>
-      <th style="width: 20%;">ลบ</th>
+      <th style="width: 20%;">โต๊ะ</th>
+       <th style="width: 35%;">รายการ</th>
+        <th style="width: 25%;">เวลา</th>
+      <th style="width: 20%;">สถานะ</th>
+      
   </tr>
   </thead>
   <tbody ng-show="OrderFoodObject.length > 0 ">
   <tr ng-repeat="obj in OrderFoodObject">
-      <td>{{obj.table_name}}</td>
+      <td>T{{obj.table_id}}</td>
       <td>{{obj.food_name}}</td>
+       <td>{{obj.order_datetime}} </td>
       <td>{{obj.status}} </td>
-      <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
+      
+  </tr>
+
+  </tbody>
+
+  <tbody ng-show="OrderDrinkObject.length > 0 ">
+  <tr ng-repeat="obj in OrderDrinkObject">
+      <td>T{{obj.table_id}}</td>
+      <td>{{obj.drink_name}}</td>
+       <td>{{obj.order_datetime}} </td>
+      <td>{{obj.status}} </td>
+      
   </tr>
 
   </tbody>
@@ -35,9 +48,7 @@
 <button type="Add" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddFoodForm()">สั่งอาหารและเครื่องดื่ม</button>
 
 </div>
-<div class="btn-group" role="group" aria-label="..." >
-<button type="edit" class="btn btn-sm btn-info " data-toggle="modal" data-target="#editModal" ng-click="loadAddFoodForm()">แก้ไขรายการอาหารและเครื่องดื่ม</button>
-</div>
+
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
 <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
@@ -220,261 +231,9 @@
 </div>
 <!-- Footer -->
 
-<!--<div class="col-sm-12 col-md-8">
-<div class="media">
-  <div class="media-left">
-    <a href="">
-      <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-    </a>
-  </div>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-  </div>
-  <div class="media-right">
-    <button class="btn btn-primary">asd</button>
-  </div>
-</div>
-</div>
-<div class="col-sm-12 col-md-8">
-<div class="media">
-  <div class="media-left">
-    <a href="">
-      <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-    </a>
-  </div>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-  </div>
-  <div class="media-right">
-    <button class="btn btn-primary">asd</button>
-  </div>
-</div>
-</div>
--->
-
-
   </div>
 </div>
 </div>
 </div>
 
 
-<!-- edit Unit Modal -->
-
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
-<div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">
-<br>
-<br>
-
- <div class="row">
-          <div class="col-lg-10" ng-repeat="obj in listTableZoneEdit">
-            <h4>โซน {{obj.zone_name}}</h4>
-            <p style="text-align: center;">
-              <!--
-                ng-disabled="obj_table.table_status != null"
-              -->
-            <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง" type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'}"  ng-click="tableEdit(obj_table.table_id)">T{{obj_table.table_id}} {{(obj_table.table_reserve_merge != false ? 'รวมโต๊ะ ('+ obj_table.table_reserve_merge +')': '')}}</button>
-          </div>
-        </div>
-<br> 
-
-<div class="row">
-   <div class="col-sm-7">
-  </div>
-  <div class="col-lg-5">
-    <div class="input-group">
-      <input type="text" class="form-control" id="search" placeholder="Search">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button" id="buttonsearch" ng-click="search()">Search</button>
-      </span>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
-<br>
-<div class="row">
-  <div class="col-sm-7">
-  </div>
-  <div class="col-sm-5">
-    <form class="form-inline">
-      <div>
-    <label> แสดงรายการประเภท: </label>
-    <select class="form-control" id="editMenuSelect" ng-model="menuSelect" ng-change="showMenuSelect()">
-      <option selected="selected" value="0">ทั้งหมด</option>
-      <option value="1">อาหาร</option>
-      <option value="2">เครื่องดื่ม</option>
-    </select>
-    <select class="form-control" id="editMenuFoodType" ng-show="menuSelect == 1" ng-model="menuFoodType" ng-change="showFoodTypeSelect()">
-      <option selected="selected" value="0">ทั้งหมด</option>
-      <option ng-repeat="obj in listKindObject" value="{{obj.kind_id}}">{{obj.kind_name}}</option>
-    </select>
-  </div>
-  </form>
-  </div>
-</div>
-
-
-<br>
-<div class="panel panel-default" align="center">
-  <div class="panel-heading " ><h4>รายการอาหารและเครื่องดื่ม</h4></div>
-  <table class="table table-striped">
-    <thead>
-      <tr style="text-align: center;">
-        
-        <th style="width: 55%;">รายการ</th>
-        <th style="width: 45%;">รายละเอียด</th>
-      </tr>
-    </thead>
-    <tbody ng-show="menuSelect == 0 || menuSelect == 1">
-      <tr ng-repeat="obj in listFoodObject" ng-show="menuFoodType == 0 || obj.food_kind_id==menuFoodType">
-        <div class="input-group">
-          <td>
-            <font id="food_name_{{obj.food_id}}">{{obj.food_name}}</font>
-            <br>
-          <font id="food_price_{{obj.food_id}}">{{obj.food_price}}</font> บาท 
-          <br>
-          <font ng-show="obj.food_status_id == 2" style="color: red; font-weight: bold;">วัตถุดิบหมด</font> 
-        </td>
-          
-          <td>
-            <textarea class="form-control" rows="3" id="comment_{{obj.food_id}}" placeholder="หมายเหตุ"></textarea>
-            <br>
-            
-            <form action="demo_form.asp">
-              <input type="number" name="quantity" min="1" max="500" id="number_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
-              <button class="btn btn-primary" type="button" ng-click="orderfood(obj.food_id)" ng-disabled="obj.food_status_id == 2">สั่งอาหาร</button>
-            </div>
-          </form>
-        </td>
-        
-        
-        
-        
-        
-      </div>
-    </tr>
-    
-    
-  </tbody>
-   <tbody ng-show="menuSelect == 0 || menuSelect != 1">
-    <tr ng-repeat="obj in listDrinkObject">
-      <div class="input-group">
-        <td>
-          <font id="drink_name_{{obj.drink_id}}">{{obj.drink_name}}</font>
-          <br>
-        <font id="drink_price_{{obj.drink_id}}">{{obj.drink_price}}</font> บาท </td>
-        
-        
-        <td>
-          <textarea class="form-control" rows="3" id="comment_{{obj.drink_id}}" placeholder="หมายเหตุ"></textarea>
-          <br>
-          
-          <form action="demo_form.asp">
-            <input type="number" name="quantity" min="1" max="500" id="number_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
-            <button class="btn btn-primary" type="button" ng-click="orderdrink(obj.drink_id)">สั่งเครื่องดื่ม</button>
-          </div>
-        </form>
-      </td>
-      
-      
-      
-      
-      
-    </div>
-  </tr>
-  
-  
-</tbody>
-</table>
-</div>
-<form >
-<div class="form-group " >
-<label class="control-label col-sm-12" style="text-align: left; text-decoration: underline;margin-left: 15px;"><h4>รายการที่สั่ง</h4></label>
-<label class="control-label col-sm-16"></label>
-</div>
-<div class="form-group" style="text-align: center;">
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr >
-      <td style="width: 15%;">ลำดับ</td>
-      <td style="width: 25%;">รายการ</td>
-      <td style="width: 20%;">จำนวน</td>
-      <td style="width: 20%;">ราคา</td>
-      <td style="width: 20%;">ราคารวม</td>
-      
-    </tr>
-  </thead>
-  <tbody ng-show="listOrderFoodObject.length > 0">
-    <tr ng-repeat="obj in listOrderFoodObject">
-      <td style="width: 15%;">{{$index+1}}</td>
-      <td style="width: 25%;">{{obj.food_name}}</td>
-      <td style="width: 20%;"> <form action="demo_form.asp">
-        <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
-        <td style="width: 20%;">{{obj.food_price}}</td>
-        <td style="width: 20%;">{{obj.food_price*obj.number}}</td>
-      </tr>
-    </tbody>
-    
-    <tbody ng-show="listOrderDrinkObject.length > 0">
-      <tr ng-repeat="obj in listOrderDrinkObject">
-      <td style="width: 15%;">{{$index+1}}</td>
-      <td style="width: 25%;">{{obj.drink_name}}</td>
-      <td style="width: 20%;"> <form action="demo_form.asp">
-        <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
-        <td style="width: 20%;">{{obj.drink_price}}</td>
-        <td style="width: 20%;">{{obj.drink_price*obj.number}}</td>
-      </tr>
-    </tbody>
-  </table>
-  </table>
-</div>
-<div class="form-group">
-  <label class="control-label col-sm-12" style="text-align: left; margin-left: 15px;"><h5>ราคารวมทั้งหมด : {{totalprice}}</h5></label>
-</div>
-</form>
-
-<!-- Body -->
-<!-- Footer -->
-<div class="modal-footer">
-<button type="button" class="btn btn-primary" ng-click="updateFood()">แกไขรายการ</button>
-<button type="button"  class="btn btn-danger" id="closemodal" data-dismiss="modal">ยกเลิก</button>
-
-</div>
-<!-- Footer -->
-
-
-<!--<div class="col-sm-12 col-md-8">
-<div class="media">
-  <div class="media-left">
-    <a href="">
-      <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-    </a>
-  </div>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-  </div>
-  <div class="media-right">
-    <button class="btn btn-primary">asd</button>
-  </div>
-</div>
-</div>
-<div class="col-sm-12 col-md-8">
-<div class="media">
-  <div class="media-left">
-    <a href="">
-      <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-    </a>
-  </div>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-  </div>
-  <div class="media-right">
-    <button class="btn btn-primary">asd</button>
-  </div>
-</div>
-</div>
--->
-
-  </div>
-</div>
-</div>

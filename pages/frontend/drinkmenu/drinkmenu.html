@@ -22,7 +22,7 @@
   </thead>
  <tbody>
   <tr ng-repeat="obj in listOrderDrinkObject" ng-show="obj.status == null || obj.status == 2">
-      <td>T01</td>
+      <td>T{{obj.table_id}}</td>
       <td>{{obj.drink_name}}</td>
       <td>{{obj.number}}</td>
       <td>{{obj.comment}}</td>

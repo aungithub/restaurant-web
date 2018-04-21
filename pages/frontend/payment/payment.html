@@ -17,7 +17,7 @@
   </thead>
  <tbody >
   <tr ng-repeat="obj in OrderObject">
-      <td>T01</td>
+      <td>T{{obj.table_id}}</td>
       <td>{{obj.order_datetime}}</td>
       <td><button type="Add" class="btn btn-success full-width" data-toggle="modal" data-target="#addModal" ng-click="listOrder(obj.order_id)" >ชำระเงิน</button></td>
   </tr>
