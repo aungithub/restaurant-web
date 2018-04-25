@@ -9,6 +9,7 @@ angular.module('RESTAURANT.user_report_expense', ['ngRoute'])
 
 	 $scope.reportOrderObject = [];
 	 $scope.reportOrderDrinkObject = [];
+	 $scope.totalPrice = 0;
 
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
@@ -23,7 +24,7 @@ angular.module('RESTAURANT.user_report_expense', ['ngRoute'])
 									if (result.data.status == 200) {
 									$scope.reportOrderObject = result.data.order;
 
-
+									$scope.calculateTotalPrice();
 					}
 
 					else {
@@ -48,6 +49,15 @@ angular.module('RESTAURANT.user_report_expense', ['ngRoute'])
 		}
 	});
 
+	$scope.calculateTotalPrice = function () {
+		$scope.totalPrice = 0;
+		if ($scope.reportOrderObject.length > 0) {
+			for (var i = 0; i < $scope.reportOrderObject.length; i++) {
+				$scope.totalPrice = $scope.totalPrice + parseInt($scope.reportOrderObject[i].dpd_total_price);
+			}
+		}
+	}
+
 	$scope.refreshList = function() {
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
@@ -61,6 +71,8 @@ angular.module('RESTAURANT.user_report_expense', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.reportOrderObject = result.data.order;
+
+							$scope.calculateTotalPrice();
 
 							//$scope.apply(function(){});
 						}
@@ -92,6 +104,8 @@ angular.module('RESTAURANT.user_report_expense', ['ngRoute'])
 				ReportexpenseService.getAllOrderFoodReport(month).then(function (result) {
 					if (result.data.status == 200) {
 						$scope.reportOrderObject = result.data.order;
+
+						$scope.calculateTotalPrice();
 						
 						noty({
 			                type : 'success',

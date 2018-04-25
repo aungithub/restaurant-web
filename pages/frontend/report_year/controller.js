@@ -9,6 +9,7 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
 
 	 $scope.reportOrderObject = [];
 	 $scope.reportOrderDrinkObject = [];
+	 $scope.totalPrice = 0;
 
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
@@ -23,9 +24,12 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
 									if (result.data.status == 200) {
 									$scope.reportOrderObject = result.data.orderlist;
 
+									$scope.calculateTotalPrice();
+
 									ReportyearService.getAllOrderDrink().then(function (result) {
 										$scope.reportOrderDrinkObject = result.data.order;
 										
+										$scope.calculateTotalPrice();
 										
 									});
 
@@ -53,6 +57,20 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
 		}
 	});
 
+	$scope.calculateTotalPrice = function () {
+		$scope.totalPrice = 0;
+		if ($scope.reportOrderObject.length > 0) {
+			for (var i = 0; i < $scope.reportOrderObject.length; i++) {
+				$scope.totalPrice = $scope.totalPrice + ($scope.reportOrderObject[i].price * $scope.reportOrderObject[i].number);
+			}
+		}
+		if ($scope.reportOrderDrinkObject.length > 0) {
+			for (var i = 0; i < $scope.reportOrderDrinkObject.length; i++) {
+				$scope.totalPrice = $scope.totalPrice + ($scope.reportOrderDrinkObject[i].price * $scope.reportOrderDrinkObject[i].number);
+			}
+		}
+	}
+
 	$scope.refreshList = function() {
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
@@ -66,6 +84,8 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.reportOrderObject = result.data.orderlist;
+
+							$scope.calculateTotalPrice();
 
 							//$scope.apply(function(){});
 						}
@@ -98,6 +118,9 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
 					if (result.data.status == 200) {
 						$scope.reportOrderObject = result.data.order;
 						$scope.reportOrderDrinkObject = result.data.order_drink;
+
+						$scope.calculateTotalPrice();
+
 						noty({
 			                type : 'success',
 			                layout : 'top',
