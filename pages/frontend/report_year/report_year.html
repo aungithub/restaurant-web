@@ -21,6 +21,9 @@
 <div class="btn-group" role="group" aria-label="..." >
   <button type="Report" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddReportForm()">ออกรายงาน</button>
 </div>
+<div class="btn-group" role="group" aria-label="..." >
+  <button type="Report" class="btn btn-primary" ng-click="printReport()">ปริ้นท์รายงาน</button>
+</div>
 </div> 
 </div>
   </form>
@@ -82,5 +85,96 @@
  
 </table>
 </div>
+</div>
+
+<div id="report-list">
+<center>
+  <div class="panel panel-default" style="width: 90%">
+    <div class="panel-heading">
+      <h1 class="panel-title" style="text-align: center;">ร้านครัวคุณหมู</h1>
+    </div>
+    <div class="panel-body">
+      <center>
+        <br/>
+        <p>19/120 ต.ตลาดขวัญ อ.เมือง จ.นนทบุรี 10580</p>
+        <p>โทร 02-456-8870 email: khunmoo@gmail.com</p>
+        <br/>
+        <h4 style="text-decoration: underline;">รายงานยอดขายประจำปี</h4>
+      </center>
+
+      <br/>
+
+       <div class="panel panel-default" align="center"> 
+      <div class="panel-heading " >รายงาน</div>
+
+      <!-- Table -->
+       
+
+      <div class="table-responsive">
+        
+      <table class="table table-striped table-bordered table-responsive" >
+
+        <thead>
+        <tr >
+            <th >ลำดับ</th>
+             <th>รายการ</th>
+              <th>วันที่</th>
+            <th >จำนวน</th>
+            <th >จำนวนเงิน</th>
+            
+        </tr>
+        </thead>
+       <tbody ng-show="reportOrderObject.length > 0 ">
+
+        <tr ng-repeat="obj in reportOrderObject">
+            <td>{{$index+1}}</td>
+            <td>{{obj.food_name}}</td>
+             <td>{{obj.order_datetime}}</td>
+            <td>{{obj.number}}</td>
+            <td>{{obj.price*obj.number}}</td>
+           
+        </tr>
+       
+        </tbody>
+
+        <tbody ng-show="reportOrderDrinkObject.length > 0 ">
+
+        <tr ng-repeat="obj in reportOrderDrinkObject">
+            <td>{{$index+1}}</td>
+            <td>{{obj.drink_name}}</td>
+             <td>{{obj.order_datetime}}</td>
+            <td>{{obj.number}}</td>
+            <td>{{obj.price*obj.number}}</td>
+           
+        </tr>
+
+        
+       
+        </tbody>
+
+        <tr>
+          <td colspan="4" style="text-align: right; padding-right: 50px"><b>ราคารวม</b></td>
+          <td><b>{{totalPrice}}</b></td>
+        </tr>
+
+       
+      </table>
+      </div>
+      </div>
+
+      <br/>
+
+      <div class="row">
+      <div class="col-md-6" style="text-align: left;">
+      </div>
+        <div class="col-md-6" style="text-align: right;">
+          <p>ผู้ออกรายงาน ___________________________</p>
+          <p style="margin-left: 60px;">________/_________/_________</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</center>
 </div>
 

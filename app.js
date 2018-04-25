@@ -33,7 +33,8 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.user_report',
 	'RESTAURANT.user_report_time',
 	'RESTAURANT.user_report_year',
-	'RESTAURANT.user_report_expense'
+	'RESTAURANT.user_report_expense',
+	'RESTAURANT.user_all_report_print'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
@@ -205,6 +206,12 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 		cache: false //cm ไม่เก็บ cache
 	});
 
+	$routeProvider.when('/frontend/user_all_report_print', {
+		templateUrl: 'restaurant-web/pages/frontend/all_report_print/all_report_print.html',
+		controller: 'AllReportPrintController',
+		cache: false //cm ไม่เก็บ cache
+	});
+
 	//cm เพื่อลบเครื่องหมาย ! ออกไป เพราะพบปัญหา angular ต้องใส่ #! ใน url
 	$locationProvider.hashPrefix('');
 	$locationProvider.html5Mode({
@@ -222,6 +229,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	$rootScope.empPosID = ''; //cm ตัวแปรเพื่อเก็บรหัสตำแหน่งงาน
 
 	$rootScope.isFrontendLoggedIn = false;
+	$rootScope.reportHtml = '';
 
 	//cm ลบ cache
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {

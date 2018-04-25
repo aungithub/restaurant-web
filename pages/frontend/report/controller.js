@@ -2,7 +2,7 @@
 
 angular.module('RESTAURANT.user_report', ['ngRoute'])
 
-.controller('ReportController', ['$rootScope', '$scope', '$location', 'ReportService', function($rootScope, $scope, $location, ReportService) {
+.controller('ReportController', ['$rootScope', '$scope', '$location', 'ReportService', '$window', function($rootScope, $scope, $location, ReportService, $window) {
 	var route = 'user_report';
 	$rootScope.loadCookies();
 	$('.datepicker').datetimepicker({ format: 'YYYY-MM-DD' });
@@ -10,6 +10,8 @@ angular.module('RESTAURANT.user_report', ['ngRoute'])
 	 $scope.reportOrderObject = [];
 	 $scope.reportOrderDrinkObject = [];
 	 $scope.totalPrice = 0;
+
+	 $('#report-list').css('display', 'none');
 
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
@@ -161,6 +163,15 @@ angular.module('RESTAURANT.user_report', ['ngRoute'])
 				});
 		
 	};
+
+	$scope.printReport = function () {
+		let rp = $("#report-list").html();
+		$rootScope.reportHtml = rp;
+
+		$window.localStorage.setItem('reportHtml', $rootScope.reportHtml);
+
+		window.open('restaurant-web/#/frontend/user_all_report_print', '_blank');
+	}
 
 
 	// END Delete Unit
