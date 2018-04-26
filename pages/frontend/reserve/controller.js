@@ -17,6 +17,7 @@ $scope.comment_reserve = "";
 $scope.autoRefreshTimer = null;
 
 $scope.tableTime = null;
+$scope.updated_table = false;
 
 $('.datepicker').datetimepicker({ defaultDate: new Date(), format: 'YYYY-MM-DD' });
 
@@ -116,6 +117,7 @@ $scope.getTable = function(){
 $scope.updateTableTime = function(time) {
 	$('#reserve_time').val(time);
 	$("#close_modal_table_list").click()
+	$scope.updated_table = true;
 }
 
 $scope.listTable = function() {
