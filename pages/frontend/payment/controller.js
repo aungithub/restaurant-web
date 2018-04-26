@@ -76,6 +76,10 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 		}
 	});
 
+	$scope.printSlip = function () {
+		
+	}
+
 
 $scope.savePrice = function() {
 

@@ -16,6 +16,10 @@ $scope.listTableZoneEdit = [];
 $scope.comment_reserve = "";
 $scope.autoRefreshTimer = null;
 
+$scope.tableTime = null;
+
+$('.datepicker').datetimepicker({ defaultDate: new Date(), format: 'YYYY-MM-DD' });
+
 
 noty({
         type : 'alert', // alert, success, warning, error, confirm
@@ -109,6 +113,18 @@ $scope.getTable = function(){
 	});
 }
 
+$scope.updateTableTime = function(time) {
+	$('#reserve_time').val(time);
+	$("#close_modal_table_list").click()
+}
+
+$scope.listTable = function() {
+	console.log(1);
+	ReserveService.getTableTime($scope.table_id[0], $("#reserve_date").val(),$("#reserve_time").val()).then(function (result) {
+		$scope.tableTime = result.data.tableTime;
+	});
+}
+
 $scope.table = function(table_id){
 
 	if($scope.table_status_id == 3){
@@ -121,6 +137,12 @@ $scope.table = function(table_id){
 	else {
 		$scope.table_id = [];
 		$scope.table_id.push(table_id);
+
+		if ($scope.table_status_id == 1) {
+			//console.log('here');
+			$scope.listTable();
+			document.getElementById("listTableButton").click();
+		}
 	}
 	
   
@@ -148,10 +170,10 @@ $scope.saveTable = function(){
             type : 'alert',
             layout : 'top',
             modal : true,
-            text : 'กำลังดึงข้อมูลหน่วย...',
+            text : 'กำลังบันทึก...',
             callback: {
             	afterShow: function () {
-            		ReserveService.saveTable( $scope.table_id, $scope.table_status_id,$("#detail").val() ).then(function (result) {
+            		ReserveService.saveTable( $scope.table_id, $scope.table_status_id,$("#detail").val(),$("#reserve_date").val(),$("#reserve_time").val() ).then(function (result) {
 						if (result.data.status == 200 ) {
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
@@ -345,11 +367,13 @@ $scope.editReserve = function(id) {
         });
 	};
 
-	this.saveTable = function (table_id,table_status_id,detail) {
+	this.saveTable = function (table_id,table_status_id,detail,reserve_date,reserve_time) {
 		return $http.post('restaurant-api/api_save_table.php', {
             'table_id' : table_id,
             'table_status_id' : table_status_id, 
             'detail' : detail,
+            'reserve_date': reserve_date,
+            'reserve_time': reserve_time,
    
         }, function(data, status) {
             return data;
@@ -380,6 +404,18 @@ $scope.editReserve = function(id) {
 	this.getCancelReserve = function () {
 	return $http.post('restaurant-api/api_cancel_reserve.php', {
            
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+
+	this.getTableTime = function (table_id,reserve_date,reserve_time) {
+		return $http.post('restaurant-api/api_get_reserve_time_by_table.php', {
+            'table_id' : table_id,
+            'reserve_date': reserve_date,
+            'reserve_time': reserve_time,
+   
         }, function(data, status) {
             return data;
         });
