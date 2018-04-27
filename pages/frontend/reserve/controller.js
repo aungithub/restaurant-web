@@ -62,6 +62,41 @@ noty({
 		}
 	}); 
 
+$scope.refreshList = function() {
+		noty({
+	        type : 'alert', // alert, success, warning, error, confirm
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					ReserveService.getAllReserveList().then(function (result) {
+						$.noty.clearQueue(); $.noty.closeAll(); // clear noty
+
+						if (result.data.status == 200) {
+									$scope.autocheckreserve();
+									$scope.listTableZoneReserve = result.data.reserve;
+									$scope.apply();
+									}
+						else {
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000, // 3 seconds
+				                text : result.data.message,
+				                callback: {
+				                	afterClose: function () {
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
+	} 
 $scope.autocheckreserve = function(){
 		$scope.autoRefreshTimer = setInterval(function(){
 			ReserveService.getCancelReserve().then(function (result) {
@@ -72,8 +107,104 @@ $scope.autocheckreserve = function(){
 		},1800000);//5 วินาที*1000 => 1800000 = 30 นาที
 	}
 
+	$scope.deleteReserve = function(id) {
+		var reserve_id = id;
+
+		if (reserve_id != '') {
+			noty({
+                type : 'confirm',
+                layout : 'top',
+                modal : true,
+                text: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่?',
+                buttons : [
+                {
+                    addClass : 'btn btn-danger',//คลาสของbootstrap
+                    text : 'ยกเลิก',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
+                    }
+                },
+                {
+                	id : 'btn_confirm',
+                    addClass: 'btn btn-primary',
+                    text : 'ยืนยัน',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();
+            
+                        noty({
+                            type : 'alert',
+                            layout : 'top',
+                            modal : true,
+                            closeWith : [],
+                            text : 'กำลังลบข้อมูล...',
+                            callback : {
+                                afterShow : function () {
+
+                                    ReserveService.deleteReserve(reserve_id).then(function (result) {
+                                    	$.noty.clearQueue(); $.noty.closeAll();
+
+										if (result.data.status == 200) {
+											noty({
+								                type : result.data.noty_type,
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : result.data.message,
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+
+								                		// refresh หน้าจอ
+								                		//location.reload();
+								                		$scope.refreshList();
+								                	}
+								                }
+								            });
+										}
+										else {
+											noty({
+								                type : 'error',
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : 'ลบข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+								                	}
+								                }
+								            });
+										}
+									});
+                                }
+                            }
+                        });
+                    }
+                }]
+            });
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+                callback: {
+                	afterClose: function () {
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
 
 $scope.getTable = function(){
+
+		$scope.listTableZone = [];
+
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
         layout : 'top',
@@ -121,7 +252,7 @@ $scope.updateTableTime = function(time) {
 }
 
 $scope.listTable = function() {
-	console.log(1);
+
 	ReserveService.getTableTime($scope.table_id[0], $("#reserve_date").val(),$("#reserve_time").val()).then(function (result) {
 		$scope.tableTime = result.data.tableTime;
 	});
@@ -180,9 +311,12 @@ $scope.saveTable = function(){
 							// ปิด noty
 							$.noty.clearQueue(); $.noty.closeAll();
 
+
 							$scope.listTableObject = result.data.table;
-					
-				
+						
+								$("#close_modal_add").click()
+								$scope.refreshList();
+							
 						}
 						else {
 							// ปิด noty
@@ -198,6 +332,7 @@ $scope.saveTable = function(){
 				                	afterClose: function () {
 				                		// ปิด noty
 				                		$.noty.clearQueue(); $.noty.closeAll();
+
 				                	}
 				                }
 				            });
@@ -418,6 +553,15 @@ $scope.editReserve = function(id) {
             'reserve_date': reserve_date,
             'reserve_time': reserve_time,
    
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.deleteReserve = function (reserve_id) {
+		return $http.post('restaurant-api/api_delete_reserve.php', {
+            'reserve_id' : reserve_id,
+           
         }, function(data, status) {
             return data;
         });

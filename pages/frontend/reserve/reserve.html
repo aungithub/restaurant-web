@@ -9,20 +9,22 @@
 
     <thead>
     <tr>
-        <th style="width: 25%;">เลขที่โต๊ะ</th>
-        <th style="width: 39%;">สถานะการใช้งาน</th>
-        <th style="width: 20%;">เวลา</th>
+       <th style="width: 20%;">รหัสการจอง</th>
+        <th style="width: 20%;">เลขที่โต๊ะ</th>
+        <th style="width: 25%;">สถานะการใช้งาน</th>
+        <th style="width: 19%;">เวลา</th>
         <th style="width: 8%;">แก้ไข</th>
         <th style="width: 8%;">ยกเลิก</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="obj in listTableZoneReserve">
+       <th >RS{{obj.reserve_id}}</th>
         <th >{{obj.r_table}}</th>
         <td>{{obj.service_name}}</td>
         <td>{{obj.reserve_datetime}}</td>
         <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editReserve(obj.reserve_id)">Edit</button></td>
-        <td><button type="button" class="btn btn-sm btn-danger full-width" >Delete</button></td>
+        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteReserve(obj.reserve_id)">Delete</button></td>
     </tr>
    
     </tbody>
@@ -77,7 +79,7 @@
               <!--
                 ng-disabled="obj_table.table_status != null"
               -->
-            <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง" ng-disabled="table_status_id == 0 || obj_table.table_reserve == true" type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="(table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'} || obj_table.table_reserve == true && {'background-color': 'red'})"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}}</button>
+            <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง"  type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="(table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'} || obj_table.table_reserve == true && {'background-color': 'red'})"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}}</button>
           </div>
         
           
@@ -89,7 +91,7 @@
         </div> 
 <div class="modal-footer">
 <button type="button" class="btn btn-primary" ng-disabled="updated_table == false"  ng-click="saveTable()">บันทึก</button>
-<button type="button"  class="btn btn-danger">ยกเลิก</button>
+<button type="button"  class="btn btn-danger" id="close_modal_add"  data-dismiss="modal">ยกเลิก</button>
 </div>
       </div>
     </div>
