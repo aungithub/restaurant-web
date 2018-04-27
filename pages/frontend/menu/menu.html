@@ -52,10 +52,35 @@
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
 <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
+
+  <br>
+  <br>
+  <center>
+  <div class="row">
+    <div class="col-lg-12">
+      <div style="width: 200px; text-align: left;">
+      <input type="radio" name="reserve_type" id="reserve_type" value="1" ng-model="reserve_type" ng-change="reserveTypeClick(1)" />: จองมาแล้ว
+      
+      <br/>
+
+      <div class="row" ng-show="reserve_type == 1">
+          <div class="col-lg-10">
+            <input type="text" placeholder="ค้นหา ชื่อ, รหัส, เบอร์" name="txt_search_reserve" id="txt_search_reserve" />
+            <button id="btnSearch" class="btn btn-primary" ng-click="searchReserve()">ค้นหา</button>
+          </div>
+       </div>
+
+      <input type="radio" name="reserve_type" id="reserve_type" value="2" ng-model="reserve_type" ng-change="reserveTypeClick(2)" />: Walk in
+      </div>
+    </div>
+  </div>
+</center>
 <br>
 <br>
 
- <div class="row">
+
+
+ <div class="row" ng-show="reserve_type == 2 || (reserve_type == 1 && listTableZone.length > 0 && isSearch == true)">
     <div class="col-lg-10" ng-repeat="obj in listTableZone">
       <h4>โซน {{obj.zone_name}}</h4>
       <p style="text-align: center;">

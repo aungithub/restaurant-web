@@ -32,6 +32,8 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	$scope.listTableZoneEdit = [];
 
 	$scope.order_id = 0;
+	$scope.reserve_type = 0;
+	$scope.isSearch = false;
 
 	// เช็คสิทธิ์
 	/*if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
@@ -95,6 +97,68 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 			}
 		}
 	});
+
+	$scope.reserveTypeClick = function(type) {
+		if (type == 2) {
+			$scope.isSearch = false;	
+			$scope.getTable();
+		}
+	}
+
+	$scope.searchReserve = function() {
+		noty({
+	        type : 'alert', // alert, success, warning, error, confirm
+	        layout : 'top',
+	        modal : true,
+	        text : 'กำลังโหลด...',
+	        callback: {
+	        	afterShow: function () {
+					MenuService.getAllTableMenuSearch($('#txt_search_reserve').val()).then(function (result) {
+						$.noty.clearQueue(); $.noty.closeAll();
+
+						if (result.data.status == 200) {
+							$scope.listTableZone = result.data.zone;
+
+							$scope.isSearch = true;	
+
+							if ($scope.listTableZone.length == 0) {
+								noty({
+					                type : 'warning',
+					                layout : 'top',
+					                modal : true,
+					                timeout: 3000, // 3 seconds
+					                text : "ไม่พบการจองนี้",
+					                callback: {
+					                	afterClose: function () {
+					                		$.noty.clearQueue(); $.noty.closeAll();
+					                		$scope.isSearch = false;	
+					                	}
+					                }
+					            });
+							}
+
+						}
+
+						else {
+							noty({
+				                type : 'warning',
+				                layout : 'top',
+				                modal : true,
+				                timeout: 3000, // 3 seconds
+				                text : result.data.message,
+				                callback: {
+				                	afterClose: function () {
+				                		$.noty.clearQueue(); $.noty.closeAll();
+				                		$scope.isSearch = false;	
+				                	}
+				                }
+				            });
+						}
+					});
+				}
+			}
+		});
+	}
 
 	$scope.getTable = function(){
 	noty({
@@ -823,6 +887,14 @@ this.getAllOrderDrink = function () {
 
 	this.getAllTableMenuEdit = function (id) {
 		return $http.get('restaurant-api/api_get_all_table_menuedit.php',{
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getAllTableMenuSearch = function (search) {
+		return $http.post('restaurant-api/api_get_all_table_menu_search.php',{
+			'search' : search,
         }, function(data, status) {
             return data;
         });
