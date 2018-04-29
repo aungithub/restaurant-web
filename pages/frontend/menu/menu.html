@@ -155,7 +155,7 @@
             <br>
             
             <form action="demo_form.asp">
-              <input type="number" name="quantity" min="1" max="500" id="number_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+              <input type="number" name="quantity" min="1" max="500" id="number_food_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
               <button class="btn btn-primary" type="button" ng-click="orderfood(obj.food_id)" ng-disabled="obj.food_status_id == 2">สั่งอาหาร</button>
             </div>
           </form>
@@ -184,7 +184,7 @@
           <br>
           
           <form action="demo_form.asp">
-            <input type="number" name="quantity" min="1" max="500" id="number_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+            <input type="number" name="quantity" min="1" max="500" id="number_drink_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
             <button class="btn btn-primary" type="button" ng-click="orderdrink(obj.drink_id)">สั่งเครื่องดื่ม</button>
           </div>
         </form>

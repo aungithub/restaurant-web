@@ -73,6 +73,7 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 
 		if (order_id != '' ) {
 			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id,drink_status_id,number).then(function (result) {
+				$.noty.clearQueue(); $.noty.closeAll();
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -114,6 +115,7 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 			});
 		}
 		else {
+			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
                 type : 'warning',
                 layout : 'top',
@@ -140,6 +142,7 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 
 		if (order_id != '' ) {
 			DrinkmenuService.updateOrderDrink(status ,order_id,drink_id,drink_status_id,number).then(function (result) {
+				$.noty.clearQueue(); $.noty.closeAll();
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -163,6 +166,7 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 		            });
 				}
 				else {
+					$.noty.clearQueue(); $.noty.closeAll();
 					// กรณีไม่ใช่200
 					noty({
 		                type : 'error',
@@ -181,6 +185,7 @@ angular.module('RESTAURANT.user_drinkmenu', ['ngRoute'])
 			});
 		}
 		else {
+			$.noty.clearQueue(); $.noty.closeAll();
 			noty({
                 type : 'warning',
                 layout : 'top',
@@ -206,6 +211,7 @@ action ='cancel';
 
 if (order_id != '' ) {
 DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (result) {
+	$.noty.clearQueue(); $.noty.closeAll();
 	if (result.data.status == 200) {
 		
 
@@ -265,6 +271,7 @@ DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (resu
 							            });
 									}
 											else {
+												$.noty.clearQueue(); $.noty.closeAll();
 												noty({
 									                type : 'error',
 									                layout : 'top',
@@ -288,6 +295,7 @@ DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (resu
 	            });
 				}
 				else {
+					$.noty.clearQueue(); $.noty.closeAll();
 					noty({
 		                type : 'error',
 		                layout : 'top',
@@ -309,6 +317,7 @@ DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (resu
 
 	else {
 		// กรณีไม่ใช่200
+		$.noty.clearQueue(); $.noty.closeAll();
 		noty({
             type : 'error',
             layout : 'top',
@@ -326,6 +335,7 @@ DrinkmenuService.updateOrderDrink(status ,order_id,drink_id).then(function (resu
 });
 }
 else {
+	$.noty.clearQueue(); $.noty.closeAll();
 noty({
     type : 'warning',
     layout : 'top',
@@ -537,6 +547,7 @@ noty({
 
 
 	$scope.refreshList = function() {
+		$.noty.clearQueue(); $.noty.closeAll();
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
 	        layout : 'top',
@@ -550,7 +561,6 @@ noty({
 						if (result.data.status == 200) {
 							$scope.listOrderDrinkObject = result.data.orderdrink;
 							//$scope.apply();
-							$scope.refreshList();
 									}
 						else {
 							noty({
