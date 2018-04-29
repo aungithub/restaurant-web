@@ -2,7 +2,7 @@
 
 angular.module('RESTAURANT.user_payment', ['ngRoute'])
 
-.controller('PaymentController', ['$rootScope', '$scope', '$location', 'PaymentService', function($rootScope, $scope, $location, PaymentService) {
+.controller('PaymentController', ['$rootScope', '$scope', '$location', '$window', 'PaymentService', function($rootScope, $scope, $location, $window, PaymentService) {
 	var route = 'user_payment';
 	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
@@ -27,7 +27,10 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	$scope.discountdrink = 0;
 	$scope.tataldrink = 0;
 	$scope.changepricedrink = 0;
-	$scope.numberpricedrink = null;  
+	$scope.numberpricedrink = null;
+	$scope.numberprice = 0;
+
+	$('#report-list').css('display', 'none');  
 
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
@@ -77,7 +80,12 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	});
 
 	$scope.printSlip = function () {
-		
+		let rp = $("#report-list").html();
+		$rootScope.reportHtml = rp;
+
+		$window.localStorage.setItem('reportHtml', $rootScope.reportHtml);
+
+		window.open('restaurant-web/#/frontend/user_all_report_print', '_blank');
 	}
 
 
@@ -164,6 +172,7 @@ $scope.savePrice = function() {
 		
 	$scope.calculatetotalpricechange = function(){
 var  numberprice = $("#numberprice").val();
+$scope.numberprice = numberprice;
 $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 
 	}
