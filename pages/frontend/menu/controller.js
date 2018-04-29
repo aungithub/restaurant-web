@@ -561,7 +561,7 @@ $scope.updateFood = function() {
 								                		$scope.listOrderFoodObject = [];
 								                		$scope.listOrderDrinkObject = [];
 								                		$scope.totalprice = 0;
-								                		 $scope.table_id = 1000;
+								                		 $scope.table_id = 0;
 								                		// refresh หน้าจอ
 								                		//location.reload();
 								                		$scope.refreshList();
@@ -658,7 +658,7 @@ $scope.saveFood = function() {
 								                		$scope.listOrderFoodObject = [];
 								                		$scope.listOrderDrinkObject = [];
 								                		$scope.totalprice = 0;
-								                		 $scope.table_id = 1000;
+								                		 $scope.table_id = 0;
 								                		// refresh หน้าจอ
 								                		//location.reload();
 								                		$scope.refreshList();
