@@ -274,12 +274,13 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 		PaymentService.getAllOrder(order_id).then(function (result) {
 			if (result.data.status == 200) {
 				$scope.listOrderObject = result.data.orderlist;
-				$scope.calculatetotalprice();
-				$scope.calculatetotalpromotion();
+				
 			PaymentService.getAllOrderDrink(order_id).then(function (result) {
 			if (result.data.status == 200) {
 				$scope.listOrderDrinkObject = result.data.orderdrink;
-				}
+			}
+			$scope.calculatetotalprice();
+			$scope.calculatetotalpromotion();
 		});
 			}
 		});
