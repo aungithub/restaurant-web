@@ -271,11 +271,8 @@ $scope.table = function(table_id){
 		$scope.table_id = [];
 		$scope.table_id.push(table_id);
 
-		if ($scope.table_status_id == 1) {
-			//console.log('here');
-			$scope.listTable();
-			document.getElementById("listTableButton").click();
-		}
+		$scope.listTable();
+		document.getElementById("listTableButton").click();
 	}
 	
   
