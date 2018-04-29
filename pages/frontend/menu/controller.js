@@ -431,33 +431,69 @@ $scope.search = function () {
 
 	$scope.orderfood = function(food_id) {
 
-	var idx = $scope.listOrderFoodObject.findIndex(obj => obj.food_id==food_id);
+		if ($("#number_food_"+food_id).val() == 0 || $("#number_food_"+food_id).val() == '') {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณาใส่จำนวนอาหารที่ต้องการสั่งอย่างน้อย 1',
+                callback: {
+                	afterClose: function () {
+                		// ปิด noty
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+		else {
+
+		var idx = $scope.listOrderFoodObject.findIndex(obj => obj.food_id==food_id);
 
 
 
-		//alert(food_id);
-		//alert($("#comment_"+food_id).val());
-		//alert(idx);
+			//alert(food_id);
+			//alert($("#comment_"+food_id).val());
+			//alert(idx);
 
-	if (idx == -1) {
-		$scope.listOrderFoodObject.push({
-			food_id : food_id,
-			number : $("#number_"+food_id).val(),
-			comment : $("#comment_"+food_id).val(),
-			food_name : $("#food_name_"+food_id).text(),
-			food_price : $("#food_price_"+food_id).text(),
-			type : "food"
-		});
-	}
-	else{
-		$scope.listOrderFoodObject[idx].number = parseInt($scope.listOrderFoodObject[idx].number) + parseInt($("#number_"+food_id).val());
-		console.log($scope.listOrderFoodObject[idx]);
-	}
-		$scope.calculatetotalprice();
-		console.log($scope.listOrderFoodObject);
+		if (idx == -1) {
+			$scope.listOrderFoodObject.push({
+				food_id : food_id,
+				number : $("#number_food_"+food_id).val(),
+				comment : $("#comment_"+food_id).val(),
+				food_name : $("#food_name_"+food_id).text(),
+				food_price : $("#food_price_"+food_id).text(),
+				type : "food"
+			});
+		}
+		else{
+			$scope.listOrderFoodObject[idx].number = parseInt($scope.listOrderFoodObject[idx].number) + parseInt($("#number_food_"+food_id).val());
+			console.log($scope.listOrderFoodObject[idx]);
+		}
+			$scope.calculatetotalprice();
+			console.log($scope.listOrderFoodObject);
+
+		}
 	}
 
 $scope.orderdrink = function(drink_id) {
+
+	if ($("#number_drink_"+drink_id).val() == 0 || $("#number_drink_"+drink_id).val() == '') {
+		noty({
+            type : 'warning',
+            layout : 'top',
+            modal : true,
+            timeout: 3000,
+            text : 'กรุณาใส่จำนวนเครื่องดื่มที่ต้องการสั่งอย่างน้อย 1',
+            callback: {
+            	afterClose: function () {
+            		// ปิด noty
+            		$.noty.clearQueue(); $.noty.closeAll();
+            	}
+            }
+        });
+	}
+	else {
 
 		var idx = $scope.listOrderDrinkObject.findIndex(obj => obj.drink_id==drink_id);
 
@@ -468,7 +504,7 @@ $scope.orderdrink = function(drink_id) {
 		if (idx == -1) {
 			$scope.listOrderDrinkObject.push({
 				drink_id : drink_id,
-				number : $("#number_"+drink_id).val(),
+				number : $("#number_drink_"+drink_id).val(),
 				comment : $("#comment_"+drink_id).val(),
 				drink_name : $("#drink_name_"+drink_id).text(),
 				drink_price : $("#drink_price_"+drink_id).text(),
@@ -476,12 +512,13 @@ $scope.orderdrink = function(drink_id) {
 			});
 		}
 		else{
-			$scope.listOrderDrinkObject[idx].number = parseInt($scope.listOrderDrinkObject[idx].number) + parseInt($("#number_"+drink_id).val());
+			$scope.listOrderDrinkObject[idx].number = parseInt($scope.listOrderDrinkObject[idx].number) + parseInt($("#number_drink_"+drink_id).val());
 			console.log($scope.listOrderDrinkObject[idx]);
 		}
 		$scope.calculatetotalprice();
 		console.log($scope.listOrderDrinkObject);
 	}
+}
 
 $scope.calculatetotalprice = function(){
 	if ($scope.listOrderFoodObject.length > 0) {
