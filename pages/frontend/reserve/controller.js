@@ -18,6 +18,7 @@ $scope.autoRefreshTimer = null;
 
 $scope.tableTime = null;
 $scope.updated_table = false;
+$scope.isEditing = false;
 
 $('.datepicker').datetimepicker({ defaultDate: new Date(), format: 'YYYY-MM-DD' });
 
@@ -202,7 +203,7 @@ $scope.autocheckreserve = function(){
 	};
 
 $scope.getTable = function(){
-
+	$scope.isEditing = false;
 		$scope.listTableZone = [];
 
 	noty({
@@ -272,7 +273,10 @@ $scope.table = function(table_id){
 		$scope.table_id.push(table_id);
 
 		$scope.listTable();
-		document.getElementById("listTableButton").click();
+		if ($scope.isEditing == false) {
+			document.getElementById("listTableButton").click();
+		}
+		
 	}
 	
   
@@ -343,6 +347,7 @@ $scope.saveTable = function(){
 
 	//edit//
 $scope.editReserve = function(id) {
+		$scope.isEditing = true;
 		$scope.table_id = [];
 		$scope.table_status_id = 0;
 		$scope.selectedId = id;
@@ -407,7 +412,7 @@ $scope.editReserve = function(id) {
 			
 
 		if (reserve_id != '' && service_id != '' ) {
-			ReserveService.updateReserve(reserve_id, service_id, reserve_name,$scope.table_id ).then(function (result) {
+			ReserveService.updateReserve(reserve_id, service_id, reserve_name,$scope.table_id,$("#reserve_date_edit").val(),$("#reserve_time_edit").val() ).then(function (result) {
 				if (result.data.status == 200) {
 					noty({
 		                type : 'success',
@@ -523,12 +528,14 @@ $scope.editReserve = function(id) {
         });
 	};
 
-	this.updateReserve = function (reserve_id, service_id, reserve_name, table_id) {
+	this.updateReserve = function (reserve_id, service_id, reserve_name, table_id,date,time) {
 		return $http.post('restaurant-api/api_update_reserve.php', {
             'reserve_id' : reserve_id,
             'service_id' : service_id,
             'reserve_name' : reserve_name,
-            'table_id' : table_id
+            'table_id' : table_id,
+            'date': date,
+            'time': time
             
         }, function(data, status) {
             return data;

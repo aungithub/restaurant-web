@@ -115,6 +115,28 @@
           <button class="btn btn-info" type="button" ng-style="table_status_id == 2 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(2)">Walk in</button>
           <button class="btn btn-info" type="button" ng-style="table_status_id == 3 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(3)">รวมโต๊ะ</button>
           <button class="btn btn-info" type="button" ng-style="table_status_id == 4 && {'background-color': '#FC7D61'}"  ng-click="tableStatus(4)">ย้ายโต๊ะ</button><br>
+        
+          <br/>
+          <div class="row" id="datetime_edit" ng-show="table_status_id == 1">
+            <label>วันที่: </label>
+            <input type="text" id="reserve_date_edit" class="datepicker" placeholder="" aria-describedby="sizing-addon3" value="">
+            <label>เวลา: </label>
+            <select id="reserve_time_edit">
+              <option selected="selected" value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+              <option value="18:00">18:00</option>
+              <option value="19:00">19:00</option>
+              <option value="20:00">20:00</option>
+              <option value="21:00">21:00</option>
+            </select>
+          </div>
+
         <div class="row">
           <div class="col-lg-10" ng-repeat="obj in listTableZoneEdit">
             <h4>โซน {{obj.zone_name}}</h4>
