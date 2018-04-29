@@ -6,6 +6,13 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	var route = 'user_payment';
 	// โหลด cookies เพื่อดูว่าได้ login แล้วหรือยัง
 	// ถ้า login อยู่แล้วก็จะเอาสิทธิ์ต่างๆที่เก็บใน cookies มาเก็บไว้ในตัวแปร $rootScope.privacyAccess ด้วย
+	
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var date = date.getDate();
+	$scope.today = year + '/' + month + '/' + date;
+
 	$scope.listOrderObject = [];
 	$scope.OrderObject = [];
 	$scope.listOrderDrinkObject = [];
