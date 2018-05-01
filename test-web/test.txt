@@ -164,3 +164,8 @@ INSERT INTO `PRMGMOV` (`prm_id`, `gno`, `mov_id`)
 VALUES
   ('PM001', 1, 'M0000001');
 
+
+
+
+6. update restaurant-web และ restaurant-api แล้วตรวจสอบหน้า movie manager ต้องมี list
+

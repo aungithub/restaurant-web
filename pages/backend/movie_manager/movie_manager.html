@@ -1,4 +1,42 @@
+<div class="panel panel-default" align="center"> 
+  <!-- Default panel contents -->
+  <div class="panel-heading " >รายการภาพยนต์</div>
 
-<div class="row">
-  movie manager
+  <!-- Table -->
+  <div class="table-responsive">
+  <table class="table table-striped table-bordered " >
+
+    <thead>
+    <tr>
+        <th style="width: 8%;">รหัสภาพยนต์</th>
+        <th style="width: 15%;">ชื่อภาพยนต์</th>
+        <th style="width: 15%;">เนื้อเรื่อง</th>
+        <th style="width: 13%;">จำนวนสำเนา</th>
+        <th style="width: 13%;">วันที่</th>
+        <th style="width: 10%;">สถานะ</th>
+    </tr>
+    </thead>
+    <tbody>
+   <tr ng-repeat="obj in movieList">
+          <th>{{obj.mov_id}}</th>
+          <td>{{obj.name}}</td>
+          <td>{{obj.stories}}</td>
+          <td>{{obj.numcopy}}</td> 
+          <td>{{obj.sdate}}</td>
+          <td>{{(obj.status == '01' ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>
+          
+          <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editMovie(obj.mov_id)">Edit</button></td>
+          <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteMovie(obj.mov_id)">Delete</button></td>
+      </tr>
+       <!-- แสดงข้อมูล unit ทั้งหมด -->
+
+    </tbody>
+  </table>
+</div>
+  <!-- Table -->
+</div>
+
+   <!-- ปุ่มเพิ่มdrink -->
+<div class="btn-group" role="group" aria-label="..." >
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddMovieForm()">Add</button>
 </div>
