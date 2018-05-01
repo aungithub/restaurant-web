@@ -169,3 +169,5 @@ VALUES
 
 6. update restaurant-web และ restaurant-api แล้วตรวจสอบหน้า movie manager ต้องมี list
 
+7. update restaurant-web และ restaurant-api  ระบบจัดการภาพยนต์
+

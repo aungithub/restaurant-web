@@ -1,3 +1,9 @@
+<div>
+	<input type="text" name="search_name" id="search_name" placeholder="รหัสภาพยนต์"> <button class="btn btn-sm btn-primary" ng-click="search()">ค้นหา</button>
+</div>
+
+<br>
+
 <div class="panel panel-default" align="center"> 
   <!-- Default panel contents -->
   <div class="panel-heading " >รายการภาพยนต์</div>
@@ -39,4 +45,198 @@
    <!-- ปุ่มเพิ่มdrink -->
 <div class="btn-group" role="group" aria-label="..." >
   <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddMovieForm()">Add</button>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="addModalLabel">เพิ่มรายละเอียดภาพยนต์</h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body ช่องๆที่ให้กรอก-->
+      <div class="modal-body">
+
+        <form class="form-horizontal">
+
+        	<div class="form-group">
+            <label class="control-label col-sm-3">รหัสภาพยนต์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_movie_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อภาพยนต์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_movie_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">เนื้อเรื่องย่อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_movie_stories" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">หมวดหมู่</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select id="add_movie_cat">
+                	<option ng-repeat="obj in cat" selected="selected" value="{{obj.cate_id}}">{{obj.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">จำนวนสำเนา</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_movie_numcopy" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select id="add_movie_status">
+                	<option selected="selected" value="01">ใช้งาน</option>
+                	<option value="02">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสบาร์โค้ด</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_movie_barcode" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    <div class="modal-footer">
+        <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" ng-click="addMovie()">เพิ่ม</button>
+      </div>
+      <!-- Footer -->
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดภาพยนต์</h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body ช่องๆที่ให้กรอก-->
+      <div class="modal-body">
+
+        <form class="form-horizontal">
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสภาพยนต์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_movie_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" disabled="disabled" value="{{movieEdit.mov_id}}">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อภาพยนต์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_movie_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{movieEdit.name}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">เนื้อเรื่องย่อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_movie_stories" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{movieEdit.stories}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">หมวดหมู่</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select id="edit_movie_cat">
+                	<option ng-repeat="obj in cat" ng-selected="movieEdit.cate_id == obj.cate_id" value="{{obj.cate_id}}">{{obj.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">จำนวนสำเนา</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_movie_numcopy" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="" aria-describedby="sizing-addon3" value="{{movieEdit.numcopy}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select id="edit_movie_status">
+                	<option ng-selected="movieEdit.status == '01'" value="01">ใช้งาน</option>
+                	<option ng-selected="movieEdit.status == '02'" value="02">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสบาร์โค้ด</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_movie_barcode" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{movieEdit.barcode}}">
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    <div class="modal-footer">
+        <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" ng-click="updateMovie(movieEdit.mov_id)">แก้ไข</button>
+      </div>
+      <!-- Footer -->
+
+    </div>
+  </div>
 </div>
