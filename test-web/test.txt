@@ -110,3 +110,8 @@ CREATE TABLE `RENTD` (
 
 
 3. UPDATE code restaurant-web และเข้า link backend หรือ frontend ก็ได้ เพื่อให้เห็นเมนูภาพยนต์แสดงอยู่ แต่ยังกดไม่ได้
+
+
+
+
+4. UPDATE code restaurant-web และเข้า link backend หรือ frontend ก็ได้ เพื่อให้เห็นเมนูภาพยนต์แสดงอยู่ และสามารถกดเข้าได้แล้ว
