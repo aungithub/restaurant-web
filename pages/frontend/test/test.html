@@ -1,0 +1,508 @@
+  
+
+  <div class="panel panel-default" align="center"> 
+  <!-- Default panel contents -->
+  <div class="panel-heading " >ข้อมูลประเภท</div>
+
+  <!-- Table -->
+  <table class="table table-striped table-bordered " >
+
+    <thead>
+    <tr>
+        <th style="width: 25%;">รหัสภาพยนตร์</th>
+        <th style="width: 39%;">ชื่อภาพยนตร์</th>
+        <th style="width: 20%;">เนื่อเรื่องย่อ</th>
+        <th style="width: 8%;">หมวดหมู่</th>
+        <th style="width: 8%;">จำนวนสำเนา</th>
+        <th style="width: 8%;">สถานะ</th>
+        <th style="width: 8%;">รหัสบาร์โค๊ด</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="obj in listMovie">
+        <th >{{'K' + obj.mov_id}}</th>
+        <td>{{obj.name}}</td>
+        <td>{{obj.stories}}</td>
+        <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editKind(obj.kind_id)">บันทึก</button></td>
+        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteKind(obj.kind_id)">ยกเลิก</button></td>
+    </tr>
+    
+    </tbody>
+</table>
+</div>
+<div class="btn-group" role="group" aria-label="..." >
+  <button type="Add" class="btn btn-success"  data-toggle="modal" data-target="#addModal" ng-click="loadAddKindForm()">Add</button>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="addModalLabel">เพิ่มรายละเอียดประเภท</h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body -->
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-3">
+            <p>ชื่อภาพยนตร์</p>
+            <p>&nbsp;</p>
+            <p>เนื่อเรื่องย่อ</p>
+          </div>
+          <div class="col-lg-9">
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
+
+            <p>&nbsp;</p>
+
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="add_storys" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+            </div>
+
+             <p>&nbsp;</p>
+
+
+            <div class="btn-group" role="group">
+              <select class="form-control" id="add_name">
+                <option ng-repeat="obj in listMovie" value="{{obj.mov_id}}">{{obj.mov_name}}</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Body -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" ng-click="addKind()">เพิ่ม</button>
+      </div>
+      <!-- Footer -->
+
+    </div>
+  </div>
+</div>
+<!-- Add Unit Modal -->
+
+<!-- Edit Unit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดประเภท</h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <div class="row">
+
+          <!-- ฝั่งซ้าย -->
+          <div class="col-lg-3">
+            <p>รหัสประเภท</p>
+            <p>&nbsp;</p>
+            <p>ชื่อประเภท</p>
+             <p>&nbsp;</p>
+            <p>สถานะ</p>
+          </div>
+          <!-- ฝั่งซ้าย -->
+
+          <!-- ฝั่งขวา -->
+          <div class="col-lg-9">
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="edit_kind_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'K' + selectedKindObject.kind_char_id}}">
+                 <input type="hidden" id="edit_kind_pk_id" value="{{selectedKindObject.kind_id}}"/>
+            </div>
+
+            <p>&nbsp;</p>
+
+            <div class="input-group input-group-sm fullwidth">
+                <input type="text" id="edit_kind_name" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedKindObject.kind_name}}">
+            </div>
+
+            <p>&nbsp;</p>
+
+            <div class="btn-group" role="group">
+              <select class="form-control" id="edit_kind_status">
+                <option value="999">เลือกสถานะ</option>
+                <option value="1">ใช้งาน</option>
+                <option value="2">ไม่ใช้งาน</option>
+              </select>
+            </div>
+          </div>
+          <!-- ฝั่งขวา -->
+
+      </div>
+      <!-- Body -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+          <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" ng-click="updateKind()">แก้ไข</button>
+      </div>
+      <!-- Footer -->
+      
+    </div>
+  </div>
+</div>
+<!-- Edit Unit Modal -->
+
+ 
+
+  <div class="panel panel-default" align="center"> 
+  <!-- Default panel contents -->
+  <div class="panel-heading " >พนักงาน</div>
+
+  <!-- Table -->
+  <div class="table-responsive">
+  <table class="table table-striped table-bordered " >
+
+    <thead>
+    <tr>
+        <th style="width: 8%;">รหัสโปรโมชั่น</th>
+        <th style="width: 15%;">โปรโมชั่น</th>
+        <th style="width: 15%;">รหัสภาพยนตร์</th>
+        <th style="width: 20%;">ชื่อเรื่อง</th>
+        <th style="width: 20%;">จำนวนสำเนา</th>
+         <th style="width: 10%;">กลุ่มโปรโมชั่น</th>
+        <th style="width: 6%;">ชื่อกลุ่ม</th>
+       
+    </tr>
+    </thead>
+   <tbody>
+    <tr ng-repeat="obj in listEmployeeObject">
+        <th >{{'E' + obj.mov_id}}</th>
+        <td>{{obj.mov_name}}</td>
+        <td>{{obj.pro_name}}</td>
+        <td>{{obj.promotion}}</td>
+        <td>{{obj.emp_pos_name}}</td>
+        <td>{{(obj.emp_status_id == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน')}}</td>  
+        <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#editModal" ng-click="editEmployee(obj.emp_id)">Edit</button></td>
+        <td><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteEmployee(obj.emp_id)">Delete</button></td>
+    </tr>
+    
+    </tbody>
+
+</table>
+</div>
+</div>
+
+<div class="btn-group" role="group" aria-label="..." >
+  <button type="Add" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="loadAddEmployeeForm()">Add</button>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="addModalLabel">เพิ่มรายละเอียดพนักงาน</h3>
+      </div>
+      <!-- Header -->
+
+        <!-- Body -->
+        <div class="modal-body">
+           <form class="form-horizontal">
+
+            <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_emp_firstname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">นามสกุล</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสบัตรประชาชน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">เบอร์โทรศัพท์</label>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input type="text" id="add_emp_tel" ng-model="txtEmpTel" class="form-control" placeholder="" aria-describedby="sizing-addon3"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                <button type="Add" class="btn btn-success"  ng-click="AddTel()">Add</button>
+              </div>
+
+              <div class="input-group" ng-repeat="tel in listTelephone track by $index">
+                  <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{tel}}" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                  <button type="Delete" class="btn btn-danger"  ng-click="DeleteTel($index)">Delete</button>
+              </div>
+             
+              
+            </div>
+          </div>
+
+           <div class="form-group">
+            <label class="control-label col-sm-3">Username</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <input type="text" id="add_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <input type="password" id="add_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Confirm password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <input type="password" id="add_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+           <div class="form-group">
+            <label class="control-label col-sm-3">ตำแหน่งงาน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <select class="form-control" id="add_emp_position_id">
+                  <option ng-repeat="obj in listPositionsObject" value="{{obj.pos_id}}" ng-click="jbgh">{{obj.pos_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+           <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                 <select class="form-control" id="add_emp_status_id">
+                  <option value="999">เลือกสถานะ</option>
+                  <option value="1">ใช้งาน</option>
+                  <option value="2">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
+           
+       </form>
+       </div>
+      
+      <!-- Body -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" id="close_modal_add" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" ng-click="addEmployee()">เพิ่มรายละเอียด</button>
+      </div>
+      <!-- Footer -->
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Add Unit Modal -->
+
+<!-- Edit Unit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="editModalLabel">แก้ไขรายละเอียดพนักงาน</h3>
+      </div>
+      <!-- Header -->
+
+      <!-- Body -->
+      <div class="modal-body">
+         <form class="form-horizontal">
+
+         <div class="form-group">
+            <label class="control-label col-sm-3">รหัสพนักงาน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_id" disabled="disabled" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{'E' + selectedEmployeeObject.emp_char_id}}">
+                  <input type="hidden" id="edit_emp_pk_id" value="{{selectedEmployeeObject.emp_id}}"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ชื่อ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_firstname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_firstname}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">นามสกุล</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_lastname}}">
+              </div>
+            </div>
+          </div>
+
+          <div>
+            
+<input type="text" name="select" id="add_storys">
+
+          </div>
+<div>
+  <label class="control-label col-sm-3">นามสกุล</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_lastname" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedEmployeeObject.emp_lastname}}">
+              </div>
+            </div>
+</div>
+
+<div>
+  <label class="control-label col-sm-3">ชื่อภาพยนตร์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="add_movie" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedMovieObject.name}}">
+              </div>
+            </div>
+</div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">รหัสบัตรประชาชน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedMovieObject.emp_idcard}}" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </div>
+            </div>
+          </div>
+
+           <div class="form-group">
+            <label class="control-label col-sm-3">ยกเลิก</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_card_id" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedMovieObject.emp_idcard}}" maxlength="13" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">เบอร์โทรศัพท์</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_tel" ng-model="txtEmpTel" class="form-control" placeholder="" aria-describedby="sizing-addon3"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                <button type="Add" class="btn btn-success"  ng-click="AddTelEdit()">Add</button>
+              </div>
+              <div class="input-group" ng-repeat="tel in listTelephone track by $index">
+                  <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{tel}}" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                  <button type="Delete" class="btn btn-danger"  ng-click="DeleteTelEdit($index)">Delete</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Username</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="edit_emp_username" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="{{selectedMovieObject.emp_user}}" ng-click="addMovie">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="password" id="edit_emp_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="" ng-click="true">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Confirm password</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="password" id="edit_emp_confirm_password" class="form-control" placeholder="" aria-describedby="sizing-addon3" value="">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">ตำแหน่งงาน</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="edit_emp_position_id">
+                  <option ng-repeat="obj in selectedPositionObject" value="{{obj.pos_id}}">{{obj.pos_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">สถานะ</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <select class="form-control" id="edit_emp_status_id">
+                  <option value="999">เลือกสถานะ</option>
+                  <option value="1">ใช้งาน</option>
+                  <option value="2">ไม่ใช้งาน</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          </div>
+
+         </form>
+      
+      <!-- Body -->
+
+      <!-- Footer -->
+      <div class="modal-footer">
+
+          <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" ng-click="updateEmployee()">แก้ไขข้อมูลพนักงาน</button>
+
+           <button type="button" id="close_modal_edit" class="btn btn-default" data-dismiss="modal" ng-click="addMovie()">บันทึก</button>
+          <button type="button" class="btn btn-primary" ng-click="printReport()">พิมพ์ใบเสร็จ</button>
+
+      </div>
+      <!-- Footer -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Edit Unit Modal -->
+
+
+
+

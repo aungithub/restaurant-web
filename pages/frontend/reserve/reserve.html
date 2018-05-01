@@ -81,7 +81,6 @@
               -->
             <button ng-repeat="obj_table in obj.table" title="จำนวนที่นั่ง = {{obj_table.table_number}} ที่นั่ง"  type="button" class="btn btn-default btn-lg" id="tab" value="{{obj_table.table_id}}" ng-style="(table_id.indexOf(obj_table.table_id) > -1 && {'background-color': '#FC7D61'} || obj_table.table_reserve_time_highlight == true && {'background-color': 'red'})"  ng-click="table(obj_table.table_id)">T{{obj_table.table_id}}</button>
           </div>
-        
           
           </div>
 <br>

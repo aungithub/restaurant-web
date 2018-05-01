@@ -251,6 +251,101 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 
 
 	}
+	$scope.deleteFood = function(id,food_id) {
+		var order_id = id
+			food_id = food_id;
+			
+
+		if (order_id != '' ) {
+			noty({
+                type : 'confirm',
+                layout : 'top',
+                modal : true,
+                text: 'คุณต้องการลบข้อมูลสิทธิ์การใช้งานนี้ใช่หรือไม่?',
+                buttons : [
+                {
+                    addClass : 'btn btn-danger',//คลาสของbootstrap
+                    text : 'ยกเลิก',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
+                    }
+                },
+                {
+                	id : 'btn_confirm',
+                    addClass: 'btn btn-primary',
+                    text : 'ยืนยัน',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();
+            
+                        noty({
+                            type : 'alert',
+                            layout : 'top',
+                            modal : true,
+                            closeWith : [],
+                            text : 'กำลังลบข้อมูลสิทธิ์การใช้งาน...',
+                            callback : {
+                                afterShow : function () {
+
+                                    PaymentService.deleteFood(order_id,food_id).then(function (result) {
+                                    	$.noty.clearQueue(); $.noty.closeAll();
+
+										if (result.data.status == 200) {
+											noty({
+								                type : result.data.noty_type,
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : result.data.message,
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+
+								                		// refresh หน้าจอ
+								                		//location.reload();
+								                		$scope.refreshList();
+								                	}
+								                }
+								            });
+										}
+										else {
+											noty({
+								                type : 'error',
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : 'ลบข้อมูลสิทธิ์การใช้งานไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+								                	}
+								                }
+								            });
+										}
+									});
+                                }
+                            }
+                        });
+                    }
+                }]
+            });
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+                callback: {
+                	afterClose: function () {
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
 
 	$scope.calculatetotalpromotion = function(){
 		if ($scope.listOrderObject.length > 0) {
@@ -453,11 +548,12 @@ $scope.orderdrink = function(drink_id) {
         });
 	};
 
-	this.deleteFood = function (food_id, food_status_id,action) {
-		return $http.post('restaurant-api/api_update_food.php', {
-            'food_id' : food_id,
-            'food_status_id' : food_status_id,
-            'action' : action,
+	this.deleteFood = function (order_id,food_id) {
+		return $http.post('restaurant-api/api_delete_food_payment.php', {
+            'order_id' : order_id,
+              'food_id' : food_id,
+         
+           
         }, function(data, status) {
             return data;
         });

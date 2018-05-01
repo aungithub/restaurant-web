@@ -34,31 +34,12 @@ angular.module('RESTAURANT', [
 	'RESTAURANT.user_report_time',
 	'RESTAURANT.user_report_year',
 	'RESTAURANT.user_report_expense',
-	'RESTAURANT.user_all_report_print',
-	'RESTAURANT.movie_manager',
-	'RESTAURANT.promotion_movie_group_manager',
-	'RESTAURANT.video_rental'
+	'RESTAURANT.user_all_report_print'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	
 
-	$routeProvider.when('/backend/movie_manager', {
-		templateUrl: 'restaurant-web/pages/backend/movie_manager/movie_manager.html',
-		controller: 'MovieManagerController',
-		cache: false //cm ไม่เก็บ cache
-	});
 
-	$routeProvider.when('/backend/promotion_movie_group_manager', {
-		templateUrl: 'restaurant-web/pages/backend/promotion_movie_group_manager/promotion_movie_group_manager.html',
-		controller: 'PromotionMovieGroupManagerController',
-		cache: false //cm ไม่เก็บ cache
-	});
-
-	$routeProvider.when('/backend/video_rental', {
-		templateUrl: 'restaurant-web/pages/backend/video_rental/video_rental.html',
-		controller: 'VideoRentalController',
-		cache: false //cm ไม่เก็บ cache
-	});
 
 
 

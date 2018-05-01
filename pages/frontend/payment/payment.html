@@ -44,34 +44,34 @@
     <thead>
       <tr > 
         <th style="width: 8%;">ลำดับ</th>
-        <th style="width: 20%;">รายการ</th>
-        <th style="width: 15%;">จำนวน</th>
-        <th style="width: 15%;">ราคาต่อหน่วย</th>
-        <th style="width: 15%;">ราคารวม</th>
-        <th style="width: 15%;">สถานะ</th>
-        <th style="width: 10%;">Delete</th>
+        <th style="width: 30%;">รายการ</th>
+        <th style="width: 20%;">จำนวน</th>
+        <th style="width: 20%;">ราคาต่อหน่วย</th>
+        <th style="width: 20%;">ราคารวม</th>
+        <!--<th style="width: 15%;">สถานะ</th>
+        <th style="width: 10%;">Delete</th>-->
       </tr>
     </thead>
     <tbody ng-show="listOrderObject.length > 0 ">
       <tr ng-repeat="obj in listOrderObject">
         <td style="width: 8%;">{{$index+1}}</td>
-      <td style="width: 20%;">{{obj.food_name}}</td>
-      <td style="width: 15%;">{{obj.number}}</td>
-      <td style="width: 15%;">{{obj.price}}</td>
-      <td style="width: 15%;">{{obj.price*obj.number}}</td>
-      <td style="width: 15%;">{{obj.status}}</td>
-       <td style="width: 10%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteFood(0,obj.order_id,obj.food_id)">Delete</button></td>
+      <td style="width: 30%;">{{obj.food_name}}</td>
+      <td style="width: 20%;">{{obj.number}}</td>
+      <td style="width: 20%;">{{obj.price}}</td>
+      <td style="width: 20%;">{{obj.price*obj.number}}</td>
+      <!-- <td style="width: 15%;">{{obj.status}}</td>
+       <td style="width: 10%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="deleteFood(obj.order_id,obj.food_id)">Delete</button></td>-->
       </tr>
  </tbody>
     <tbody ng-show="listOrderDrinkObject.length > 0 ">
       <tr ng-repeat="obj in listOrderDrinkObject">
        <td style="width: 8%;">{{$index+1}}</td>
-      <td style="width: 20%;">{{obj.drink_name}}</td>
-      <td style="width: 15%;">{{obj.number}}</td>
-      <td style="width: 15%;">{{obj.price}}</td>
-      <td style="width: 15%;">{{obj.price*obj.number}}</td>
-      <td style="width: 15%;">{{obj.status}}</td>
-        <td style="width: 10%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="delete(0,obj.order_id,obj.drink_id)">Delete</button></td>
+      <td style="width: 30%;">{{obj.drink_name}}</td>
+      <td style="width:  20%;">{{obj.number}}</td>
+      <td style="width:  20%;">{{obj.price}}</td>
+      <td style="width:  20%;">{{obj.price*obj.number}}</td>
+      <!-- <td style="width: 15%;">{{obj.status}}</td>
+        <td style="width: 10%;"><button type="button" class="btn btn-sm btn-danger full-width" ng-click="delete(0,obj.order_id,obj.drink_id)">Delete</button></td>-->
       </tr>
      
     
