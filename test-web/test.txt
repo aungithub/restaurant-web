@@ -106,3 +106,7 @@ CREATE TABLE `RENTD` (
   `ppc` decimal(8,2) NOT NULL,
   PRIMARY KEY (`rent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+3. UPDATE code restaurant-web และเข้า link backend หรือ frontend ก็ได้ เพื่อให้เห็นเมนูภาพยนต์แสดงอยู่ แต่ยังกดไม่ได้

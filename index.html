@@ -135,10 +135,31 @@
             <!--cm แสดงเมนูออกจากระบบหากยัง login แล้ว -->
             <li><a ng-click="backendLogout()" ng-show="isLoggedIn != false">ออกจากระบบ</a></li>
           </ul>
+
+
+
+
+
+          <ul class="nav navbar-nav navbar-left" style="background-color: #808080;">
+
+            <!--cm แสดงเมนูตามสิทธิ์ -->
+             <li><a href="restaurant-web/#/backend/admin_employee" style="color: white;">ระบบจัดการข้อมูลภาพยนต์</a></li>
+
+             <li><a href="restaurant-web/#/backend/admin_employee" style="color: white;">ระบบจัดการโปรโมชั่นกลุ่มภาพยนต์</a></li>
+
+             <li><a href="restaurant-web/#/backend/admin_employee" style="color: white;">ระบบการเช่าภาพยนต์</a></li>
+
+          </ul>
+
+
+
+
+
         </div>
   
       </div>
     </nav>
+
 
     <!-- frontend -->
      <nav class="navbar navbar-inverse" ng-show="isBackend == false" style="background-color: #e3f2fd;">
