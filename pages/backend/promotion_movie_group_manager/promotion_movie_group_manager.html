@@ -130,28 +130,29 @@
 			  <table class="table table-striped table-bordered " >
 
 			    <thead>
-			    <tr>
-			        <th style="width: 8%;">รหัสกลุ่มโปรโมชั่น</th>
-			        <th style="width: 23%;">ชื่อกลุ่มโปรโมชั่น</th>
-			        <th style="width: 23%;">ลำดับกลุ่มโปรโมชั่น</th>
-			        <th style="width: 23%;">วันที่เริ่มใช้กลุ่มโปรโมชั่น</th>
-			        <th style="width: 23%;">วันที่สิ้นสุดการใช้กลุ่มโปรโมชั่น</th>
+			    <tr>			        
+			    	<th style="width: 23%;">รหัสภาพยนต์</th>
+			        <th style="width: 23%;">ชื่อเรื่อง</th>
+			        <th style="width: 23%;">จำนวนสำเนา</th>
 			    </tr>
 			    </thead>
 			    <tbody>
-			   <tr ng-repeat="obj in promotionGroupList">
-			          <th>{{obj.prm_id}}</th>
-			          <td>{{obj.gname}}</td>
-			          <td>{{obj.gno}}</td>
-			          <td>{{obj.sdate}}</td> 
-			          <td>{{obj.edate}}</td>
+			   <tr ng-repeat="obj in moviePromotionGroupList">
+			          <th>{{obj.mov_id}}</th>
+			          <td>{{obj.name}}</td>
+			          <td>{{obj.numcopy}}</td>
 			          
-			          <td> <button type="button" class="btn btn-sm btn-info full-width" data-toggle="modal" data-target="#moviePromotionGroupModal" ng-click="selectPromotionGroup(obj.prm_id, obj.gno)">เลือกกลุ่มโปรโมชั่น</button></td>
+			          <td> <button type="button" class="btn btn-sm btn-danger full-width" data-toggle="modal" ng-click="deleteMoviePromotionGroup(obj.prm_id, obj.gno, obj.mov_id)">ลบ</button></td>
 			      </tr>
 			       <!-- แสดงข้อมูล unit ทั้งหมด -->
 
 			    </tbody>
 			  </table>
+			</div>
+			</div>
+
+			  <div class="btn-group" role="group" aria-label="..." >
+			  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMoviePromotionGroupModal" ng-click="loadAddMovieForm()">เพิ่มภาพยนต์</button>
 			</div>
           </div>
           
@@ -164,7 +165,7 @@
       <!-- Footer -->
 
     </div>
-  </div>
+  
 </div>
 
 

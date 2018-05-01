@@ -177,3 +177,5 @@ VALUES
 
 10. update restaurant-web และ restaurant-api  เพื่อทดสอบหน้าโปรโมชั่น เสร็จ 50%
 
+11. update restaurant-web และ restaurant-api  เพื่อทดสอบหน้าโปรโมชั่น เสร็จ 70%
+

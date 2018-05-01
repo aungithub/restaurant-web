@@ -5,6 +5,7 @@ angular.module('RESTAURANT.promotion_movie_group_manager', ['ngRoute'])
 .controller('PromotionMovieGroupManagerController', ['$rootScope', '$scope', '$window', '$cookies', 'PromotionMovieGroupManagerService', function($rootScope, $scope, $window, $cookies, PromotionMovieGroupManagerService) {
 	$scope.promotionList = null;
 	$scope.promotionGroupList = null;
+	$scope.moviePromotionGroupList =  null;
 
 	noty({
         type : 'alert', // alert, success, warning, error, confirm
@@ -60,7 +61,11 @@ angular.module('RESTAURANT.promotion_movie_group_manager', ['ngRoute'])
 	}
 
 	$scope.selectPromotionGroup = function (prm_id, gno) {
-
+		PromotionMovieGroupManagerService.getMoviePromotionGroup(prm_id, gno).then(function (result) {
+			if (result.data.status == 200) {
+				$scope.moviePromotionGroupList =  result.data.movie_promotion_group;
+			}
+		});
 	}
 	
 }])
@@ -83,6 +88,15 @@ angular.module('RESTAURANT.promotion_movie_group_manager', ['ngRoute'])
 	this.getPromotionGroup = function (prm_id) {
 		return $http.post('restaurant-api/movie_system/api_get_all_promotion_group.php', {
 			'prm_id': prm_id
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.getMoviePromotionGroup = function (prm_id, gno) {
+		return $http.post('restaurant-api/movie_system/api_get_all_movie_promotion_group.php', {
+			'prm_id': prm_id,
+			'gno': gno
         }, function(data, status) {
             return data;
         });
