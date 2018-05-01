@@ -115,3 +115,52 @@ CREATE TABLE `RENTD` (
 
 
 4. UPDATE code restaurant-web และเข้า link backend หรือ frontend ก็ได้ เพื่อให้เห็นเมนูภาพยนต์แสดงอยู่ และสามารถกดเข้าได้แล้ว
+
+
+5. INSERT ข้อมูล
+
+INSERT INTO `CATE` (`cate_id`, `name`, `status`)
+VALUES
+  ('C0000001', 'Action', '01'),
+  ('C0000002', 'Comedy', '01'),
+  ('C0000003', 'Animation', '01');
+
+INSERT INTO `MEM` (`mem_id`, `fname`, `lname`, `address`, `card_id`, `sdate`, `point`)
+VALUES
+  ('2561040001', 'นาย A', 'นาย A', 'ที่อยู่', '1234567890123', '2018-05-01', 2000),
+  ('2561040002', 'นาย B', 'นาย B', 'ที่อยู่', '1234567890123', '2018-05-01', 0),
+  ('2561040003', 'นาย C', 'นาย C', 'ที่อยู่', '1234567890123', '2018-05-01', 5);
+
+INSERT INTO `MEM_TEL` (`mem_id`, `tel`)
+VALUES
+  ('2561040001', '1234567890'),
+  ('2561040002', '0987654321'),
+  ('2561040003', '5555555555');
+
+INSERT INTO `MOV` (`mov_id`, `name`, `stories`, `numcopy`, `sdate`, `status`, `barcode`)
+VALUES
+  ('M0000001', 'ironman1', 'ironman1', 1, '2018-05-01', '01', NULL),
+  ('M0000002', 'ironman2', 'ironman2', 1, '2018-05-01', '01', NULL),
+  ('M0000003', 'ironman3', 'ironman3', 1, '2018-05-01', '01', NULL);
+
+INSERT INTO `MOVCATE` (`mov_id`, `cate_id`)
+VALUES
+  ('M0000001', 'C0000001'),
+  ('M0000002', 'C0000001'),
+  ('M0000003', 'C0000001');
+
+INSERT INTO `PRM` (`prm_id`, `name`, `ppc`, `ptd`, `status`, `sdate`, `reward`, `discount`)
+VALUES
+  ('PM001', 'promotion 1', 120, 10, '1', '2018-05-01', 0, 0.00),
+  ('PM002', 'promotion 2', 120, 10, '1', '2018-05-01', 0, 0.00),
+  ('PM003', 'promotion 3', 120, 10, '1', '2018-05-01', 0, 0.00);
+
+INSERT INTO `PRMG` (`prm_id`, `gno`, `gname`, `sdate`, `edate`)
+VALUES
+  ('PM001', 1, 'Group 1', '2018-05-01', '2018-05-15'),
+  ('PM002', 2, 'Group 2', '2018-05-16', '2018-05-20');
+
+INSERT INTO `PRMGMOV` (`prm_id`, `gno`, `mov_id`)
+VALUES
+  ('PM001', 1, 'M0000001');
+
