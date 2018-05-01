@@ -4,3 +4,105 @@
 
 1.
 # Backup Web และ API ทั้งหมด และ Database เพื่อกันกระทบ ถ้าต้องทำโจทย์เดโม่
+
+
+2. สร้างตาราง
+
+# สร้างตาราง CATE
+CREATE TABLE `CATE` (
+  `cate_id` varchar(8) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `status` char(2) NOT NULL DEFAULT '',
+  PRIMARY KEY (`cate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง MEM
+CREATE TABLE `MEM` (
+  `mem_id` varchar(10) NOT NULL DEFAULT '',
+  `fname` varchar(30) NOT NULL DEFAULT '',
+  `lname` varchar(40) NOT NULL DEFAULT '',
+  `address` varchar(100) NOT NULL DEFAULT '',
+  `card_id` varchar(13) NOT NULL DEFAULT '',
+  `sdate` date NOT NULL,
+  `point` decimal(8,0) NOT NULL,
+  PRIMARY KEY (`mem_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง MEM_TEL
+CREATE TABLE `MEM_TEL` (
+  `mem_id` varchar(10) NOT NULL DEFAULT '',
+  `tel` varchar(30) NOT NULL DEFAULT '',
+  PRIMARY KEY (`mem_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง MOV
+CREATE TABLE `MOV` (
+  `mov_id` varchar(8) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `stories` varchar(1024) NOT NULL DEFAULT '',
+  `numcopy` decimal(3,0) NOT NULL,
+  `sdate` date NOT NULL,
+  `status` char(2) NOT NULL DEFAULT '',
+  `barcode` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`mov_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง MOVCATE
+CREATE TABLE `MOVCATE` (
+  `mov_id` varchar(8) NOT NULL DEFAULT '',
+  `cate_id` varchar(8) NOT NULL DEFAULT '',
+  PRIMARY KEY (`mov_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง PRM
+CREATE TABLE `PRM` (
+  `prm_id` varchar(5) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `ppc` decimal(3,0) NOT NULL,
+  `ptd` decimal(5,0) NOT NULL,
+  `status` char(1) NOT NULL DEFAULT '',
+  `sdate` date NOT NULL,
+  `reward` decimal(5,0) NOT NULL,
+  `discount` decimal(3,2) NOT NULL,
+  PRIMARY KEY (`prm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง PRMG
+CREATE TABLE `PRMG` (
+  `prm_id` varchar(5) NOT NULL DEFAULT '',
+  `gno` decimal(3,0) NOT NULL,
+  `gname` varchar(30) NOT NULL DEFAULT '',
+  `sdate` date NOT NULL,
+  `edate` date NOT NULL,
+  PRIMARY KEY (`prm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง PRMGMOV
+CREATE TABLE `PRMGMOV` (
+  `prm_id` varchar(5) NOT NULL DEFAULT '',
+  `gno` decimal(3,0) NOT NULL,
+  `mov_id` varchar(8) NOT NULL DEFAULT '',
+  PRIMARY KEY (`prm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง RENT
+CREATE TABLE `RENT` (
+  `rent_id` varchar(13) NOT NULL DEFAULT '',
+  `rent_date` date NOT NULL,
+  `total` decimal(8,2) NOT NULL,
+  `point` decimal(5,0) NOT NULL,
+  `discount` decimal(3,2) NOT NULL,
+  `reward` decimal(3,0) NOT NULL,
+  `mem_id` varchar(10) NOT NULL DEFAULT '',
+  PRIMARY KEY (`rent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# สร้างตาราง RENTD
+CREATE TABLE `RENTD` (
+  `rent_id` varchar(13) NOT NULL DEFAULT '',
+  `rno` decimal(3,0) NOT NULL,
+  `mov_id` varchar(8) NOT NULL DEFAULT '',
+  `qty` decimal(3,0) NOT NULL,
+  `ppc` decimal(8,2) NOT NULL,
+  PRIMARY KEY (`rent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
