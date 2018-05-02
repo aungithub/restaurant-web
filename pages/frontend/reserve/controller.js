@@ -15,6 +15,7 @@ $scope.listTableZoneReserve = [];
 $scope.listTableZoneEdit = [];
 $scope.comment_reserve = "";
 $scope.autoRefreshTimer = null;
+$scope.reserveEdit = null;
 
 $scope.tableTime = null;
 $scope.updated_table = false;
@@ -77,7 +78,7 @@ $scope.refreshList = function() {
 						if (result.data.status == 200) {
 									$scope.autocheckreserve();
 									$scope.listTableZoneReserve = result.data.reserve;
-									$scope.apply();
+									//$scope.apply();
 									}
 						else {
 							noty({
@@ -248,6 +249,7 @@ $scope.getTable = function(){
 
 $scope.updateTableTime = function(time) {
 	$('#reserve_time').val(time);
+	$('#reserve_time_edit').val(time);
 	$("#close_modal_table_list").click()
 	$scope.updated_table = true;
 }
@@ -273,7 +275,7 @@ $scope.table = function(table_id){
 		$scope.table_id.push(table_id);
 
 		$scope.listTable();
-		if ($scope.isEditing == false) {
+		if ($scope.isEditing == false || ($scope.table_status_id == 4 && $scope.isEditing == true)) {
 			document.getElementById("listTableButton").click();
 		}
 		
@@ -366,9 +368,13 @@ $scope.editReserve = function(id) {
 						$.noty.clearQueue(); $.noty.closeAll();
 
 							if (result.data.status == 200) {
+							$scope.reserveEdit = result.data.reserve[0];
 							$scope.listTableZoneEdit = result.data.zone;
 							$scope.comment_reserve = result.data.comment_reserve;
 							$scope.table_status_id = result.data.service_id_reserve;
+
+							$('#reserve_date_edit').val($scope.reserveEdit.reserve_date);
+							$('#reserve_time_edit').val($scope.reserveEdit.reserve_time);
 
 							for (var i=0; i<$scope.listTableZoneEdit.length; i++) {
 								for (var j=0; j<$scope.listTableZoneEdit[i].table.length; j++) {
