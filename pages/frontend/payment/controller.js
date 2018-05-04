@@ -251,7 +251,7 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 
 
 	}
-	$scope.deleteFood = function(id,food_id) {
+	$scope.deleteFood = function(id,food_id,index) {
 		var order_id = id
 			food_id = food_id;
 			
@@ -261,7 +261,7 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
                 type : 'confirm',
                 layout : 'top',
                 modal : true,
-                text: 'คุณต้องการลบข้อมูลสิทธิ์การใช้งานนี้ใช่หรือไม่?',
+                text: 'คุณต้องการลบข้อมูลรายการอาหารนี้ใช่หรือไม่?',
                 buttons : [
                 {
                     addClass : 'btn btn-danger',//คลาสของbootstrap
@@ -282,7 +282,7 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
                             layout : 'top',
                             modal : true,
                             closeWith : [],
-                            text : 'กำลังลบข้อมูลสิทธิ์การใช้งาน...',
+                            text : 'กำลังลบข้อมูลรายการอาหาร...',
                             callback : {
                                 afterShow : function () {
 
@@ -290,6 +290,104 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
                                     	$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
+											$scope.listOrderObject.splice(index, 1);
+											noty({
+								                type : result.data.noty_type,
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : result.data.message,
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+								                		
+								                		// refresh หน้าจอ
+								                		//location.reload();
+								                		//$scope.refreshList();
+								                	}
+								                }
+								            });
+										}
+										else {
+											noty({
+								                type : 'error',
+								                layout : 'top',
+								                modal : true,
+								                timeout: 3000,
+								                text : 'ลบข้อมูลรายการอาหารไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                callback: {
+								                	afterClose: function () {
+								                		// ปิด noty
+								                		$.noty.clearQueue(); $.noty.closeAll();
+								                	}
+								                }
+								            });
+										}
+									});
+                                }
+                            }
+                        });
+                    }
+                }]
+            });
+		}
+		else {
+			noty({
+                type : 'warning',
+                layout : 'top',
+                modal : true,
+                timeout: 3000,
+                text : 'กรุณากรอกข้อมูลให้ครบถ้วน...',
+                callback: {
+                	afterClose: function () {
+                		$.noty.clearQueue(); $.noty.closeAll();
+                	}
+                }
+            });
+		}
+	};
+
+	$scope.deleteDrink = function(id,drink_id,index) {
+		var order_id = id
+			drink_id = drink_id;
+			
+
+		if (order_id != '' ) {
+			noty({
+                type : 'confirm',
+                layout : 'top',
+                modal : true,
+                text: 'คุณต้องการลบข้อมูลรายการเครื่องดื่มนี้ใช่หรือไม่?',
+                buttons : [
+                {
+                    addClass : 'btn btn-danger',//คลาสของbootstrap
+                    text : 'ยกเลิก',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();//หลังclickจะทำ
+                    }
+                },
+                {
+                	id : 'btn_confirm',
+                    addClass: 'btn btn-primary',
+                    text : 'ยืนยัน',
+                    onClick : function () {
+                        $.noty.clearQueue(); $.noty.closeAll();
+            
+                        noty({
+                            type : 'alert',
+                            layout : 'top',
+                            modal : true,
+                            closeWith : [],
+                            text : 'กำลังลบข้อมูลรายการเครื่องดื่ม...',
+                            callback : {
+                                afterShow : function () {
+
+                                    PaymentService.deleteDrink(order_id,drink_id).then(function (result) {
+                                    	$.noty.clearQueue(); $.noty.closeAll();
+
+										if (result.data.status == 200) {
+											$scope.listOrderDrinkObject.splice(index, 1);
 											noty({
 								                type : result.data.noty_type,
 								                layout : 'top',
@@ -303,7 +401,7 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 
 								                		// refresh หน้าจอ
 								                		//location.reload();
-								                		$scope.refreshList();
+								                		//$scope.refreshList();
 								                	}
 								                }
 								            });
@@ -314,7 +412,7 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 								                layout : 'top',
 								                modal : true,
 								                timeout: 3000,
-								                text : 'ลบข้อมูลสิทธิ์การใช้งานไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
+								                text : 'ลบข้อมูลรายการเครื่องดื่มไม่สำเร็จ กรุณาลองใหม่ในภายหลัง',
 								                callback: {
 								                	afterClose: function () {
 								                		// ปิด noty
@@ -552,6 +650,17 @@ $scope.orderdrink = function(drink_id) {
 		return $http.post('restaurant-api/api_delete_food_payment.php', {
             'order_id' : order_id,
               'food_id' : food_id,
+         
+           
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.deleteDrink = function (order_id,drink_id) {
+		return $http.post('restaurant-api/api_delete_drink_payment.php', {
+            'order_id' : order_id,
+              'drink_id' : drink_id,
          
            
         }, function(data, status) {

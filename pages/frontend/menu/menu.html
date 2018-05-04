@@ -155,7 +155,11 @@
             <br>
             
             <form action="demo_form.asp">
-              <input type="number" name="quantity" min="1" max="500" id="number_food_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+              จำนวน: <input type="number" name="quantity" min="1" max="500" id="number_food_{{obj.food_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+              <select id="food_eat_where_{{obj.food_id}}">
+                <option selected="selected" value="1">ทานที่ร้าน</option>
+                <option value="2">สั่งกลับบ้าน</option>
+              </select>
               <button class="btn btn-primary" type="button" ng-click="orderfood(obj.food_id)" ng-disabled="obj.food_status_id == 2">สั่งอาหาร</button>
             </div>
           </form>
@@ -184,7 +188,11 @@
           <br>
           
           <form action="demo_form.asp">
-            <input type="number" name="quantity" min="1" max="500" id="number_drink_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+            จำนวน: <input type="number" name="quantity" min="1" max="500" id="number_drink_{{obj.drink_id}}" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="1">
+            <select id="drink_eat_where_{{obj.drink_id}}">
+                <option selected="selected" value="1">ทานที่ร้าน</option>
+                <option value="2">สั่งกลับบ้าน</option>
+              </select>
             <button class="btn btn-primary" type="button" ng-click="orderdrink(obj.drink_id)">สั่งเครื่องดื่ม</button>
           </div>
         </form>
@@ -211,32 +219,35 @@
   <thead>
     <tr >
       <td style="width: 15%;">ลำดับ</td>
-      <td style="width: 25%;">รายการ</td>
-      <td style="width: 20%;">จำนวน</td>
-      <td style="width: 20%;">ราคา</td>
-      <td style="width: 20%;">ราคารวม</td>
+      <td style="width: 30%;">รายการ</td>
+      <td style="width: 10%;">จำนวน</td>
+      <td style="width: 10%;">ราคา</td>
+      <td style="width: 10%;">ราคารวม</td>
+      <td style="width: 10%;"></td>
       
     </tr>
   </thead>
   <tbody ng-show="listOrderFoodObject.length > 0">
     <tr ng-repeat="obj in listOrderFoodObject">
       <td style="width: 15%;">{{$index+1}}</td>
-      <td style="width: 25%;">{{obj.food_name}}</td>
-      <td style="width: 20%;"> <form action="demo_form.asp">
+      <td style="width: 30%;">{{obj.food_name}}</td>
+      <td style="width: 10%;"> <form action="demo_form.asp">
         <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
-        <td style="width: 20%;">{{obj.food_price}}</td>
-        <td style="width: 20%;">{{obj.food_price*obj.number}}</td>
+        <td style="width: 10%;">{{obj.food_price}}</td>
+        <td style="width: 10%;">{{obj.food_price*obj.number}}</td>
+        <td style="width: 10%;">{{(obj.food_eat_where == 1 ? 'ทานที่ร้าน' : 'สั่งกลับบ้าน')}}</td>
       </tr>
     </tbody>
     
     <tbody ng-show="listOrderDrinkObject.length > 0">
       <tr ng-repeat="obj in listOrderDrinkObject">
       <td style="width: 15%;">{{$index+1}}</td>
-      <td style="width: 25%;">{{obj.drink_name}}</td>
-      <td style="width: 20%;"> <form action="demo_form.asp">
+      <td style="width: 30%;">{{obj.drink_name}}</td>
+      <td style="width: 10%;"> <form action="demo_form.asp">
         <input type="number" name="quantity" min="0" max="500" id="number_{{obj.number}}" string-to-number ng-model="obj.number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-change="calculatetotalprice()" ng-keyup="calculatetotalprice()" ng-value="{{obj.number}}"></form></td>
-        <td style="width: 20%;">{{obj.drink_price}}</td>
-        <td style="width: 20%;">{{obj.drink_price*obj.number}}</td>
+        <td style="width: 10%;">{{obj.drink_price}}</td>
+        <td style="width: 10%;">{{obj.drink_price*obj.number}}</td>
+        <td style="width: 10%;">{{(obj.drink_eat_where == 1 ? 'ทานที่ร้าน' : 'สั่งกลับบ้าน')}}</td>
       </tr>
     </tbody>
   </table>

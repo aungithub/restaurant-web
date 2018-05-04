@@ -450,6 +450,7 @@ $scope.search = function () {
 		}
 		else {
 
+			var food_eat_where = $('#food_eat_where_'+food_id).val();
 		var idx = $scope.listOrderFoodObject.findIndex(obj => obj.food_id==food_id);
 
 
@@ -465,10 +466,12 @@ $scope.search = function () {
 				comment : $("#comment_"+food_id).val(),
 				food_name : $("#food_name_"+food_id).text(),
 				food_price : $("#food_price_"+food_id).text(),
-				type : "food"
+				type : "food",
+				food_eat_where : food_eat_where
 			});
 		}
 		else{
+			$scope.listOrderFoodObject[idx].food_eat_where = food_eat_where;
 			$scope.listOrderFoodObject[idx].number = parseInt($scope.listOrderFoodObject[idx].number) + parseInt($("#number_food_"+food_id).val());
 			console.log($scope.listOrderFoodObject[idx]);
 		}
@@ -497,6 +500,7 @@ $scope.orderdrink = function(drink_id) {
 	}
 	else {
 
+		var drink_eat_where = $('#drink_eat_where_' + drink_id).val();
 		var idx = $scope.listOrderDrinkObject.findIndex(obj => obj.drink_id==drink_id);
 
 			//alert(food_id);
@@ -510,10 +514,12 @@ $scope.orderdrink = function(drink_id) {
 				comment : $("#comment_"+drink_id).val(),
 				drink_name : $("#drink_name_"+drink_id).text(),
 				drink_price : $("#drink_price_"+drink_id).text(),
-				type : "drink"
+				type : "drink",
+				drink_eat_where : drink_eat_where
 			});
 		}
 		else{
+			$scope.listOrderDrinkObject[idx].drink_eat_where = drink_eat_where;
 			$scope.listOrderDrinkObject[idx].number = parseInt($scope.listOrderDrinkObject[idx].number) + parseInt($("#number_drink_"+drink_id).val());
 			console.log($scope.listOrderDrinkObject[idx]);
 		}
