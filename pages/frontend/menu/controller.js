@@ -509,7 +509,7 @@ $scope.orderdrink = function(drink_id) {
 			$scope.listOrderDrinkObject.push({
 				drink_id : drink_id,
 				number : $("#number_drink_"+drink_id).val(),
-				comment : $("#comment_"+drink_id).val(),
+				comment : $("#drink_comment_"+drink_id).val(),
 				drink_name : $("#drink_name_"+drink_id).text(),
 				drink_price : $("#drink_price_"+drink_id).text(),
 				type : "drink"
