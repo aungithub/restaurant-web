@@ -35,6 +35,7 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	$scope.reserve_type = 0;
 	$scope.isSearch = false;
 	$scope.table_reserve_id = null;
+	$scope.reserveType = null;
 
 	// เช็คสิทธิ์
 	/*if ($rootScope.isLoggedIn == false || $rootScope.privacyAccess == 'undefined' || $rootScope.privacyAccess.indexOf(route) == -1) {
@@ -100,6 +101,7 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 	});
 
 	$scope.reserveTypeClick = function(type) {
+		$scope.reserveType = type;
 		if (type == 2) {
 			$scope.isSearch = false;	
 			$scope.getTable();
@@ -680,7 +682,7 @@ $scope.saveFood = function() {
                             callback : {
                                 afterShow : function () {
                                 $.noty.clearQueue(); $.noty.closeAll();
-			MenuService.saveFood($scope.listOrderFoodObject, $scope.listOrderDrinkObject,$scope.table_id,$scope.table_reserve_id).then(function (result) {
+			MenuService.saveFood($scope.listOrderFoodObject, $scope.listOrderDrinkObject,$scope.table_id,$scope.table_reserve_id,$scope.reserveType).then(function (result) {
 				$.noty.clearQueue(); $.noty.closeAll();
 
 										if (result.data.status == 200) {
@@ -849,12 +851,13 @@ $scope.saveFood = function() {
         });
 	};
 
-	this.saveFood = function (food_list, drink_list,table_id,table_reserve_id) {
+	this.saveFood = function (food_list, drink_list,table_id,table_reserve_id,reserveType) {
 		return $http.post('restaurant-api/api_save_food.php', {
             'food_list' : food_list, 
             'drink_list' : drink_list, 
              'table_id' : table_id, 
-             'table_reserve_id': table_reserve_id
+             'table_reserve_id': table_reserve_id,
+             'reserveType': reserveType
    
         }, function(data, status) {
             return data;

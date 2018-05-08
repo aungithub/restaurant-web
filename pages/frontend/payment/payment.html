@@ -17,7 +17,7 @@
   </thead>
  <tbody >
   <tr ng-repeat="obj in OrderObject">
-      <td>T{{obj.table_id}}</td>
+      <td>{{(obj.table_id == 9999 ? 'สั่งกลับบ้าน': 'T' + obj.table_id)}}</td>
       <td>{{obj.order_datetime}}</td>
       <td><button type="Add" class="btn btn-success full-width" data-toggle="modal" data-target="#addModal" ng-click="listOrder(obj.order_id)" >ชำระเงิน</button></td>
   </tr>

@@ -19,7 +19,7 @@
   </thead>
   <tbody ng-show="OrderFoodObject.length > 0 ">
   <tr ng-repeat="obj in OrderFoodObject">
-      <td>T{{obj.table_id}}</td>
+      <td>{{(obj.table_id == 9999 ? 'สั่งกลับบ้าน': 'T' + obj.table_id)}}</td>
       <td>{{obj.food_name}}</td>
        <td>{{obj.order_datetime}} </td>
       <td>{{obj.status}} </td>
@@ -30,7 +30,7 @@
 
   <tbody ng-show="OrderDrinkObject.length > 0 ">
   <tr ng-repeat="obj in OrderDrinkObject">
-      <td>T{{obj.table_id}}</td>
+      <td>{{(obj.table_id == 9999 ? 'สั่งกลับบ้าน': 'T' + obj.table_id)}}</td>
       <td>{{obj.drink_name}}</td>
        <td>{{obj.order_datetime}} </td>
       <td>{{obj.status}} </td>
@@ -71,6 +71,11 @@
        </div>
 
       <input type="radio" name="reserve_type" id="reserve_type" value="2" ng-model="reserve_type" ng-change="reserveTypeClick(2)" />: Walk in
+
+      <br/>
+      <input type="radio" name="reserve_type" id="reserve_type" value="0" ng-model="reserve_type" ng-change="reserveTypeClick(0)" />: สั่งกลับบ้าน
+      
+      
       </div>
     </div>
   </div>
