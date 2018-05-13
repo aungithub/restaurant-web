@@ -90,6 +90,16 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 		let rp = $("#report-list").html();
 		$rootScope.reportHtml = rp;
 
+		PaymentService.saveSlip($scope.order_id, rp).then(function (rs) {
+			if (rs.data.status == 200) {
+				console.log("Save slip ok");
+			}
+			else {
+				console.log("Save slip failed");
+			}
+		});
+
+
 		$window.localStorage.setItem('reportHtml', $rootScope.reportHtml);
 
 		window.open('restaurant-web/#/frontend/user_all_report_print', '_blank');
@@ -498,67 +508,6 @@ $scope.changeprice = numberprice - ($scope.tatal + $scope.tataldrink);
 
 	}
 
-
-
-	/*$scope.orderfood = function(food_id) {
-
-	var idx = $scope.listOrderFoodObject.findIndex(obj => obj.food_id==food_id);
-
-
-
-		//alert(food_id);
-		//alert($("#comment_"+food_id).val());
-		//alert(idx);
-
-	if (idx == -1) {
-		$scope.listOrderFoodObject.push({
-			food_id : food_id,
-			number : $("#number_"+food_id).val(),
-			comment : $("#comment_"+food_id).val(),
-			food_name : $("#food_name_"+food_id).text(),
-			food_price : $("#food_price_"+food_id).text(),
-			type : "food"
-		});
-	}
-	else{
-		$scope.listOrderFoodObject[idx].number = parseInt($scope.listOrderFoodObject[idx].number) + parseInt($("#number_"+food_id).val());
-		console.log($scope.listOrderFoodObject[idx]);
-	}
-		$scope.calculatetotalprice();
-		console.log($scope.listOrderFoodObject);
-	}
-
-
-$scope.orderdrink = function(drink_id) {
-
-	var idx = $scope.listOrderDrinkObject.findIndex(obj => obj.drink_id==drink_id);
-
-
-
-		//alert(food_id);
-		//alert($("#comment_"+food_id).val());
-		//alert(idx);
-
-	if (idx == -1) {
-		$scope.listOrderDrinkObject.push({
-			drink_id : drink_id,
-			number : $("#number_"+drink_id).val(),
-			comment : $("#comment_"+drink_id).val(),
-			drink_name : $("#drink_name_"+drink_id).text(),
-			drink_price : $("#drink_price_"+drink_id).text(),
-			type : "drink"
-		});
-	}
-	else{
-		$scope.listOrderDrinkObject[idx].number = parseInt($scope.listOrderDrinkObject[idx].number) + parseInt($("#number_"+drink_id).val());
-		console.log($scope.listOrderDrinkObject[idx]);
-	}
-		$scope.calculatetotalprice();
-		console.log($scope.listOrderDrinkObject);
-	}
-
-	*/
-
 	$scope.refreshList = function() {
 		noty({
 	        type : 'alert', // alert, success, warning, error, confirm
@@ -707,6 +656,15 @@ $scope.orderdrink = function(drink_id) {
             'changeprice' : changeprice,
             
    
+        }, function(data, status) {
+            return data;
+        });
+	};
+
+	this.saveSlip = function (order_id, slip_detail) {
+		return $http.post('restaurant-api/api_save_slip.php', {
+            'order_id' : order_id,
+             'slip_detail' : slip_detail,
         }, function(data, status) {
             return data;
         });
