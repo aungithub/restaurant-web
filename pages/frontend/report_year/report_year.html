@@ -43,45 +43,40 @@
 
   <thead>
   <tr >
-      <th >ลำดับ</th>
-       <th>รายการ</th>
-        <th>วันที่</th>
-      <th >จำนวน</th>
-      <th >จำนวนเงิน</th>
-      
+      <th >รายการ</th>
+      <th>ม.ค.</th>
+      <th>ก.พ.</th>
+      <th >มี.ค.</th>
+      <th >เม.ย.</th>
+      <th >พ.ค.</th>
+      <th >มิ.ย.</th>
+      <th >ก.ค.</th>
+      <th >ส.ค.</th>
+      <th >ก.ย.</th>
+      <th >ต.ค.</th>
+      <th >พ.ย.</th>
+      <th >ธ.ค.</th>
   </tr>
   </thead>
- <tbody ng-show="reportOrderObject.length > 0 ">
+ <tbody ng-show="report.length > 0 ">
 
-  <tr ng-repeat="obj in reportOrderObject">
-      <td>{{$index+1}}</td>
+    <tr ng-repeat="obj in report">
       <td>{{obj.food_name}}</td>
-       <td>{{obj.order_datetime}}</td>
-      <td>{{obj.number}}</td>
-      <td>{{obj.price*obj.number}}</td>
-     
-  </tr>
+      <td>{{obj.Jan}} {{obj.food_unit}}</td>
+      <td>{{obj.Feb}} {{obj.food_unit}}</td>
+      <td>{{obj.Mar}} {{obj.food_unit}}</td>
+      <td>{{obj.Apr}} {{obj.food_unit}}</td>
+      <td>{{obj.May}} {{obj.food_unit}}</td>
+      <td>{{obj.Jun}} {{obj.food_unit}}</td>
+      <td>{{obj.Jul}} {{obj.food_unit}}</td>
+      <td>{{obj.Aug}} {{obj.food_unit}}</td>
+      <td>{{obj.Sep}} {{obj.food_unit}}</td>
+      <td>{{obj.Oct}} {{obj.food_unit}}</td>
+      <td>{{obj.Nov}} {{obj.food_unit}}</td>
+      <td>{{obj.Dec}} {{obj.food_unit}}</td>
+    </tr>
  
   </tbody>
-
-  <tbody ng-show="reportOrderDrinkObject.length > 0 ">
-
-  <tr ng-repeat="obj in reportOrderDrinkObject">
-      <td>{{$index+1}}</td>
-      <td>{{obj.drink_name}}</td>
-       <td>{{obj.order_datetime}}</td>
-      <td>{{obj.number}}</td>
-      <td>{{obj.price*obj.number}}</td>
-     
-  </tr>
-  
-   <tr>
-    <td colspan="4" style="text-align: right; padding-right: 50px"><b>ราคารวม</b></td>
-    <td><b>{{totalPrice}}</b></td>
-  </tr>
-  
-  </tbody>
-
  
 </table>
 </div>
@@ -115,47 +110,41 @@
       <table class="table table-striped table-bordered table-responsive" >
 
         <thead>
-        <tr >
-            <th >ลำดับ</th>
-             <th>รายการ</th>
-              <th>วันที่</th>
-            <th >จำนวน</th>
-            <th >จำนวนเงิน</th>
-            
-        </tr>
-        </thead>
-       <tbody ng-show="reportOrderObject.length > 0 ">
+  <tr >
+      <th >รายการ</th>
+      <th>ม.ค.</th>
+      <th>ก.พ.</th>
+      <th >มี.ค.</th>
+      <th >เม.ย.</th>
+      <th >พ.ค.</th>
+      <th >มิ.ย.</th>
+      <th >ก.ค.</th>
+      <th >ส.ค.</th>
+      <th >ก.ย.</th>
+      <th >ต.ค.</th>
+      <th >พ.ย.</th>
+      <th >ธ.ค.</th>
+  </tr>
+  </thead>
+ <tbody ng-show="report.length > 0 ">
 
-        <tr ng-repeat="obj in reportOrderObject">
-            <td>{{$index+1}}</td>
-            <td>{{obj.food_name}}</td>
-             <td>{{obj.order_datetime}}</td>
-            <td>{{obj.number}}</td>
-            <td>{{obj.price*obj.number}}</td>
-           
-        </tr>
-       
-        </tbody>
-
-        <tbody ng-show="reportOrderDrinkObject.length > 0 ">
-
-        <tr ng-repeat="obj in reportOrderDrinkObject">
-            <td>{{$index+1}}</td>
-            <td>{{obj.drink_name}}</td>
-             <td>{{obj.order_datetime}}</td>
-            <td>{{obj.number}}</td>
-            <td>{{obj.price*obj.number}}</td>
-           
-        </tr>
-
-        
-       
-        </tbody>
-
-        <tr>
-          <td colspan="4" style="text-align: right; padding-right: 50px"><b>ราคารวม</b></td>
-          <td><b>{{totalPrice}}</b></td>
-        </tr>
+    <tr ng-repeat="obj in report">
+      <td>{{obj.food_name}}</td>
+      <td>{{obj.Jan}} {{obj.food_unit}}</td>
+      <td>{{obj.Feb}} {{obj.food_unit}}</td>
+      <td>{{obj.Mar}} {{obj.food_unit}}</td>
+      <td>{{obj.Apr}} {{obj.food_unit}}</td>
+      <td>{{obj.May}} {{obj.food_unit}}</td>
+      <td>{{obj.Jun}} {{obj.food_unit}}</td>
+      <td>{{obj.Jul}} {{obj.food_unit}}</td>
+      <td>{{obj.Aug}} {{obj.food_unit}}</td>
+      <td>{{obj.Sep}} {{obj.food_unit}}</td>
+      <td>{{obj.Oct}} {{obj.food_unit}}</td>
+      <td>{{obj.Nov}} {{obj.food_unit}}</td>
+      <td>{{obj.Dec}} {{obj.food_unit}}</td>
+    </tr>
+ 
+  </tbody>
 
        
       </table>

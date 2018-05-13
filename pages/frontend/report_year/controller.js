@@ -11,6 +11,8 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
 	 $scope.reportOrderDrinkObject = [];
 	 $scope.totalPrice = 0;
 
+	 $scope.report = [];
+
 	 $('#report-list').css('display', 'none');
 
 	noty({
@@ -20,20 +22,11 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
         text : 'กำลังโหลด...',
         callback: {
         	afterShow: function () {
-								ReportyearService.getAllOrder().then(function (result) {
-									$.noty.clearQueue(); $.noty.closeAll();
+				ReportyearService.getAllOrder().then(function (result) {
+					$.noty.clearQueue(); $.noty.closeAll();
 
-									if (result.data.status == 200) {
-									$scope.reportOrderObject = result.data.orderlist;
-
-									$scope.calculateTotalPrice();
-
-									ReportyearService.getAllOrderDrink().then(function (result) {
-										$scope.reportOrderDrinkObject = result.data.order;
-										
-										$scope.calculateTotalPrice();
-										
-									});
+					if (result.data.status == 200) {
+						$scope.report = result.data.report;
 
 					}
 
@@ -118,10 +111,7 @@ angular.module('RESTAURANT.user_report_year', ['ngRoute'])
 		   
 				ReportyearService.getAllOrderFoodReport(year).then(function (result) {
 					if (result.data.status == 200) {
-						$scope.reportOrderObject = result.data.order;
-						$scope.reportOrderDrinkObject = result.data.order_drink;
-
-						$scope.calculateTotalPrice();
+						$scope.report = result.data.report;
 
 						noty({
 			                type : 'success',

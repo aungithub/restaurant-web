@@ -121,6 +121,7 @@ angular.module('RESTAURANT.user_menu', ['ngRoute'])
 
 						if (result.data.status == 200) {
 							$scope.listTableZone = result.data.zone;
+							
 
 							$scope.isSearch = true;	
 
