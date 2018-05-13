@@ -16,10 +16,12 @@ $scope.listTableZoneEdit = [];
 $scope.comment_reserve = "";
 $scope.autoRefreshTimer = null;
 $scope.reserveEdit = null;
+$scope.table_id_search_time_list = null;
 
 $scope.tableTime = null;
 $scope.updated_table = false;
 $scope.isEditing = false;
+$scope.reserve_time_selected = null;
 
 $('.datepicker').datetimepicker({ defaultDate: new Date(), format: 'YYYY-MM-DD' });
 
@@ -248,6 +250,7 @@ $scope.getTable = function(){
 }
 
 $scope.updateTableTime = function(time) {
+	$scope.reserve_time_selected = time;
 	$('#reserve_time').val(time);
 	$('#reserve_time_edit').val(time);
 	$("#close_modal_table_list").click()
@@ -256,18 +259,24 @@ $scope.updateTableTime = function(time) {
 
 $scope.listTable = function() {
 
-	ReserveService.getTableTime($scope.table_id[0], $("#reserve_date").val(),$("#reserve_time").val()).then(function (result) {
+	ReserveService.getTableTime($scope.table_id_search_time_list, $("#reserve_date").val(),$("#reserve_time").val()).then(function (result) {
 		$scope.tableTime = result.data.tableTime;
 	});
 }
 
 $scope.table = function(table_id){
 
+	$scope.table_id_search_time_list = table_id;
 	if($scope.table_status_id == 3){
 		var idx = $scope.table_id.findIndex(obj => obj==table_id);
 
 		if(idx == -1){
 			$scope.table_id.push(table_id);
+		}
+
+		$scope.listTable();
+		if ($scope.isEditing == false || ($scope.table_status_id == 4 && $scope.isEditing == true)) {
+			document.getElementById("listTableButton").click();
 		}
 	}
 	else {

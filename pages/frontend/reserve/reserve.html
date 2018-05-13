@@ -71,6 +71,9 @@
               <option value="21:00">21:00</option>
             </select>
           </div>
+          <div class="row" ng-show="table_status_id == 3">
+            <label>เวลาที่จอง: {{reserve_time_selected}}</label>
+          </div>
 
         <div class="row">
           <div class="col-lg-10" ng-repeat="obj in listTableZone">
