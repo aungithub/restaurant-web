@@ -36,6 +36,7 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	$scope.changepricedrink = 0;
 	$scope.numberpricedrink = null;
 	$scope.numberprice = 0;
+	$scope.slip_key = "";
 
 	$('#report-list').css('display', 'none');  
 
@@ -87,12 +88,21 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 	});
 
 	$scope.printSlip = function () {
-		let rp = $("#report-list").html();
-		$rootScope.reportHtml = rp;
-
+		
+		var rp = $("#report-list").html();
 		PaymentService.saveSlip($scope.order_id, rp).then(function (rs) {
 			if (rs.data.status == 200) {
 				console.log("Save slip ok");
+
+				$scope.slip_key = rs.data.slip_key;
+
+
+				rp = $("#report-list").html();
+				$rootScope.reportHtml = rp;
+
+				$window.localStorage.setItem('reportHtml', $rootScope.reportHtml);
+
+				window.open('restaurant-web/#/frontend/user_all_report_print', '_blank');
 			}
 			else {
 				console.log("Save slip failed");
@@ -100,9 +110,7 @@ angular.module('RESTAURANT.user_payment', ['ngRoute'])
 		});
 
 
-		$window.localStorage.setItem('reportHtml', $rootScope.reportHtml);
-
-		window.open('restaurant-web/#/frontend/user_all_report_print', '_blank');
+		
 	}
 
 
